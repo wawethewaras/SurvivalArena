@@ -1,9 +1,9 @@
 ﻿
-namespace MonoGamePractice {
+namespace SurvivalArena {
 
     public class Program {
         public static void Main(string[] args) {
-            using (Game1 game = new Game1()) {
+            using (BaseGame game = new BaseGame()) {
                 game.Run();
             }
         }

@@ -18,9 +18,12 @@ namespace SurvivalArena {
         public void UnloadContent() {
         }
         public void Update(GameTime gameTime) {
+            var time = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            level.Update(time);
         }
+
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            level.Draw(gameTime, spriteBatch);
+            level.Draw(spriteBatch);
         }
     }
 }

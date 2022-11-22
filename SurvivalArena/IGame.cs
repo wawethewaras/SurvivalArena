@@ -5,7 +5,7 @@ namespace SurvivalArena {
     public interface ISurvivalArenaGame {
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         void Initialize();
-        void LoadContent();
+        void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager);
         void UnloadContent();
         void Update(GameTime gameTime);
     }

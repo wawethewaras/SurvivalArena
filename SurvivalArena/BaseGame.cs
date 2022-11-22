@@ -4,6 +4,9 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SurvivalArena {
     internal class BaseGame : Game {
 
+        private const int SCREENWIDTH = 1280;
+        private const int SCREENHEIGHT = 720;
+
         private GraphicsDeviceManager graphicsDeviceManager;
 
         private SpriteBatch? spriteBatch = null;
@@ -13,21 +16,24 @@ namespace SurvivalArena {
         public BaseGame() : base() {
             graphicsDeviceManager = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsFixedTimeStep = true;
             IsMouseVisible = true;
 
             Game = new SurvivalArenaGame();
         }
 
         protected override void Initialize() {
-            screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, 420, 168);
+            graphicsDeviceManager.IsFullScreen = false;
+            graphicsDeviceManager.PreferredBackBufferWidth = SCREENWIDTH;
+            graphicsDeviceManager.PreferredBackBufferHeight = SCREENHEIGHT;
+            graphicsDeviceManager.ApplyChanges();
+            screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, SCREENWIDTH, SCREENHEIGHT);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Game.Initialize();
             base.Initialize();
         }
         protected override void LoadContent() {
 
-            Game.LoadContent();
+            Game.LoadContent(Services, graphicsDeviceManager);
         }
         protected override void UnloadContent() {
             Game.UnloadContent();
@@ -48,7 +54,7 @@ namespace SurvivalArena {
 
             spriteBatch.Begin();
             graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Draw(screen, new Rectangle(0, 0, 840, 336), Color.White);
+            spriteBatch.Draw(screen, new Rectangle(0, 0, SCREENWIDTH, SCREENHEIGHT), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);

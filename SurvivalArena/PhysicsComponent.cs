@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SurvivalArena {
     public class PhysicsComponent : IComponent {
-        private float gravity = 20;
+        private float gravity = 200;
         private float moveSpeed = 200;
         private float jumpHeight = 300;
         private float jumpTime = 0.1f;

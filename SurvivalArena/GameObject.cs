@@ -11,10 +11,10 @@ namespace SurvivalArena {
         private List<IComponent> components = new List<IComponent>();
 
         public Vector2 Position { get => position; set => position = value; }
-
         public GameObject(Texture2D texture, Vector2 position) {
             _texture = texture;
             this.position = position;
+
         }
         public virtual void Update(float gameTime) {
             foreach (var component in components) {
@@ -85,6 +85,7 @@ namespace SurvivalArena {
         public int height;
         public int width;
         public Level level;
+
         public Rectangle Rectangle {
             get {
                 return new Rectangle((int)positionComponent.Position.X, (int)positionComponent.Position.Y, width, height);
@@ -159,6 +160,7 @@ namespace SurvivalArena {
               Rectangle.Right > sprite.Rectangle.Left &&
               Rectangle.Left < sprite.Rectangle.Right;
         }
+
     }
     public interface IHasPosition {
         public Vector2 Position { get; set; }

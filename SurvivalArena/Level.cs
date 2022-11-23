@@ -37,10 +37,11 @@ namespace SurvivalArena {
 
                             if (tileIds[i] == "0") {
                                 var player = new GameObject(playerTexture, position);
-                                var collider = new ColliderComponent(this, tile, playerTexture.Width, playerTexture.Height);
+                                var collider = new ColliderComponent(this, player, playerTexture.Width, playerTexture.Height);
                                 player.colliderComponent = collider;
                                 var physicsComponent = new PhysicsComponent(player, collider);
                                 player.AddComponent(physicsComponent);
+
                                 gameObjects.Add(player);
                             }
                             else if (tileIds[i] != "-1") {

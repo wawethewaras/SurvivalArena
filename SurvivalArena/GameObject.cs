@@ -37,6 +37,9 @@ namespace SurvivalArena {
     public class PhysicsComponent : IComponent {
         private float gravity = 20;
         private float moveSpeed = 200;
+        private float jumpHeight = 300;
+        private float jumpTime = 0.1f;
+        private float jumpTimeCounter = 0;
 
         Vector2 velocity = Vector2.Zero;
         IHasPosition positionComponent;
@@ -54,13 +57,23 @@ namespace SurvivalArena {
                 velocity.X += moveSpeed;
             }
 
-            velocity.Y += gravity;
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && jumpTimeCounter <= 0) {
+                jumpTimeCounter = jumpTime;
+            }
+
+            if (jumpTimeCounter <= 0) {
+                velocity.Y += gravity;
+            }
+            else {
+                velocity.Y -= jumpHeight;
+                jumpTimeCounter -= gameTime;
+            }
 
 
-
-            velocity = colliderComponent.CheckCollision(velocity);
             velocity.Y *= gameTime;
             velocity.X *= gameTime;
+            velocity = colliderComponent.CheckCollision(velocity);
+
 
             positionComponent.Position += velocity;
             velocity = Vector2.Zero;

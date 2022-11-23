@@ -24,6 +24,7 @@ namespace SurvivalArena {
 
             var filepath = string.Format("Content/SurvivalArena.csv"); ;
             tiles = new Tile[80, 45];
+
             using (Stream fileStream = TitleContainer.OpenStream(filepath)) {
                 int currentLine = 0;
                 using (StreamReader reader = new StreamReader(fileStream)) {
@@ -36,7 +37,7 @@ namespace SurvivalArena {
 
                             if (tileIds[i] == "0") {
                                 var player = new GameObject(playerTexture, position);
-                                var collider = new ColliderComponent(this, tile, tileTexture.Width, tileTexture.Height);
+                                var collider = new ColliderComponent(this, tile, playerTexture.Width, playerTexture.Height);
                                 player.colliderComponent = collider;
                                 var physicsComponent = new PhysicsComponent(player, collider);
                                 player.AddComponent(physicsComponent);

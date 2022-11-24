@@ -8,6 +8,9 @@ namespace SurvivalArena {
         public int height;
         public int width;
         public bool collidedWithWall;
+        public event Action<ColliderComponent> CollisionEvents;
+        public string tag;
+        public bool LookingRight = true;
 
         public Rectangle Rectangle {
             get {
@@ -24,6 +27,21 @@ namespace SurvivalArena {
 
         public Vector2 CheckCollision(Vector2 velocity) {
 
+            for (int i = ColliderComponents.Count - 1; i >= 0; i--) {
+                var colliderComponent = ColliderComponents[i];
+                if (velocity.X > 0 && IsTouchingLeft(colliderComponent, velocity)) {
+                    CollisionEvents?.Invoke(colliderComponent);
+                }
+                else if (velocity.X < 0 && IsTouchingRight(colliderComponent, velocity)) {
+                    CollisionEvents?.Invoke(colliderComponent);
+                }
+                else if (velocity.Y > 0 && IsTouchingTop(colliderComponent, velocity)) {
+                    CollisionEvents?.Invoke(colliderComponent);
+                }
+                else if (velocity.Y < 0 && IsTouchingBottom(colliderComponent, velocity)) {
+                    CollisionEvents?.Invoke(colliderComponent);
+                }
+            }
             var xStart = (int)Math.Floor((positionComponent.Position.X) / 16);
             var YStart = (int)Math.Floor((positionComponent.Position.Y)/ 16);
             var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
@@ -59,6 +77,7 @@ namespace SurvivalArena {
                     if (velocity.Y < 0 && IsTouchingBottom(tile.colliderComponent, velocity)) {
                         velocity.Y = 0;
                     }
+                    
                 }
             }
             return velocity;

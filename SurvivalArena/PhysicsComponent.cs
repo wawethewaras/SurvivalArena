@@ -26,11 +26,11 @@ namespace SurvivalArena {
                 jumpTimeCounter -= gameTime;
             }
 
-
             velocity.Y *= gameTime;
             velocity.X *= gameTime;
             velocity = colliderComponent.CheckCollision(velocity);
 
+            colliderComponent.LookingRight = velocity.X > 0 ? true : false;
 
             positionComponent.Position += velocity;
             velocity = Vector2.Zero;

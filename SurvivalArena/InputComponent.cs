@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 namespace SurvivalArena {
     public class InputComponent :IComponent{
         PhysicsComponent physicsComponent;
+        bool mReleased = true;
 
         public InputComponent(PhysicsComponent physicsComponent) {
             this.physicsComponent = physicsComponent;
@@ -24,6 +25,7 @@ namespace SurvivalArena {
             if (Keyboard.GetState().IsKeyDown(Keys.Space) && physicsComponent.jumpTimeCounter <= 0) {
                 physicsComponent.jumpTimeCounter = physicsComponent.jumpTime;
             }
+
 
         }
     }

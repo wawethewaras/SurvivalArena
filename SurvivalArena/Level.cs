@@ -5,13 +5,6 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Diagnostics;
 
 namespace SurvivalArena {
-    public class Tile : IHasPosition{
-        public Texture2D texture;
-        public Vector2 position;
-        public ColliderComponent colliderComponent;
-
-        Vector2 IHasPosition.Position { get => position; set => position = value; }
-    }
     public class Level {
         private const int tileSize = 16;
         public static Tile[,] tiles;
@@ -20,6 +13,7 @@ namespace SurvivalArena {
             var tileTexture = contentManager.Load<Texture2D>("Tile"); ;
             var playerTexture = contentManager.Load<Texture2D>("Player"); ;
             var enemyTexture = contentManager.Load<Texture2D>("Player"); ;
+            var swordTexture = contentManager.Load<Texture2D>("Player"); ;
 
 
             var filepath = string.Format("Content/SurvivalArena.csv"); ;
@@ -41,9 +35,11 @@ namespace SurvivalArena {
                                 player.colliderComponent = collider;
                                 var physicsComponent = new PhysicsComponent(player, collider);
                                 var inputComponent = new InputComponent(physicsComponent);
+                                var swordComponent = new SwordComponent(swordTexture, player);
 
                                 player.AddComponent(physicsComponent);
                                 player.AddComponent(inputComponent);
+                                player.AddComponent(swordComponent);
 
                                 gameObjects.Add(player);
                             }

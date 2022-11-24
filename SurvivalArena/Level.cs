@@ -14,12 +14,12 @@ namespace SurvivalArena {
     }
     public class Level {
         private const int tileSize = 16;
-        public Tile[,] tiles;
-
-        public List<GameObject> gameObjects = new List<GameObject>();
+        public static Tile[,] tiles;
+        public static List<IUpdater> gameObjects = new List<IUpdater>();
         public Level(ContentManager contentManager) {
             var tileTexture = contentManager.Load<Texture2D>("Tile"); ;
             var playerTexture = contentManager.Load<Texture2D>("Player"); ;
+            var enemyTexture = contentManager.Load<Texture2D>("Player"); ;
 
 
             var filepath = string.Format("Content/SurvivalArena.csv"); ;
@@ -37,16 +37,28 @@ namespace SurvivalArena {
 
                             if (tileIds[i] == "0") {
                                 var player = new GameObject(playerTexture, position);
-                                var collider = new ColliderComponent(this, player, playerTexture.Width, playerTexture.Height);
+                                var collider = new ColliderComponent(player, playerTexture.Width, playerTexture.Height);
                                 player.colliderComponent = collider;
                                 var physicsComponent = new PhysicsComponent(player, collider);
+                                var inputComponent = new InputComponent(physicsComponent);
+
                                 player.AddComponent(physicsComponent);
+                                player.AddComponent(inputComponent);
 
                                 gameObjects.Add(player);
                             }
+                            else if (tileIds[i] == "E") {
+                                var enemy = new GameObject(enemyTexture, position);
+
+
+                                var spawner = new GameObjectSpawner(enemy, position);
+
+                                gameObjects.Add(spawner);
+
+                            }
                             else if (tileIds[i] != "-1") {
                                 tile.texture = tileTexture;
-                                tile.colliderComponent = new ColliderComponent(this, tile, tileTexture.Width, tileTexture.Height);
+                                tile.colliderComponent = new ColliderComponent(tile, tileTexture.Width, tileTexture.Height);
                             }
 
                             tile.position = position;
@@ -61,8 +73,8 @@ namespace SurvivalArena {
             }
         }
         public void Update(float gameTime) {
-            foreach (var gameObject in gameObjects) {
-                gameObject.Update(gameTime);
+            for (int i = gameObjects.Count - 1; i >= 0; i--) {
+                gameObjects[i].Update(gameTime);
             }
         }
         public void Draw(SpriteBatch spriteBatch) {
@@ -75,8 +87,8 @@ namespace SurvivalArena {
                     spriteBatch.Draw(tile.texture, tile.position, Color.White);
                 }
             }
-            foreach (var gameObject in gameObjects) {
-                gameObject.Draw(spriteBatch);
+            for (int i = gameObjects.Count - 1; i >= 0; i--) {
+                gameObjects[i].Draw(spriteBatch);
             }
         }
     }

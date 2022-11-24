@@ -3,13 +3,13 @@ using Microsoft.Xna.Framework.Input;
 
 namespace SurvivalArena {
     public class PhysicsComponent : IComponent {
-        private float gravity = 200;
-        private float moveSpeed = 200;
-        private float jumpHeight = 300;
-        private float jumpTime = 0.1f;
-        private float jumpTimeCounter = 0;
+        public float gravity = 200;
+        public float moveSpeed = 200;
+        public float jumpHeight = 300;
+        public float jumpTime = 0.1f;
+        public float jumpTimeCounter = 0;
 
-        Vector2 velocity = Vector2.Zero;
+        public Vector2 velocity = Vector2.Zero;
         IHasPosition positionComponent;
         ColliderComponent colliderComponent;
         public PhysicsComponent(IHasPosition positionComponent, ColliderComponent colliderComponent) {
@@ -18,17 +18,6 @@ namespace SurvivalArena {
         }
 
         public void Update(float gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.A)) {
-                velocity.X -= moveSpeed;
-            }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D)) {
-                velocity.X += moveSpeed;
-            }
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Space) && jumpTimeCounter <= 0) {
-                jumpTimeCounter = jumpTime;
-            }
-
             if (jumpTimeCounter <= 0) {
                 velocity.Y += gravity;
             }

@@ -3,10 +3,10 @@
 namespace SurvivalArena {
     public class ColliderComponent {
   
+        public static List<ColliderComponent> ColliderComponents = new List<ColliderComponent>();
         IHasPosition positionComponent;
         public int height;
         public int width;
-        public Level level;
 
         public Rectangle Rectangle {
             get {
@@ -14,47 +14,14 @@ namespace SurvivalArena {
             }
         }
 
-        public ColliderComponent(Level level, IHasPosition positionComponent, int width, int height) {
+        public ColliderComponent(IHasPosition positionComponent, int width, int height) {
             this.positionComponent = positionComponent;
             this.width = width;
             this.height = height;
-            this.level = level;
+            ColliderComponents.Add(this);
         }
 
         public Vector2 CheckCollision(Vector2 velocity) {
-            foreach (var gameObject in level.gameObjects) {
-                if (velocity.X > 0 && IsTouchingLeft(gameObject.colliderComponent, velocity)) {
-                    velocity.X = 0;
-                }
-                if (velocity.X < 0 && IsTouchingRight(gameObject.colliderComponent, velocity)) {
-                    velocity.X = 0;
-                }
-                if (velocity.Y < 0 && IsTouchingTop(gameObject.colliderComponent, velocity)) {
-                    velocity.Y = 0;
-                }
-                if (velocity.Y < 0 && IsTouchingBottom(gameObject.colliderComponent, velocity)) {
-                    velocity.Y = 0;
-                }
-            }
-
-
-            //foreach (var gameObject in level.tiles) {
-            //    if (gameObject.colliderComponent == null) {
-            //        continue;
-            //    }
-            //    if (velocity.X > 0 && IsTouchingLeft(gameObject.colliderComponent, velocity)) {
-            //        velocity.X = 0;
-            //    }
-            //    if (velocity.X < 0 && IsTouchingRight(gameObject.colliderComponent, velocity)) {
-            //        velocity.X = 0;
-            //    }
-            //    if (velocity.Y > 0 && IsTouchingTop(gameObject.colliderComponent, velocity)) {
-            //        velocity.Y = 0;
-            //    }
-            //    if (velocity.Y < 0 && IsTouchingBottom(gameObject.colliderComponent, velocity)) {
-            //        velocity.Y = 0;
-            //    }
-            //}
 
             var xStart = (int)Math.Floor((positionComponent.Position.X) / 16);
             var YStart = (int)Math.Floor((positionComponent.Position.Y)/ 16);
@@ -63,17 +30,17 @@ namespace SurvivalArena {
 
             for (int x = xStart; x <= xEnd; x++) {
                 for (int y = YStart; y <= YEnd; y++) {
-                    if (x >= level.tiles.GetLength(0) || x < 0) {
+                    if (x >= Level.tiles.GetLength(0) || x < 0) {
                         velocity.X = 0;
                     }
-                    if (y >= level.tiles.GetLength(1) || y < 0) {
+                    if (y >= Level.tiles.GetLength(1) || y < 0) {
                         velocity.Y = 0;
                     }
 
-                    if (x >= level.tiles.GetLength(0) || x < 0|| y >= level.tiles.GetLength(1) || y < 0) {
+                    if (x >= Level.tiles.GetLength(0) || x < 0|| y >= Level.tiles.GetLength(1) || y < 0) {
                         continue;
                     }
-                    var tile = level.tiles[x, y];
+                    var tile = Level.tiles[x, y];
                     if (tile.colliderComponent == null) {
                         continue;
                     }

@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena {
-    public class GameObject : IHasPosition {
-        protected Texture2D _texture;
+    public class GameObject : IHasPosition, IUpdater {
+        public Texture2D _texture;
         public Vector2 position;
         public ColliderComponent colliderComponent;
 
@@ -35,6 +35,5 @@ namespace SurvivalArena {
     }
     public interface IHasPosition {
         public Vector2 Position { get; set; }
-
     }
 }

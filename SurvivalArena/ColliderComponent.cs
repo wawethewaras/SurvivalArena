@@ -56,20 +56,22 @@ namespace SurvivalArena {
             //    }
             //}
 
-            var xStart = (int)Math.Floor(positionComponent.Position.X / 16);
-            var YStart = (int)Math.Floor(positionComponent.Position.Y / 16);
-            var xEnd = (int)Math.Floor((positionComponent.Position.X + velocity.X + width) / 16);
-            var YEnd = (int)Math.Floor((positionComponent.Position.Y + velocity.Y + height) / 16);
+            var xStart = (int)Math.Floor((positionComponent.Position.X) / 16);
+            var YStart = (int)Math.Floor((positionComponent.Position.Y)/ 16);
+            var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
+            var YEnd = (int)Math.Round((positionComponent.Position.Y + velocity.Y + height) / 16);
 
-            for (int x = xStart; x < xEnd; x++) {
-                for (int y = YStart; y < YEnd; y++) {
+            for (int x = xStart; x <= xEnd; x++) {
+                for (int y = YStart; y <= YEnd; y++) {
                     if (x >= level.tiles.GetLength(0) || x < 0) {
                         velocity.X = 0;
-                        break;
                     }
                     if (y >= level.tiles.GetLength(1) || y < 0) {
                         velocity.Y = 0;
-                        break;
+                    }
+
+                    if (x >= level.tiles.GetLength(0) || x < 0|| y >= level.tiles.GetLength(1) || y < 0) {
+                        continue;
                     }
                     var tile = level.tiles[x, y];
                     if (tile.colliderComponent == null) {
@@ -77,19 +79,15 @@ namespace SurvivalArena {
                     }
                     if (velocity.X > 0 && IsTouchingLeft(tile.colliderComponent, velocity)) {
                         velocity.X = 0;
-                        break;
                     }
                     if (velocity.X < 0 && IsTouchingRight(tile.colliderComponent, velocity)) {
                         velocity.X = 0;
-                        break;
                     }
                     if (velocity.Y > 0 && IsTouchingTop(tile.colliderComponent, velocity)) {
                         velocity.Y = 0;
-                        break;
                     }
                     if (velocity.Y < 0 && IsTouchingBottom(tile.colliderComponent, velocity)) {
                         velocity.Y = 0;
-                        break;
                     }
                 }
             }

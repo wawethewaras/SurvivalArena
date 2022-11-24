@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +12,14 @@ namespace SurvivalArena {
         public float invurnableDuration = 1;
         public float invurnableDurationTimer = 0;
         public GameObject gameObject;
-
+        public string hurtTag = "None";
         public HealthComponent(int health, GameObject gameObject) {
             this.health = health;
             this.gameObject = gameObject;
         }
 
         public void DealDamage(ColliderComponent colliderComponent) {
-            if (invurnableDurationTimer <= 0 && colliderComponent.tag == "Sword") {
+            if (invurnableDurationTimer <= 0 && colliderComponent.tag == hurtTag) {
                 health--;
                 invurnableDurationTimer = invurnableDuration;
                 if (health <= 0) {
@@ -29,7 +30,9 @@ namespace SurvivalArena {
         }
 
         public void Update(float gameTime) {
-
+            if (invurnableDurationTimer > 0) {
+                invurnableDurationTimer -= gameTime;
+            }
         }
     }
 }

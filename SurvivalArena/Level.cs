@@ -36,10 +36,13 @@ namespace SurvivalArena {
                                 var physicsComponent = new PhysicsComponent(player, collider);
                                 var inputComponent = new InputComponent(physicsComponent);
                                 var swordComponent = new SwordComponent(swordTexture, player);
-
+                                var health = new HealthComponent(5, player);
+                                health.hurtTag = "Enemy";
+                                collider.CollisionEvents += health.DealDamage;
                                 player.AddComponent(physicsComponent);
                                 player.AddComponent(inputComponent);
                                 player.AddComponent(swordComponent);
+                                player.AddComponent(health);
 
                                 gameObjects.Add(player);
                             }

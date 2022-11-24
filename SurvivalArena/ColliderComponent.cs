@@ -7,6 +7,7 @@ namespace SurvivalArena {
         IHasPosition positionComponent;
         public int height;
         public int width;
+        public bool collidedWithWall;
 
         public Rectangle Rectangle {
             get {
@@ -46,9 +47,11 @@ namespace SurvivalArena {
                     }
                     if (velocity.X > 0 && IsTouchingLeft(tile.colliderComponent, velocity)) {
                         velocity.X = 0;
+                        collidedWithWall = true;
                     }
                     if (velocity.X < 0 && IsTouchingRight(tile.colliderComponent, velocity)) {
                         velocity.X = 0;
+                        collidedWithWall = true;
                     }
                     if (velocity.Y > 0 && IsTouchingTop(tile.colliderComponent, velocity)) {
                         velocity.Y = 0;

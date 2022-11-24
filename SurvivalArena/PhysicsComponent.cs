@@ -11,7 +11,7 @@ namespace SurvivalArena {
 
         public Vector2 velocity = Vector2.Zero;
         IHasPosition positionComponent;
-        ColliderComponent colliderComponent;
+        public ColliderComponent colliderComponent;
         public PhysicsComponent(IHasPosition positionComponent, ColliderComponent colliderComponent) {
             this.positionComponent = positionComponent;
             this.colliderComponent = colliderComponent;

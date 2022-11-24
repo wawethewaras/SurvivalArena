@@ -49,8 +49,6 @@ namespace SurvivalArena {
                             }
                             else if (tileIds[i] == "E") {
                                 var enemy = new GameObject(enemyTexture, position);
-
-
                                 var spawner = new GameObjectSpawner(enemy, position);
 
                                 gameObjects.Add(spawner);

@@ -45,6 +45,7 @@ namespace SurvivalArena.TileSystem {
                                 var health = new HealthComponent(5, player);
                                 health.hurtTag = "Enemy";
                                 collider.CollisionEvents += health.DealDamage;
+                                health.DeathEvent += collider.RemoveCollider;
                                 player.AddComponent(physicsComponent);
                                 player.AddComponent(inputComponent);
                                 player.AddComponent(swordComponent);
@@ -62,6 +63,7 @@ namespace SurvivalArena.TileSystem {
                             else if (tileIds[i] != "-1") {
                                 tile.texture = tileTexture;
                                 tile.colliderComponent = new ColliderComponent(tile, tileTexture.Width, tileTexture.Height);
+                                tile.colliderComponent.tag = "Wall";
                             }
 
                             tile.position = position;

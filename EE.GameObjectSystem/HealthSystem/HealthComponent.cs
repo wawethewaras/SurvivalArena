@@ -16,18 +16,20 @@ namespace SurvivalArena.HealthSystem {
         public float invurnableDurationTimer = 0;
         public GameObject gameObject;
         public string hurtTag = "None";
+
+        public event Action DeathEvent;
+
         public HealthComponent(int health, GameObject gameObject) {
             this.health = health;
             this.gameObject = gameObject;
         }
 
-        public void DealDamage(ColliderComponent colliderComponent) {
-            if (invurnableDurationTimer <= 0 && colliderComponent.tag == hurtTag) {
+        public void DealDamage(string tag) {
+            if (invurnableDurationTimer <= 0 && tag == hurtTag) {
                 health--;
                 invurnableDurationTimer = invurnableDuration;
                 if (health <= 0) {
-                    Level.gameObjects.Remove(gameObject);
-                    ColliderComponent.ColliderComponents.Remove(gameObject.colliderComponent);
+                    DeathEvent?.Invoke();
                 }
             }
         }

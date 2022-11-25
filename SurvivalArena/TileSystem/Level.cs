@@ -2,9 +2,15 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.ColliderSystem;
+using SurvivalArena.GameObjects;
+using SurvivalArena.HealthSystem;
+using SurvivalArena.InputSystem;
+using SurvivalArena.Physics;
+using SurvivalArena.Sword;
 using System.Diagnostics;
 
-namespace SurvivalArena {
+namespace SurvivalArena.TileSystem {
     public class Level {
         private const int tileSize = 16;
         public static Tile[,] tiles;

@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena {
-    public interface ISurvivalArenaGame {
+    public interface IGame {
         void Draw(GameTime gameTime, SpriteBatch spriteBatch);
         void Initialize();
         void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager);

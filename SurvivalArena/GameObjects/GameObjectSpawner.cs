@@ -1,7 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.AISystem;
+using SurvivalArena.ColliderSystem;
+using SurvivalArena.HealthSystem;
+using SurvivalArena.Physics;
+using SurvivalArena.TileSystem;
 
-namespace SurvivalArena {
+namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
 
         public GameObject spawner;
@@ -44,10 +49,5 @@ namespace SurvivalArena {
 
         public void Draw(SpriteBatch spriteBatch) {
         }
-    }
-    public interface IUpdater {
-        void Update(float gameTime);
-        void Draw(SpriteBatch spriteBatch);
-
     }
 }

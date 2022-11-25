@@ -1,14 +1,17 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using SurvivalArena.ColliderSystem;
+using SurvivalArena.GameObjects;
+using SurvivalArena.TileSystem;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SurvivalArena {
-    public class SwordComponent : IComponent{
+namespace SurvivalArena.Sword {
+    public class SwordComponent : IComponent {
         public Texture2D swordTexture;
         public GameObject parent;
         public Vector2 Offset;

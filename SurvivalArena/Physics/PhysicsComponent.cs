@@ -1,7 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
+using SurvivalArena.ColliderSystem;
+using SurvivalArena.GameObjects;
 
-namespace SurvivalArena {
+namespace SurvivalArena.Physics {
     public class PhysicsComponent : IComponent {
         public float gravity = 200;
         public float moveSpeed = 200;

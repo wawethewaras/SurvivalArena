@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Input;
+using SurvivalArena.GameObjects;
+using SurvivalArena.Physics;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SurvivalArena {
-    public class InputComponent :IComponent{
+namespace SurvivalArena.InputSystem {
+    public class InputComponent : IComponent {
         PhysicsComponent physicsComponent;
         bool mReleased = true;
 

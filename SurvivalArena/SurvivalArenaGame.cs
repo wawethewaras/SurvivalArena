@@ -1,9 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.TileSystem;
 
 namespace SurvivalArena {
-    public class SurvivalArenaGame : ISurvivalArenaGame {
+    public class SurvivalArenaGame : IGame {
 
         Level level;
         public SurvivalArenaGame() : base() {

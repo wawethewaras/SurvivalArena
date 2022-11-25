@@ -1,8 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
+using SurvivalArena.GameObjects;
+using SurvivalArena.TileSystem;
 
-namespace SurvivalArena {
+namespace SurvivalArena.ColliderSystem {
     public class ColliderComponent {
-  
+
         public static List<ColliderComponent> ColliderComponents = new List<ColliderComponent>();
         IHasPosition positionComponent;
         public int height;
@@ -42,8 +44,8 @@ namespace SurvivalArena {
                     CollisionEvents?.Invoke(colliderComponent);
                 }
             }
-            var xStart = (int)Math.Floor((positionComponent.Position.X) / 16);
-            var YStart = (int)Math.Floor((positionComponent.Position.Y)/ 16);
+            var xStart = (int)Math.Floor(positionComponent.Position.X / 16);
+            var YStart = (int)Math.Floor(positionComponent.Position.Y / 16);
             var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
             var YEnd = (int)Math.Round((positionComponent.Position.Y + velocity.Y + height) / 16);
 
@@ -56,7 +58,7 @@ namespace SurvivalArena {
                         velocity.Y = 0;
                     }
 
-                    if (x >= Level.tiles.GetLength(0) || x < 0|| y >= Level.tiles.GetLength(1) || y < 0) {
+                    if (x >= Level.tiles.GetLength(0) || x < 0 || y >= Level.tiles.GetLength(1) || y < 0) {
                         continue;
                     }
                     var tile = Level.tiles[x, y];
@@ -77,7 +79,7 @@ namespace SurvivalArena {
                     if (velocity.Y < 0 && IsTouchingBottom(tile.colliderComponent, velocity)) {
                         velocity.Y = 0;
                     }
-                    
+
                 }
             }
             return velocity;

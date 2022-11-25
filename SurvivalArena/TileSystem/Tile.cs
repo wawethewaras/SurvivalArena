@@ -1,9 +1,11 @@
 ﻿
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.ColliderSystem;
+using SurvivalArena.GameObjects;
 
-namespace SurvivalArena {
-    public class Tile : IHasPosition{
+namespace SurvivalArena.TileSystem {
+    public class Tile : IHasPosition {
         public Texture2D texture;
         public Vector2 position;
         public ColliderComponent colliderComponent;

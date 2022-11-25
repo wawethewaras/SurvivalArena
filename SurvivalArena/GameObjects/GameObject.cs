@@ -1,7 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.ColliderSystem;
 
-namespace SurvivalArena {
+namespace SurvivalArena.GameObjects {
     public class GameObject : IHasPosition, IUpdater {
         public Texture2D _texture;
         public Vector2 position;
@@ -11,9 +12,10 @@ namespace SurvivalArena {
         public GameObject parent;
         public Vector2 offSet;
 
-        public Vector2 Position { 
-            get => parent != null ? parent.position + offSet : position; 
-            set => position = value; }
+        public Vector2 Position {
+            get => parent != null ? parent.position + offSet : position;
+            set => position = value;
+        }
         public GameObject(Texture2D texture, Vector2 position) {
             _texture = texture;
             this.position = position;
@@ -21,7 +23,7 @@ namespace SurvivalArena {
         }
         public GameObject(Texture2D texture, GameObject parent, Vector2 offSet) {
             _texture = texture;
-            this.position = parent.position + offSet;
+            position = parent.position + offSet;
             this.parent = parent;
             this.offSet = offSet;
         }

@@ -10,7 +10,7 @@ namespace SurvivalArena {
         private GraphicsDeviceManager graphicsDeviceManager;
 
         private SpriteBatch? spriteBatch = null;
-        private ISurvivalArenaGame Game = null;
+        private IGame Game = null;
         private RenderTarget2D? screen;
 
         public BaseGame() : base() {

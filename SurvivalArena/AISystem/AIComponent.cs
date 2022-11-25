@@ -1,10 +1,12 @@
-﻿using System;
+﻿using SurvivalArena.GameObjects;
+using SurvivalArena.Physics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SurvivalArena {
+namespace SurvivalArena.AISystem {
     public class AIComponent : IComponent {
         PhysicsComponent physicsComponent;
         public bool lookingAtRight;

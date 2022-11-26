@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EE.PoolingSystem;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SurvivalArena.ColliderSystem;
@@ -12,6 +13,10 @@ namespace SurvivalArena.Sword {
         bool mReleased = true;
         public GameObject sword;
 
+        public event Action SwordAttack;
+
+        public event Action SwordAttackCancel;
+
         public SwordComponent(Texture2D swordTexture, GameObject parent) {
             this.swordTexture = swordTexture;
             this.parent = parent;
@@ -23,20 +28,10 @@ namespace SurvivalArena.Sword {
 
             if (mState.LeftButton == ButtonState.Pressed && mReleased) {
                 mReleased = false;
-                //var direction = parent.colliderComponent.LookingRight ? Offset : -Offset;
-                //sword = new GameObject(swordTexture, parent, direction);
-                //var collider = new ColliderComponent(sword, swordTexture.Width, swordTexture.Height);
-                //collider.tag = "Sword";
-                //sword.colliderComponent = collider;
-                //Level.gameObjects.Add(sword);
-
+                SwordAttack?.Invoke();
             }
             if (mState.LeftButton == ButtonState.Released) {
-                if (sword != null) {
-                    //Level.gameObjects.Remove(sword);
-                    //ColliderComponent.ColliderComponents.Remove(sword.colliderComponent);
-                    //sword = null;
-                }
+                SwordAttackCancel?.Invoke();
 
                 mReleased = true;
             }

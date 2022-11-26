@@ -14,16 +14,20 @@ namespace SurvivalArena.ColliderSystem {
         public bool LookingRight = true;
         public string tagThatStopsMovement = "Wall";
 
+        public Vector2 OffSet;
+
         public Rectangle Rectangle {
             get {
-                return new Rectangle((int)positionComponent.Position.X, (int)positionComponent.Position.Y, width, height);
+                return new Rectangle((int)positionComponent.Position.X + (int)OffSet.X, (int)positionComponent.Position.Y + (int)OffSet.Y, width, height);
             }
         }
 
-        public ColliderComponent(IHasPosition positionComponent, int width, int height) {
+        public ColliderComponent(IHasPosition positionComponent, int width, int height, Vector2 vector2 = new Vector2()) {
             this.positionComponent = positionComponent;
             this.width = width;
             this.height = height;
+            this.OffSet = vector2;
+
             ColliderComponents.Add(this);
         }
 
@@ -123,6 +127,21 @@ namespace SurvivalArena.ColliderSystem {
         }
         public void RemoveCollider() {
             ColliderComponents.Remove(this);
+        }
+        ColliderComponent sword;
+        public void SpawnSword() {
+            var direction = LookingRight ? width : -width;
+            var offSet = new Vector2(direction,0);
+            sword = new ColliderComponent(positionComponent, width, height, offSet);
+            sword.tag = "Sword";
+        }
+        public void RemoveSword() {
+            if (sword == null) {
+                return;
+            }
+            ColliderComponents.Remove(sword);
+            sword = null;
+
         }
     }
 }

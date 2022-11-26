@@ -1,4 +1,5 @@
 ﻿
+using EE.PoolingSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,6 @@ namespace SurvivalArena.TileSystem {
     public class Level {
         private const int tileSize = 16;
         public static Tile[,] tiles;
-        public static List<IUpdater> gameObjects = new List<IUpdater>();
         public Level(ContentManager contentManager) {
             var tileTexture = contentManager.Load<Texture2D>("Tile"); ;
             var playerTexture = contentManager.Load<Texture2D>("Player"); ;
@@ -54,13 +54,16 @@ namespace SurvivalArena.TileSystem {
                                 player.AddComponent(swordComponent);
                                 player.AddComponent(health);
 
-                                gameObjects.Add(player);
+                                swordComponent.SwordAttack += collider.SpawnSword;
+                                swordComponent.SwordAttackCancel += collider.RemoveSword;
+
+                                PoolManager.gameObjects.Add(player);
                             }
                             else if (tileIds[i] == "E") {
                                 var enemy = new GameObject(enemyTexture, position);
                                 var spawner = new GameObjectSpawner(enemy, position);
 
-                                gameObjects.Add(spawner);
+                                PoolManager.gameObjects.Add(spawner);
 
                             }
                             else if (tileIds[i] != "-1") {
@@ -81,8 +84,8 @@ namespace SurvivalArena.TileSystem {
             }
         }
         public void Update(float gameTime) {
-            for (int i = gameObjects.Count - 1; i >= 0; i--) {
-                gameObjects[i].Update(gameTime);
+            for (int i = PoolManager.gameObjects.Count - 1; i >= 0; i--) {
+                PoolManager.gameObjects[i].Update(gameTime);
             }
         }
         public void Draw(SpriteBatch spriteBatch) {
@@ -95,8 +98,8 @@ namespace SurvivalArena.TileSystem {
                     spriteBatch.Draw(tile.texture, tile.position, Color.White);
                 }
             }
-            for (int i = gameObjects.Count - 1; i >= 0; i--) {
-                gameObjects[i].Draw(spriteBatch);
+            for (int i = PoolManager.gameObjects.Count - 1; i >= 0; i--) {
+                PoolManager.gameObjects[i].Draw(spriteBatch);
             }
         }
     }

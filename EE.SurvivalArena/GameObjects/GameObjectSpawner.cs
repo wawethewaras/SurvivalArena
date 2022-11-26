@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EE.PoolingSystem;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.AISystem;
 using SurvivalArena.ColliderSystem;
@@ -37,14 +38,17 @@ namespace SurvivalArena.GameObjects {
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             var aIComponent = new AIComponent(physicsComponent);
             var health = new HealthComponent(1, spawner2);
+            var poolableComponent = new PoolableComponent(spawner2);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(aIComponent);
             spawner2.AddComponent(health);
 
             collider.CollisionEvents += health.DealDamage;
+            health.DeathEvent += collider.RemoveCollider;
+            health.DeathEvent += poolableComponent.ReleaseSelf;
 
-            Level.gameObjects.Add(spawner2);
+            PoolManager.gameObjects.Add(spawner2);
         }
 
         public void Draw(SpriteBatch spriteBatch) {

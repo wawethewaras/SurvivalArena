@@ -16,6 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
     <ProjectReference Include="..\EE.SurvivalArena\EE.SurvivalArena.csproj" />
+    <ProjectReference Include="..\MainMenuSystem\MainMenuSystem.csproj" />
   </ItemGroup>
 
 </Project>

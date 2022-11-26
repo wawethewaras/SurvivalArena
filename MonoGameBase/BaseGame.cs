@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using MainMenuSystem;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena {
@@ -18,7 +19,7 @@ namespace SurvivalArena {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            Game = new SurvivalArenaGame();
+            Game = new MainMenuManager();
         }
 
         protected override void Initialize() {

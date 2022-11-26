@@ -14,18 +14,20 @@ namespace SurvivalArena.Physics {
         public Vector2 velocity = Vector2.Zero;
         IHasPosition positionComponent;
         public ColliderComponent colliderComponent;
+
+        private bool isGrounded = true;
         public PhysicsComponent(IHasPosition positionComponent, ColliderComponent colliderComponent) {
             this.positionComponent = positionComponent;
             this.colliderComponent = colliderComponent;
         }
 
         public void Update(float gameTime) {
-            if (jumpTimeCounter <= 0) {
-                velocity.Y += gravity;
-            }
-            else {
+            if (jumpTimeCounter > 0) {
                 velocity.Y -= jumpHeight;
                 jumpTimeCounter -= gameTime;
+            }
+            else {
+                velocity.Y += gravity;
             }
 
             velocity.Y *= gameTime;
@@ -35,6 +37,7 @@ namespace SurvivalArena.Physics {
             if (velocity.X != 0) {
                 colliderComponent.LookingRight = velocity.X > 0 ? true : false;
             }
+            isGrounded = velocity.Y == 0 ? true : false;
 
             positionComponent.Position += velocity;
             velocity = Vector2.Zero;
@@ -47,7 +50,7 @@ namespace SurvivalArena.Physics {
             velocity.X += moveSpeed;
         }
         public void Jump() {
-            if (jumpTimeCounter <= 0) {
+            if (jumpTimeCounter <= 0 && isGrounded) {
                 jumpTimeCounter = jumpTime;
             }
         }

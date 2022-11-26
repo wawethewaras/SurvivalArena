@@ -135,7 +135,6 @@ namespace SurvivalArena.ColliderSystem {
         public void RemoveCollider() {
             ColliderComponents.Remove(this);
         }
-        ColliderComponent sword;
 
         public void SetActive() {
             isActive = true;

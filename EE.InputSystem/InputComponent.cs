@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework.Input;
 using SurvivalArena.GameObjects;
 
-namespace SurvivalArena.InputSystem {
+namespace EE.InputSystem {
     public class InputComponent : IComponent {
         bool mReleased = true;
 

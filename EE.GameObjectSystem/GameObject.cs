@@ -1,12 +1,10 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.ColliderSystem;
 
 namespace SurvivalArena.GameObjects {
     public class GameObject : IHasPosition, IUpdater {
         public Texture2D _texture;
         public Vector2 position;
-        public ColliderComponent colliderComponent;
 
         private List<IComponent> components = new List<IComponent>();
         public GameObject parent;

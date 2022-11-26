@@ -9,9 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGameBase", "MonoGameBas
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.SurvivalArena", "EE.SurvivalArena\EE.SurvivalArena.csproj", "{9C4760DB-1CB4-4718-968E-BCE0EA4A3CFB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.CollisionSystem", "EE.CollisionSystem\EE.CollisionSystem.csproj", "{726F037E-2C06-4DA8-95C2-81A98C21EF34}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.CollisionSystem", "EE.CollisionSystem\EE.CollisionSystem.csproj", "{726F037E-2C06-4DA8-95C2-81A98C21EF34}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.TilemapSystem", "EE.TilemapSystem\EE.TilemapSystem.csproj", "{86BD490E-23E8-4DC2-BCE5-32116A8723A1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.TilemapSystem", "EE.TilemapSystem\EE.TilemapSystem.csproj", "{86BD490E-23E8-4DC2-BCE5-32116A8723A1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.InputSystem", "EE.InputSystem\EE.InputSystem.csproj", "{9B708B0F-7079-4F71-9EB1-3C40F52F52EA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.PhysicsSystem", "EE.PhysicsSystem\EE.PhysicsSystem.csproj", "{D5B4B76E-67A4-4501-BF3A-6E45D62A572C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.PoolingSystem", "EE.PoolingSystem\EE.PoolingSystem.csproj", "{47044F39-A339-4F2F-8271-DCC5EC4905F3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{86BD490E-23E8-4DC2-BCE5-32116A8723A1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{86BD490E-23E8-4DC2-BCE5-32116A8723A1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{86BD490E-23E8-4DC2-BCE5-32116A8723A1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B708B0F-7079-4F71-9EB1-3C40F52F52EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B708B0F-7079-4F71-9EB1-3C40F52F52EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B708B0F-7079-4F71-9EB1-3C40F52F52EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B708B0F-7079-4F71-9EB1-3C40F52F52EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5B4B76E-67A4-4501-BF3A-6E45D62A572C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5B4B76E-67A4-4501-BF3A-6E45D62A572C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5B4B76E-67A4-4501-BF3A-6E45D62A572C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5B4B76E-67A4-4501-BF3A-6E45D62A572C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47044F39-A339-4F2F-8271-DCC5EC4905F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47044F39-A339-4F2F-8271-DCC5EC4905F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47044F39-A339-4F2F-8271-DCC5EC4905F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47044F39-A339-4F2F-8271-DCC5EC4905F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

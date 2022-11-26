@@ -8,7 +8,6 @@ using SurvivalArena.HealthSystem;
 using SurvivalArena.InputSystem;
 using SurvivalArena.Physics;
 using SurvivalArena.Sword;
-using System.Diagnostics;
 
 namespace SurvivalArena.TileSystem {
     public class Level {
@@ -38,14 +37,18 @@ namespace SurvivalArena.TileSystem {
                             if (tileIds[i] == "0") {
                                 var player = new GameObject(playerTexture, position);
                                 var collider = new ColliderComponent(player, playerTexture.Width, playerTexture.Height);
-                                player.colliderComponent = collider;
                                 var physicsComponent = new PhysicsComponent(player, collider);
-                                var inputComponent = new InputComponent(physicsComponent);
+                                var inputComponent = new InputComponent();
                                 var swordComponent = new SwordComponent(swordTexture, player);
                                 var health = new HealthComponent(5, player);
                                 health.hurtTag = "Enemy";
                                 collider.CollisionEvents += health.DealDamage;
                                 health.DeathEvent += collider.RemoveCollider;
+                                inputComponent.DPressed += physicsComponent.SetMovementSpeedPositive;
+                                inputComponent.APressed += physicsComponent.SetMovementSpeedNegative;
+                                inputComponent.SpacePressed += physicsComponent.Jump;
+
+
                                 player.AddComponent(physicsComponent);
                                 player.AddComponent(inputComponent);
                                 player.AddComponent(swordComponent);
@@ -62,8 +65,8 @@ namespace SurvivalArena.TileSystem {
                             }
                             else if (tileIds[i] != "-1") {
                                 tile.texture = tileTexture;
-                                tile.colliderComponent = new ColliderComponent(tile, tileTexture.Width, tileTexture.Height);
-                                tile.colliderComponent.tag = "Wall";
+                                var colliderComponent = new ColliderComponent(tile, tileTexture.Width, tileTexture.Height);
+                                colliderComponent.tag = "Wall";
                             }
 
                             tile.position = position;

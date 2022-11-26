@@ -33,7 +33,7 @@ namespace SurvivalArena.GameObjects {
             GameObject spawner2 = new GameObject(spawner._texture, spawnPosition);
             var collider = new ColliderComponent(spawner2, spawner._texture.Width, spawner._texture.Height);
             collider.tag = "Enemy";
-            spawner2.colliderComponent = collider;
+            //spawner2.colliderComponent = collider;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             var aIComponent = new AIComponent(physicsComponent);
             var health = new HealthComponent(1, spawner2);

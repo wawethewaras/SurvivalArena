@@ -37,5 +37,17 @@ namespace SurvivalArena.Physics {
             positionComponent.Position += velocity;
             velocity = Vector2.Zero;
         }
+
+        public void SetMovementSpeedNegative() {
+            velocity.X -= moveSpeed;
+        }
+        public void SetMovementSpeedPositive() {
+            velocity.X += moveSpeed;
+        }
+        public void Jump() {
+            if (jumpTimeCounter <= 0) {
+                jumpTimeCounter = jumpTime;
+            }
+        }
     }
 }

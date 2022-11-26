@@ -3,12 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
-using SurvivalArena.TileSystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace SurvivalArena.Sword {
     public class SwordComponent : IComponent {
@@ -29,19 +23,19 @@ namespace SurvivalArena.Sword {
 
             if (mState.LeftButton == ButtonState.Pressed && mReleased) {
                 mReleased = false;
-                var direction = parent.colliderComponent.LookingRight ? Offset : -Offset;
-                sword = new GameObject(swordTexture, parent, direction);
-                var collider = new ColliderComponent(sword, swordTexture.Width, swordTexture.Height);
-                collider.tag = "Sword";
-                sword.colliderComponent = collider;
-                Level.gameObjects.Add(sword);
+                //var direction = parent.colliderComponent.LookingRight ? Offset : -Offset;
+                //sword = new GameObject(swordTexture, parent, direction);
+                //var collider = new ColliderComponent(sword, swordTexture.Width, swordTexture.Height);
+                //collider.tag = "Sword";
+                //sword.colliderComponent = collider;
+                //Level.gameObjects.Add(sword);
 
             }
             if (mState.LeftButton == ButtonState.Released) {
                 if (sword != null) {
-                    Level.gameObjects.Remove(sword);
-                    ColliderComponent.ColliderComponents.Remove(sword.colliderComponent);
-                    sword = null;
+                    //Level.gameObjects.Remove(sword);
+                    //ColliderComponent.ColliderComponents.Remove(sword.colliderComponent);
+                    //sword = null;
                 }
 
                 mReleased = true;

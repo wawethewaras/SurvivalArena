@@ -34,10 +34,12 @@ namespace SurvivalArena.ColliderSystem {
                 var colliderComponent = ColliderComponents[i];
                 if (velocity.X > 0 && IsTouchingLeft(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
+                    collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
                     collidedWithSomething = true;
                 }
                 else if (velocity.X < 0 && IsTouchingRight(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
+                    collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
                     collidedWithSomething = true;
                 }
                 else if (velocity.Y > 0 && IsTouchingTop(colliderComponent, velocity)) {

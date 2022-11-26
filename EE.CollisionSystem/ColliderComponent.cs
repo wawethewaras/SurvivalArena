@@ -1,8 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.ColliderSystem {
     public class ColliderComponent {
+
+        public static Texture2D? rectangeTexture = null;
+
 
         public static List<ColliderComponent> ColliderComponents = new List<ColliderComponent>();
         IHasPosition positionComponent;
@@ -129,6 +133,7 @@ namespace SurvivalArena.ColliderSystem {
             ColliderComponents.Remove(this);
         }
         ColliderComponent sword;
+
         public void SpawnSword() {
             var direction = LookingRight ? width : -width;
             var offSet = new Vector2(direction,0);

@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena.ColliderSystem;
 using SurvivalArena.TileSystem;
 
 namespace SurvivalArena {
@@ -14,6 +15,8 @@ namespace SurvivalArena {
         }
         public void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager) {
             var contentManager = new ContentManager(serviceProvider, "Content");
+            ColliderComponent.rectangeTexture = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
+            ColliderComponent.rectangeTexture.SetData(new[] { Color.White });
             level = new Level(contentManager);
         }
         public void UnloadContent() {
@@ -25,6 +28,11 @@ namespace SurvivalArena {
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             level.Draw(spriteBatch);
+
+            for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
+                spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
+            Color.Chocolate);
+            }
         }
     }
 }

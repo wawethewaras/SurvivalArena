@@ -32,7 +32,9 @@ namespace SurvivalArena.Physics {
             velocity.X *= gameTime;
             velocity = colliderComponent.CheckCollision(velocity);
 
-            colliderComponent.LookingRight = velocity.X > 0 ? true : false;
+            if (velocity.X != 0) {
+                colliderComponent.LookingRight = velocity.X > 0 ? true : false;
+            }
 
             positionComponent.Position += velocity;
             velocity = Vector2.Zero;

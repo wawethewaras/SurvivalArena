@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObject : IHasPosition, IUpdater {
-        public Texture2D _texture;
         public Vector2 position;
 
         private List<IComponent> components = new List<IComponent>();
@@ -14,13 +13,11 @@ namespace SurvivalArena.GameObjects {
             get => parent != null ? parent.position + offSet : position;
             set => position = value;
         }
-        public GameObject(Texture2D texture, Vector2 position) {
-            _texture = texture;
+        public GameObject(Vector2 position) {
             this.position = position;
 
         }
-        public GameObject(Texture2D texture, GameObject parent, Vector2 offSet) {
-            _texture = texture;
+        public GameObject(GameObject parent, Vector2 offSet) {
             position = parent.position + offSet;
             this.parent = parent;
             this.offSet = offSet;
@@ -29,11 +26,6 @@ namespace SurvivalArena.GameObjects {
             foreach (var component in components) {
                 component.Update(gameTime);
             }
-        }
-
-        public virtual void Draw(SpriteBatch spriteBatch) {
-            var pos = parent != null ? parent.position + offSet : position;
-            spriteBatch.Draw(_texture, pos, Color.White);
         }
 
         public void AddComponent(IComponent component) {
@@ -47,4 +39,5 @@ namespace SurvivalArena.GameObjects {
     public interface IHasPosition {
         public Vector2 Position { get; set; }
     }
+
 }

@@ -19,6 +19,7 @@
     <ProjectReference Include="..\EE.InputSystem\EE.InputSystem.csproj" />
     <ProjectReference Include="..\EE.PhysicsSystem\EE.PhysicsSystem.csproj" />
     <ProjectReference Include="..\EE.PoolingSystem\EE.PoolingSystem.csproj" />
+    <ProjectReference Include="..\EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj" />
     <ProjectReference Include="..\EE.TilemapSystem\EE.TilemapSystem.csproj" />
   </ItemGroup>
 

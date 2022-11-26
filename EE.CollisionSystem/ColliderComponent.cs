@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.ColliderSystem {
-    public class ColliderComponent {
+    public class ColliderComponent : IHasFacingDirection {
 
         public static Texture2D? rectangeTexture = null;
 
@@ -15,22 +15,20 @@ namespace SurvivalArena.ColliderSystem {
         public bool collidedWithWall;
         public event Action<string> CollisionEvents;
         public string tag;
-        public bool LookingRight = true;
+        public bool LookingRight { get; set; } = true;
         public string tagThatStopsMovement = "Wall";
-
-        public Vector2 OffSet;
+        private bool isActive = true;
 
         public Rectangle Rectangle {
             get {
-                return new Rectangle((int)positionComponent.Position.X + (int)OffSet.X, (int)positionComponent.Position.Y + (int)OffSet.Y, width, height);
+                return new Rectangle((int)positionComponent.Position.X, (int)positionComponent.Position.Y, width, height);
             }
         }
 
-        public ColliderComponent(IHasPosition positionComponent, int width, int height, Vector2 vector2 = new Vector2()) {
+        public ColliderComponent(IHasPosition positionComponent, int width, int height) {
             this.positionComponent = positionComponent;
             this.width = width;
             this.height = height;
-            this.OffSet = vector2;
 
             ColliderComponents.Add(this);
         }
@@ -40,6 +38,9 @@ namespace SurvivalArena.ColliderSystem {
             for (int i = ColliderComponents.Count - 1; i >= 0; i--) {
                 var collidedWithSomething = false;
                 var colliderComponent = ColliderComponents[i];
+                if (!colliderComponent.isActive) {
+                    continue;
+                }
                 if (velocity.X > 0 && IsTouchingLeft(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
                     collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
@@ -62,6 +63,7 @@ namespace SurvivalArena.ColliderSystem {
                     CollisionEvents?.Invoke(colliderComponent.tag);
                 }
             }
+            #region Dont check everything
             //var xStart = (int)Math.Floor(positionComponent.Position.X / 16);
             //var YStart = (int)Math.Floor(positionComponent.Position.Y / 16);
             //var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
@@ -100,6 +102,7 @@ namespace SurvivalArena.ColliderSystem {
 
             //    }
             //}
+            #endregion
             return velocity;
         }
         protected bool IsTouchingLeft(ColliderComponent sprite, Vector2 velocity) {
@@ -134,19 +137,29 @@ namespace SurvivalArena.ColliderSystem {
         }
         ColliderComponent sword;
 
-        public void SpawnSword() {
-            var direction = LookingRight ? width : -width;
-            var offSet = new Vector2(direction,0);
-            sword = new ColliderComponent(positionComponent, width, height, offSet);
-            sword.tag = "Sword";
+        public void SetActive() {
+            isActive = true;
         }
-        public void RemoveSword() {
-            if (sword == null) {
-                return;
-            }
-            ColliderComponents.Remove(sword);
-            sword = null;
+        public void DeActive() {
+            isActive = false;
+        }
+    }
+    public class HasPositionWithOfSet : IHasPosition {
+        public IHasPosition hasPosition;
+        public IHasFacingDirection hasFacingDirection;
 
+        public Vector2 OffSet;
+
+        public HasPositionWithOfSet(IHasPosition hasPosition, IHasFacingDirection hasFacingDirection, Vector2 offSet) {
+            this.hasPosition = hasPosition;
+            this.hasFacingDirection = hasFacingDirection;
+            OffSet = offSet;
         }
+
+        public Vector2 Position { get => hasPosition.Position + (hasFacingDirection.LookingRight ? OffSet : -OffSet); set => hasPosition.Position = value; }
+    }
+
+    public interface IHasFacingDirection {
+        public bool LookingRight { get; set; }
     }
 }

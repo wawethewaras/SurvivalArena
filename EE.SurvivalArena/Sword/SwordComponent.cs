@@ -13,8 +13,10 @@ namespace SurvivalArena.Sword {
         bool mReleased = true;
         public GameObject sword;
 
-        public event Action SwordAttack;
+        public float swordTime = 0.1f;
+        public float swordTimeCounter = 0;
 
+        public event Action SwordAttack;
         public event Action SwordAttackCancel;
 
         public SwordComponent(Texture2D swordTexture, GameObject parent) {
@@ -24,18 +26,25 @@ namespace SurvivalArena.Sword {
         }
 
         public void Update(float gameTime) {
+            if (swordTimeCounter > 0) {
+                swordTimeCounter -= gameTime;
+            }
             var mState = Mouse.GetState();
 
             if (mState.LeftButton == ButtonState.Pressed && mReleased) {
                 mReleased = false;
+                swordTimeCounter = swordTime;
                 SwordAttack?.Invoke();
+            }
+            if (mState.LeftButton == ButtonState.Released || swordTimeCounter <= 0) {
+                SwordAttackCancel?.Invoke();
             }
             if (mState.LeftButton == ButtonState.Released) {
                 SwordAttackCancel?.Invoke();
 
                 mReleased = true;
             }
-
         }
+
     }
 }

@@ -29,10 +29,10 @@ namespace SurvivalArena {
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
             level.Draw(spriteBatch);
 
-            for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
-                spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
-            Color.Chocolate);
-            }
+            //for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
+            //    spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
+            //Color.Chocolate);
+            //}
         }
     }
 }

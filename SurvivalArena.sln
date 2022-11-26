@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.HealthSystem", "EE.Healt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.AISystem", "EE.AISystem\EE.AISystem.csproj", "{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.SpriteRendererSystem", "EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj", "{A448418E-DBDB-4C83-9093-5717D0577F05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A448418E-DBDB-4C83-9093-5717D0577F05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A448418E-DBDB-4C83-9093-5717D0577F05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A448418E-DBDB-4C83-9093-5717D0577F05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A448418E-DBDB-4C83-9093-5717D0577F05}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

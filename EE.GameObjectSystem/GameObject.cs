@@ -39,5 +39,7 @@ namespace SurvivalArena.GameObjects {
     public interface IHasPosition {
         public Vector2 Position { get; set; }
     }
-
+    public interface IHasFacingDirection {
+        public bool LookingRight { get; set; }
+    }
 }

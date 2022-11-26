@@ -158,7 +158,5 @@ namespace SurvivalArena.ColliderSystem {
         public Vector2 Position { get => hasPosition.Position + (hasFacingDirection.LookingRight ? OffSet : -OffSet); set => hasPosition.Position = value; }
     }
 
-    public interface IHasFacingDirection {
-        public bool LookingRight { get; set; }
-    }
+
 }

@@ -35,7 +35,7 @@ namespace EE.SurvivalArena {
             var aIComponent = new AIComponent(physicsComponent);
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
 
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
@@ -60,10 +60,10 @@ namespace EE.SurvivalArena {
             var inputComponent = new InputComponent();
             var swordComponent = new SwordComponent(swordTexture, player);
             var health = new HealthComponent(5, player);
-            var spriteRendererComponent = new SpriteRendererComponent(playerTexture, player);
+            var spriteRendererComponent = new SpriteRendererComponent(playerTexture, player, collider);
 
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(swordTexture.Width, 0));
-            var swordRender = new SpriteRendererComponent(swordTexture, hasOffSet);
+            var swordRender = new SpriteRendererComponent(swordTexture, hasOffSet, collider);
             var swordCollider = new ColliderComponent(hasOffSet, playerTexture.Width, playerTexture.Height);
             swordCollider.tag = "Sword";
             swordCollider.DeActive();

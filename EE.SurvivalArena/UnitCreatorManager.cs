@@ -31,7 +31,7 @@ namespace EE.SurvivalArena {
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
-            //spawner2.colliderComponent = collider;
+            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             var aIComponent = new AIComponent(physicsComponent);
             var health = new HealthComponent(1, spawner2);
@@ -53,12 +53,42 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner2);
         }
+        public static void SpawnShootingEnemy(Texture2D texture2D, Vector2 spawnPosition) {
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            collider.tag = "Enemy";
+            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            var health = new HealthComponent(1, spawner2);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var score = new ScoreComponent(100, 1);
+            health.hurtTag = "Sword";
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(health);
+            spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(score);
+
+            collider.CollisionEvents += health.DealDamage;
+            health.DeathEvent += collider.RemoveCollider;
+            health.DeathEvent += poolableComponent.ReleaseSelf;
+            health.DeathEvent += spriteRendererComponent.OnDestroy;
+            health.DeathEvent += score.AddScore;
+
+            PoolManager.gameObjects.Add(spawner2);
+            SpawnProjectile(texture2D, spawnPosition);
+        }
+
+
         public static void CreatePlayer(ContentManager contentManager, Vector2 position) {
             var playerTexture = contentManager.Load<Texture2D>("Player");
             var swordTexture = contentManager.Load<Texture2D>("Player");
 
             var player = new GameObject(position);
+            Level.Player = player;
             var collider = new ColliderComponent(player, playerTexture.Width, playerTexture.Height);
+            collider.tag = "Player";
+
             var physicsComponent = new PhysicsComponent(player, collider);
             var inputComponent = new InputComponent();
             var swordComponent = new SwordComponent(swordTexture, player);
@@ -105,6 +135,39 @@ namespace EE.SurvivalArena {
 
             var spriteRendererComponent = new SpriteRendererComponent(tileTexture, tile);
 
+        }
+
+        public static void SpawnProjectile(Texture2D texture2D, Vector2 spawnPosition) {
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            collider.tag = "Enemy";
+            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            physicsComponent.gravity = 0;
+            var aIComponent = new AIComponent(physicsComponent);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(aIComponent);
+            spawner2.AddComponent(spriteRendererComponent);
+
+            collider.CollisionEvents += (string x) => {
+                if (x == "Wall" || x == "Player") {
+                    collider.RemoveCollider();
+                }
+            };
+            collider.CollisionEvents += (string x) => {
+                if (x == "Wall" || x == "Player") {
+                    poolableComponent.ReleaseSelf();
+                }
+            }; 
+            collider.CollisionEvents += (string x) => {
+                if (x == "Wall" || x == "Player") {
+                    spriteRendererComponent.OnDestroy();
+                }
+            }; 
+
+            PoolManager.gameObjects.Add(spawner2);
         }
     }
 }

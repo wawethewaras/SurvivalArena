@@ -13,6 +13,8 @@ namespace SurvivalArena.AISystem {
 
         public AIComponent(PhysicsComponent physicsComponent) {
             this.physicsComponent = physicsComponent;
+            lookingAtRight = physicsComponent.colliderComponent.LookingRight;
+
         }
 
         public void Update(float gameTime) {
@@ -21,7 +23,9 @@ namespace SurvivalArena.AISystem {
                 physicsComponent.colliderComponent.collidedWithWall = false;
             }
             int direction = lookingAtRight ? 1 : -1;
+
             physicsComponent.velocity.X += physicsComponent.moveSpeed * direction;
+
         }
     }
 }

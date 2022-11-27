@@ -14,6 +14,7 @@ using SurvivalArena.Sword;
 
 namespace SurvivalArena.TileSystem {
     public class Level {
+        public static IHasPosition Player;
         private const int tileSize = 16;
         public Level(ContentManager contentManager) {
             var filepath = string.Format("Content/SurvivalArena.csv"); ;

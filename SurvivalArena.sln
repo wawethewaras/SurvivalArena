@@ -19,13 +19,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.PhysicsSystem", "EE.Phys
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.PoolingSystem", "EE.PoolingSystem\EE.PoolingSystem.csproj", "{47044F39-A339-4F2F-8271-DCC5EC4905F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.HealthSystem", "EE.HealthSystem\EE.HealthSystem.csproj", "{0D75BAF5-B6AF-41F4-885D-AF1996890A11}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.HealthSystem", "EE.HealthSystem\EE.HealthSystem.csproj", "{0D75BAF5-B6AF-41F4-885D-AF1996890A11}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.AISystem", "EE.AISystem\EE.AISystem.csproj", "{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.AISystem", "EE.AISystem\EE.AISystem.csproj", "{BC7B9733-F5DE-40A3-A73C-EDDF65FA6E5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.SpriteRendererSystem", "EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj", "{A448418E-DBDB-4C83-9093-5717D0577F05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.SpriteRendererSystem", "EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj", "{A448418E-DBDB-4C83-9093-5717D0577F05}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMenuSystem", "MainMenuSystem\MainMenuSystem.csproj", "{F765E23D-AAD0-4EC9-9B31-92EC661CF385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMenuSystem", "MainMenuSystem\MainMenuSystem.csproj", "{F765E23D-AAD0-4EC9-9B31-92EC661CF385}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.ScoreSystem", "EE.ScoreSystem\EE.ScoreSystem.csproj", "{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,6 +83,10 @@ Global
 		{F765E23D-AAD0-4EC9-9B31-92EC661CF385}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F765E23D-AAD0-4EC9-9B31-92EC661CF385}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F765E23D-AAD0-4EC9-9B31-92EC661CF385}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -19,7 +19,7 @@ namespace SurvivalArena {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            Game = new MainMenuManager();
+            Game = new SurvivalArenaGame();
         }
 
         protected override void Initialize() {

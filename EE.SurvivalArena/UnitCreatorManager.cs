@@ -1,5 +1,6 @@
 ﻿using EE.InputSystem;
 using EE.PoolingSystem;
+using EE.ScoreSystem;
 using EE.SpriteRendererSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -26,7 +27,7 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(spawner);
         }
 
-        public static void SpawnEnemy(Texture2D texture2D, Vector2 spawnPosition) {
+        public static void SpawnADEnemy(Texture2D texture2D, Vector2 spawnPosition) {
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
@@ -36,17 +37,19 @@ namespace EE.SurvivalArena {
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
-
+            var score = new ScoreComponent(100, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(aIComponent);
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(score);
 
             collider.CollisionEvents += health.DealDamage;
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
+            health.DeathEvent += score.AddScore;
 
             PoolManager.gameObjects.Add(spawner2);
         }

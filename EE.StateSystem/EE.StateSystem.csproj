@@ -7,13 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
-    <ProjectReference Include="..\EE.PhysicsSystem\EE.PhysicsSystem.csproj" />
   </ItemGroup>
 
 </Project>

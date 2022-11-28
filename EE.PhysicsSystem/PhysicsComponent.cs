@@ -54,5 +54,16 @@ namespace SurvivalArena.Physics {
                 jumpTimeCounter = jumpTime;
             }
         }
+
+        public void ADMovement(float gameTime) {
+            if (colliderComponent.collidedWithWall) {
+                colliderComponent.LookingRight = !colliderComponent.LookingRight;
+                colliderComponent.collidedWithWall = false;
+            }
+            int direction = colliderComponent.LookingRight ? 1 : -1;
+
+            velocity.X += moveSpeed * direction;
+
+        }
     }
 }

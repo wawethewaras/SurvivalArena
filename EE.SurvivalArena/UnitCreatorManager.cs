@@ -2,21 +2,16 @@
 using EE.PoolingSystem;
 using EE.ScoreSystem;
 using EE.SpriteRendererSystem;
+using EE.StateSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.AISystem;
 using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.HealthSystem;
 using SurvivalArena.Physics;
 using SurvivalArena.Sword;
 using SurvivalArena.TileSystem;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace EE.SurvivalArena {
     public static class UnitCreatorManager {
@@ -33,14 +28,16 @@ namespace EE.SurvivalArena {
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
-            var aIComponent = new AIComponent(physicsComponent);
+            var stateComponent = new StateComponent();
+            stateComponent.OnAct += physicsComponent.ADMovement;
+
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
             var score = new ScoreComponent(100, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
-            spawner2.AddComponent(aIComponent);
+            spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
@@ -144,11 +141,12 @@ namespace EE.SurvivalArena {
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
-            var aIComponent = new AIComponent(physicsComponent);
+            var stateComponent = new StateComponent();
+            stateComponent.OnAct += physicsComponent.ADMovement;
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
             spawner2.AddComponent(physicsComponent);
-            spawner2.AddComponent(aIComponent);
+            spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(spriteRendererComponent);
 
             collider.CollisionEvents += (string x) => {

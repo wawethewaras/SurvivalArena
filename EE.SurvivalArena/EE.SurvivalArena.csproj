@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EE.AISystem\EE.AISystem.csproj" />
     <ProjectReference Include="..\EE.CollisionSystem\EE.CollisionSystem.csproj" />
     <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
     <ProjectReference Include="..\EE.HealthSystem\EE.HealthSystem.csproj" />
@@ -21,6 +20,7 @@
     <ProjectReference Include="..\EE.PoolingSystem\EE.PoolingSystem.csproj" />
     <ProjectReference Include="..\EE.ScoreSystem\EE.ScoreSystem.csproj" />
     <ProjectReference Include="..\EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj" />
+    <ProjectReference Include="..\EE.StateSystem\EE.StateSystem.csproj" />
     <ProjectReference Include="..\EE.TilemapSystem\EE.TilemapSystem.csproj" />
   </ItemGroup>
 

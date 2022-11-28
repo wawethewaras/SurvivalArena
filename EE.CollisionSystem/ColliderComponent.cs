@@ -18,6 +18,7 @@ namespace SurvivalArena.ColliderSystem {
         public bool LookingRight { get; set; } = true;
         public string tagThatStopsMovement = "Wall";
         private bool isActive = true;
+        public bool IsActive => isActive;
 
         public Rectangle Rectangle {
             get {

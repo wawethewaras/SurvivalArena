@@ -5,7 +5,10 @@ using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.Physics {
     public class PhysicsComponent : IComponent {
-        public float gravity = 200;
+        public float gravity = 400;
+        public float currentGravity = 200;
+        public float gravityGainSpeed = 300;
+
         public float moveSpeed = 200;
         public float jumpHeight = 1000;
         public float jumpTime = 0.1f;
@@ -25,10 +28,17 @@ namespace SurvivalArena.Physics {
             if (jumpTimeCounter > 0) {
                 velocity.Y -= jumpHeight;
                 jumpTimeCounter -= gameTime;
+                currentGravity = 0;
             }
             else {
-                velocity.Y += gravity;
+                if (currentGravity < gravity) {
+                    currentGravity += gravityGainSpeed * gameTime;
+                }
+                else if (currentGravity > gravity) {
+                    currentGravity = gravity;
+                }
             }
+            velocity.Y += currentGravity;
 
             velocity.Y *= gameTime;
             velocity.X *= gameTime;

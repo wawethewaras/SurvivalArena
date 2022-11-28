@@ -13,7 +13,7 @@ namespace EE.StateSystem {
 
     public class ShootAction {
         public float shootDelay = 3;
-        public float shootDelayTimer = 0;
+        public float shootDelayTimer = 3;
         public event Action ShootEvent;
 
         public void Shoot(float gameTime) {

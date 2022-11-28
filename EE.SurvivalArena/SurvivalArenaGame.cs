@@ -39,6 +39,9 @@ namespace SurvivalArena {
             spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
 
             //for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
+            //    if (!ColliderComponent.ColliderComponents[i].IsActive) {
+            //        continue;
+            //    }
             //    spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
             //Color.Chocolate);
             //}

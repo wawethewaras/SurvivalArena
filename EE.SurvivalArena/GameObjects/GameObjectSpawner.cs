@@ -20,8 +20,14 @@ namespace SurvivalArena.GameObjects {
         public void Update(float gameTime) {
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
-                UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);
                 Random random = new Random();
+                var enemyRandom = random.Next(0, 2);
+                if (enemyRandom > 0) {
+                    UnitCreatorManager.SpawnADEnemy(contentManager, spawnPosition);
+                }
+                else {
+                    UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);
+                }
                 invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
             }
         }

@@ -6,6 +6,7 @@ using EE.StateSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using SurvivalArena;
 using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.HealthSystem;
@@ -49,6 +50,7 @@ namespace EE.SurvivalArena {
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
+            health.DeathEvent += SurvivalArenaGame.Win;
 
             PoolManager.gameObjects.Add(spawner2);
         }
@@ -142,6 +144,7 @@ namespace EE.SurvivalArena {
             collider.CollisionEvents += health.DealDamage;
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
+            health.DeathEvent += SurvivalArenaGame.GameOver;
 
             inputComponent.DPressed += physicsComponent.SetMovementSpeedPositive;
             inputComponent.APressed += physicsComponent.SetMovementSpeedNegative;

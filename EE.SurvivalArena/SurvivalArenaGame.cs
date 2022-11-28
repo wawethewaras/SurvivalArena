@@ -1,25 +1,37 @@
-﻿using EE.ScoreSystem;
+﻿using EE.PoolingSystem;
+using EE.ScoreSystem;
+using EE.SpriteRendererSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using SurvivalArena.ColliderSystem;
+using SurvivalArena.GameObjects;
 using SurvivalArena.TileSystem;
 
 namespace SurvivalArena {
     public class SurvivalArenaGame : IGame {
 
+        public enum GameState { 
+            Running,
+            GameOver,
+            Win
+        }
         Level level;
         SpriteFont font;
+        Song music;
 
         Vector2 scorePosition;
+        ContentManager contentManager;
+        public static GameState gameState = GameState.Running;
         public SurvivalArenaGame() : base() {
         }
 
         public void Initialize() {
         }
         public void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager) {
-            var contentManager = new ContentManager(serviceProvider, "Content");
+            contentManager = new ContentManager(serviceProvider, "Content");
             ColliderComponent.rectangeTexture = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
             ColliderComponent.rectangeTexture.SetData(new[] { Color.White });
             level = new Level(contentManager);
@@ -27,7 +39,7 @@ namespace SurvivalArena {
             font = contentManager.Load<SpriteFont>("FontTest");
             scorePosition = new Vector2(0, 0);
 
-            var music = contentManager.Load<Song>("BGMusic");
+            music = contentManager.Load<Song>("BGMusic");
             MediaPlayer.Play(music);
             MediaPlayer.Volume = 0.05f;
             MediaPlayer.IsRepeating = true;
@@ -36,13 +48,36 @@ namespace SurvivalArena {
         public void UnloadContent() {
         }
         public void Update(GameTime gameTime) {
+            if (Keyboard.GetState().IsKeyDown(Keys.R) && gameState != GameState.Running) {
+                gameState = GameState.Running;
+                SpriteRendererComponent.spriteRendererComponents = new List<SpriteRendererComponent>();
+                ColliderComponent.ColliderComponents = new List<ColliderComponent>();
+                PoolManager.gameObjects = new List<IUpdater>();
+                GameObjectSpawner.BossSpawned = false;
+                level = new Level(contentManager);
+                MediaPlayer.Play(music);
+
+            }
             var time = (float)gameTime.ElapsedGameTime.TotalSeconds;
             level.Update(time);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
-            level.Draw(spriteBatch);
-            spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
+            switch (gameState) {
+                case GameState.Running:
+                    level.Draw(spriteBatch);
+                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
+                    break;
+                case GameState.GameOver:
+                    spriteBatch.DrawString(font, "Game Over", new Vector2(350, 350), Color.White);
+                    break;
+                case GameState.Win:
+                    spriteBatch.DrawString(font, "Win", new Vector2(350, 350), Color.White);
+                    break;
+                default:
+                    break;
+            }
+
 
             //for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
             //    if (!ColliderComponent.ColliderComponents[i].IsActive) {
@@ -51,6 +86,12 @@ namespace SurvivalArena {
             //    spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
             //Color.Chocolate);
             //}
+        }
+        public static void GameOver() {
+            gameState = GameState.GameOver;
+        }
+        public static void Win() {
+            gameState = GameState.Win;
         }
     }
 }

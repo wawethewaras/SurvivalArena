@@ -41,21 +41,21 @@ namespace SurvivalArena.ColliderSystem {
                 if (!colliderComponent.isActive) {
                     continue;
                 }
-                if (velocity.X > 0 && IsTouchingLeft(colliderComponent, velocity)) {
+                if (IsTouchingLeft(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
                     collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
                     collidedWithSomething = true;
                 }
-                else if (velocity.X < 0 && IsTouchingRight(colliderComponent, velocity)) {
+                else if (IsTouchingRight(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
                     collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
                     collidedWithSomething = true;
                 }
-                else if (velocity.Y > 0 && IsTouchingTop(colliderComponent, velocity)) {
+                else if (IsTouchingTop(colliderComponent, velocity)) {
                     velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
                     collidedWithSomething = true;
                 }
-                else if (velocity.Y < 0 && IsTouchingBottom(colliderComponent, velocity)) {
+                else if (IsTouchingBottom(colliderComponent, velocity)) {
                     velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
                     collidedWithSomething = true;
                 }

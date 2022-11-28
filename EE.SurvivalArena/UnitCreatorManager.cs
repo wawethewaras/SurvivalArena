@@ -16,13 +16,15 @@ using SurvivalArena.TileSystem;
 namespace EE.SurvivalArena {
     public static class UnitCreatorManager {
         public static void CreateEnemySpawner(ContentManager contentManager, Vector2 position) {
-            var enemyTexture = contentManager.Load<Texture2D>("Player"); 
-            var spawner = new GameObjectSpawner(enemyTexture, position);
+            var enemyTexture = contentManager.Load<Texture2D>("Enemy"); 
+            var spawner = new GameObjectSpawner(contentManager, position);
 
             PoolManager.gameObjects.Add(spawner);
         }
 
-        public static void SpawnADEnemy(Texture2D texture2D, Vector2 spawnPosition) {
+        public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("Enemy");
+
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
@@ -50,7 +52,9 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner2);
         }
-        public static void SpawnShootingEnemy(Texture2D texture2D, Vector2 spawnPosition) {
+        public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("Enemy");
+
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
@@ -62,7 +66,7 @@ namespace EE.SurvivalArena {
             var score = new ScoreComponent(100, 1);
             var stateComponent = new StateComponent();
             var shootAction = new ShootAction();
-            shootAction.ShootEvent += () => SpawnProjectile(texture2D, spawnPosition);
+            shootAction.ShootEvent += () => SpawnProjectile(contentManager, spawnPosition);
             stateComponent.OnAct += shootAction.Shoot;
 
             health.hurtTag = "Sword";
@@ -139,7 +143,9 @@ namespace EE.SurvivalArena {
 
         }
 
-        public static void SpawnProjectile(Texture2D texture2D, Vector2 spawnPosition) {
+        public static void SpawnProjectile(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("Bomb");
+
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
@@ -155,17 +161,17 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(spriteRendererComponent);
 
             collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player") {
+                if (x == "Wall" || x == "Player" || x == "Sword") {
                     collider.RemoveCollider();
                 }
             };
             collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player") {
+                if (x == "Wall" || x == "Player" || x == "Sword") {
                     poolableComponent.ReleaseSelf();
                 }
             }; 
             collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player") {
+                if (x == "Wall" || x == "Player" || x == "Sword") {
                     spriteRendererComponent.OnDestroy();
                 }
             }; 

@@ -13,7 +13,7 @@ namespace SurvivalArena.Sword {
         bool mReleased = true;
         public GameObject sword;
 
-        public float swordTime = 0.1f;
+        public float swordTime = 0.25f;
         public float swordTimeCounter = 0;
 
         public event Action SwordAttack;

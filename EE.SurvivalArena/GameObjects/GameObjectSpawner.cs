@@ -19,7 +19,7 @@ namespace SurvivalArena.GameObjects {
         public void Update(float gameTime) {
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
-                UnitCreatorManager.SpawnADEnemy(texture2D, spawnPosition);
+                UnitCreatorManager.SpawnShootingEnemy(texture2D, spawnPosition);
                 Random random = new Random();
                 invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
             }

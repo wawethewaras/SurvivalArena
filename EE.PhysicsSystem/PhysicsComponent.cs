@@ -7,7 +7,7 @@ namespace SurvivalArena.Physics {
     public class PhysicsComponent : IComponent {
         public float gravity = 200;
         public float moveSpeed = 200;
-        public float jumpHeight = 300;
+        public float jumpHeight = 1000;
         public float jumpTime = 0.1f;
         public float jumpTimeCounter = 0;
 

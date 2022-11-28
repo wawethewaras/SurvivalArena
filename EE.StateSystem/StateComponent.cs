@@ -10,4 +10,20 @@ namespace EE.StateSystem {
             OnAct?.Invoke(gameTime);
         }
     }
+
+    public class ShootAction {
+        public float shootDelay = 3;
+        public float shootDelayTimer = 0;
+        public event Action ShootEvent;
+
+        public void Shoot(float gameTime) {
+            if (shootDelayTimer > 0) {
+                shootDelayTimer -= gameTime;
+            }
+            if (shootDelayTimer <= 0) {
+                ShootEvent?.Invoke();
+                shootDelayTimer = shootDelay;
+            }
+        }
+    }
 }

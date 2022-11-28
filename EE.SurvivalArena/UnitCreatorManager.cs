@@ -60,11 +60,17 @@ namespace EE.SurvivalArena {
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
             var score = new ScoreComponent(100, 1);
+            var stateComponent = new StateComponent();
+            var shootAction = new ShootAction();
+            shootAction.ShootEvent += () => SpawnProjectile(texture2D, spawnPosition);
+            stateComponent.OnAct += shootAction.Shoot;
+
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
+            spawner2.AddComponent(stateComponent);
 
             collider.CollisionEvents += health.DealDamage;
             health.DeathEvent += collider.RemoveCollider;
@@ -73,7 +79,6 @@ namespace EE.SurvivalArena {
             health.DeathEvent += score.AddScore;
 
             PoolManager.gameObjects.Add(spawner2);
-            SpawnProjectile(texture2D, spawnPosition);
         }
 
 

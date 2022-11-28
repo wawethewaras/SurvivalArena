@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Media;
 using SurvivalArena.ColliderSystem;
 using SurvivalArena.TileSystem;
 
@@ -25,6 +26,11 @@ namespace SurvivalArena {
 
             font = contentManager.Load<SpriteFont>("FontTest");
             scorePosition = new Vector2(0, 0);
+
+            var music = contentManager.Load<Song>("BGMusic");
+            MediaPlayer.Play(music);
+            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.IsRepeating = true;
 
         }
         public void UnloadContent() {

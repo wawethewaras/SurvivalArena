@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
+        public static bool BossSpawned = false;
+        public int maxWaves = 2;
+        public int currentWaves = 0;
+
 
         public ContentManager contentManager;
         public int invurnableDurationMax = 8;
@@ -18,6 +22,13 @@ namespace SurvivalArena.GameObjects {
         }
 
         public void Update(float gameTime) {
+            if (BossSpawned) {
+                return;
+            }
+            if (currentWaves >= maxWaves && !BossSpawned) {
+                UnitCreatorManager.SpawnBossEnemy(contentManager, spawnPosition);
+                BossSpawned = true;
+            }
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
                 Random random = new Random();
@@ -29,6 +40,7 @@ namespace SurvivalArena.GameObjects {
                     UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);
                 }
                 invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
+                currentWaves++;
             }
         }
 

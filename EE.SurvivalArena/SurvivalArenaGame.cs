@@ -41,7 +41,7 @@ namespace SurvivalArena {
 
             music = contentManager.Load<Song>("BGMusic");
             MediaPlayer.Play(music);
-            MediaPlayer.Volume = 0.05f;
+            MediaPlayer.Volume = 0.00f;
             MediaPlayer.IsRepeating = true;
 
         }
@@ -53,7 +53,7 @@ namespace SurvivalArena {
                 SpriteRendererComponent.spriteRendererComponents = new List<SpriteRendererComponent>();
                 ColliderComponent.ColliderComponents = new List<ColliderComponent>();
                 PoolManager.gameObjects = new List<IUpdater>();
-                GameObjectSpawner.BossSpawned = false;
+                GameObjectSpawner.currentWaves = 0;
                 level = new Level(contentManager);
                 MediaPlayer.Play(music);
 
@@ -69,10 +69,14 @@ namespace SurvivalArena {
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
                     break;
                 case GameState.GameOver:
-                    spriteBatch.DrawString(font, "Game Over", new Vector2(350, 350), Color.White);
+                    spriteBatch.DrawString(font, "Game Over!", new Vector2(600, 350), Color.White);
+                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, 365), Color.White);
+                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, 380), Color.White);
                     break;
                 case GameState.Win:
-                    spriteBatch.DrawString(font, "Win", new Vector2(350, 350), Color.White);
+                    spriteBatch.DrawString(font, "Win!", new Vector2(600, 350), Color.White);
+                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, 365), Color.White);
+                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, 380), Color.White);
                     break;
                 default:
                     break;

@@ -3,8 +3,8 @@ using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
 namespace EE.SpriteRendererSystem {
-    public class SpriteRendererComponent : IComponent {
-        public static List<SpriteRendererComponent> spriteRendererComponents = new List<SpriteRendererComponent>();
+    public class SpriteRendererComponent : IComponent, IEEDrawable {
+        public static List<IEEDrawable> spriteRendererComponents = new List<IEEDrawable>();
 
         public Texture2D _texture;
         public IHasPosition hasPosition;

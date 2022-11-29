@@ -50,7 +50,7 @@ namespace SurvivalArena {
         public void Update(GameTime gameTime) {
             if (Keyboard.GetState().IsKeyDown(Keys.R) && gameState != GameState.Running) {
                 gameState = GameState.Running;
-                SpriteRendererComponent.spriteRendererComponents = new List<SpriteRendererComponent>();
+                SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
                 ColliderComponent.ColliderComponents = new List<ColliderComponent>();
                 PoolManager.gameObjects = new List<IUpdater>();
                 GameObjectSpawner.currentWaves = 0;

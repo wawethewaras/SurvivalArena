@@ -42,4 +42,7 @@ namespace SurvivalArena.GameObjects {
     public interface IHasFacingDirection {
         public bool LookingRight { get; set; }
     }
+    public interface IEEDrawable {
+        void Draw(SpriteBatch spriteBatch);
+    }
 }

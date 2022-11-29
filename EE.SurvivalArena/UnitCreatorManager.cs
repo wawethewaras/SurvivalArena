@@ -1,4 +1,5 @@
-﻿using EE.InputSystem;
+﻿using EE.HealthSystem;
+using EE.InputSystem;
 using EE.PoolingSystem;
 using EE.ScoreSystem;
 using EE.SpriteRendererSystem;
@@ -51,6 +52,7 @@ namespace EE.SurvivalArena {
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
             health.DeathEvent += SurvivalArenaGame.Win;
+
 
             PoolManager.gameObjects.Add(spawner2);
         }
@@ -162,7 +164,8 @@ namespace EE.SurvivalArena {
 
             swordComponent.SwordAttackCancel += swordCollider.DeActive;
             swordComponent.SwordAttackCancel += swordRender.DeActive;
-
+            HealthUIManager healthUIManager = new HealthUIManager(contentManager, health);
+            SpriteRendererComponent.spriteRendererComponents.Add(healthUIManager);
             PoolManager.gameObjects.Add(player);
         }
 

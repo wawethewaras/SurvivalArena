@@ -5,9 +5,9 @@ using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.Physics {
     public class PhysicsComponent : IComponent {
-        public float gravity = 400;
+        public float gravity = 500;
         public float currentGravity = 200;
-        public float gravityGainSpeed = 300;
+        public float gravityGainSpeed = 1000;
 
         public float moveSpeed = 200;
         public float jumpHeight = 1000;

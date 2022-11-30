@@ -9,7 +9,7 @@ namespace EE.InputSystem {
         public event Action DPressed;
         public event Action SpacePressed;
 
-
+        public bool spaceReleased = true;
         public InputComponent() {
         }
 
@@ -22,10 +22,13 @@ namespace EE.InputSystem {
 
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space)) {
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) && spaceReleased) {
                 SpacePressed?.Invoke();
+                spaceReleased = false; ;
             }
-
+            if (Keyboard.GetState().IsKeyUp(Keys.Space)) {
+                spaceReleased = true;
+            }
 
         }
     }

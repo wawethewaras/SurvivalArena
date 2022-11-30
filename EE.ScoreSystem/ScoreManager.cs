@@ -12,8 +12,7 @@ namespace EE.ScoreSystem {
         }
         public static void SaveCurrentScore() {
             Highscores.Add(new Score() { number = Score, Name = "Player" });
-            Score = 0;
-            Highscores.OrderBy(x => x.number);
+            Highscores = Highscores.OrderByDescending(x => x.number).ToList();
         }
 
         public static void LoadHighScore() {

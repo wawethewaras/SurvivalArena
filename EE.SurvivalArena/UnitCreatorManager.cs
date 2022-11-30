@@ -5,6 +5,7 @@ using EE.ScoreSystem;
 using EE.SpriteRendererSystem;
 using EE.StateSystem;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena;
@@ -59,6 +60,7 @@ namespace EE.SurvivalArena {
 
         public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
@@ -84,11 +86,15 @@ namespace EE.SurvivalArena {
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
+            health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
         }
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
+
+            
 
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
@@ -116,6 +122,7 @@ namespace EE.SurvivalArena {
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
+            health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
         }
@@ -124,6 +131,12 @@ namespace EE.SurvivalArena {
         public static void CreatePlayer(ContentManager contentManager, Vector2 position) {
             var playerTexture = contentManager.Load<Texture2D>("Player");
             var swordTexture = contentManager.Load<Texture2D>("Player");
+            var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt");
+
+            var gameOverSound = contentManager.Load<SoundEffect>("GameOver");
+            var jumpSound = contentManager.Load<SoundEffect>("Jump");
+            var hammerSound = contentManager.Load<SoundEffect>("Hammer");
+
 
             var player = new GameObject(position);
             Level.Player = player;
@@ -147,10 +160,13 @@ namespace EE.SurvivalArena {
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += SurvivalArenaGame.GameOver;
+            health.DeathEvent += () => gameOverSound.Play();
+            health.HitEvent += () => hitSound.Play();
 
             inputComponent.DPressed += physicsComponent.SetMovementSpeedPositive;
             inputComponent.APressed += physicsComponent.SetMovementSpeedNegative;
             inputComponent.SpacePressed += physicsComponent.Jump;
+            inputComponent.SpacePressed += () => jumpSound.Play();
 
 
             player.AddComponent(physicsComponent);
@@ -161,6 +177,7 @@ namespace EE.SurvivalArena {
 
             swordComponent.SwordAttack += swordCollider.SetActive;
             swordComponent.SwordAttack += swordRender.SetActive;
+            swordComponent.SwordAttack += () => hammerSound.Play();
 
             swordComponent.SwordAttackCancel += swordCollider.DeActive;
             swordComponent.SwordAttackCancel += swordRender.DeActive;
@@ -182,6 +199,9 @@ namespace EE.SurvivalArena {
 
         public static void SpawnProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Bomb");
+            var explosionSound = contentManager.Load<SoundEffect>("Explosion");
+
+
             var position = spawnPosition.Position;
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
@@ -200,18 +220,13 @@ namespace EE.SurvivalArena {
             collider.CollisionEvents += (string x) => {
                 if (x == "Wall" || x == "Player" || x == "Sword") {
                     collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    if (x == "Player") {
+                        explosionSound.Play();
+                    }
                 }
             };
-            collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player" || x == "Sword") {
-                    poolableComponent.ReleaseSelf();
-                }
-            }; 
-            collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player" || x == "Sword") {
-                    spriteRendererComponent.OnDestroy();
-                }
-            }; 
 
             PoolManager.gameObjects.Add(spawner2);
         }

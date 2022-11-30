@@ -9,6 +9,7 @@ namespace SurvivalArena.HealthSystem {
         public GameObject gameObject;
         public string hurtTag = "None";
 
+        public event Action HitEvent;
         public event Action DeathEvent;
 
         public HealthComponent(int health, GameObject gameObject) {
@@ -19,6 +20,7 @@ namespace SurvivalArena.HealthSystem {
         public void DealDamage(string tag) {
             if (invurnableDurationTimer <= 0 && tag == hurtTag) {
                 health--;
+                HitEvent?.Invoke();
                 invurnableDurationTimer = invurnableDuration;
                 if (health <= 0) {
                     DeathEvent?.Invoke();

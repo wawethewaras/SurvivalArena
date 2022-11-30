@@ -66,6 +66,7 @@ namespace SurvivalArena {
                         GameObjectSpawner.currentWaves = 0;
                         level = new Level(contentManager);
                         MediaPlayer.Play(music);
+                        ScoreManager.Score = 0;
 
                     }
                     break;

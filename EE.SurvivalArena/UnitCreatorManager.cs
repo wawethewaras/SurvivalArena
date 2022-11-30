@@ -28,7 +28,7 @@ namespace EE.SurvivalArena {
             var texture2D = contentManager.Load<Texture2D>("Boss");
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -63,7 +63,7 @@ namespace EE.SurvivalArena {
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -97,7 +97,7 @@ namespace EE.SurvivalArena {
             
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -140,7 +140,7 @@ namespace EE.SurvivalArena {
 
             var player = new GameObject(position);
             Level.Player = player;
-            var collider = new ColliderComponent(player, playerTexture.Width, playerTexture.Height);
+            var collider = new ColliderComponent(player, playerTexture.Width / 2, playerTexture.Height / 2);
             collider.tag = "Player";
 
             var physicsComponent = new PhysicsComponent(player, collider);
@@ -204,7 +204,7 @@ namespace EE.SurvivalArena {
 
             var position = spawnPosition.Position;
             GameObject spawner2 = new GameObject(position);
-            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);

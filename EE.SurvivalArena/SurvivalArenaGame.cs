@@ -44,39 +44,64 @@ namespace SurvivalArena {
             MediaPlayer.Volume = 0.00f;
             MediaPlayer.IsRepeating = true;
 
+            ScoreManager.LoadHighScore();
+
         }
         public void UnloadContent() {
         }
         public void Update(GameTime gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.R) && gameState != GameState.Running) {
-                gameState = GameState.Running;
-                SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
-                ColliderComponent.ColliderComponents = new List<ColliderComponent>();
-                PoolManager.gameObjects = new List<IUpdater>();
-                GameObjectSpawner.currentWaves = 0;
-                level = new Level(contentManager);
-                MediaPlayer.Play(music);
-
-            }
             var time = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            level.Update(time);
+
+            switch (gameState) {
+                case GameState.Running:
+                    RunGame(time);
+                    break;
+                case GameState.GameOver:
+                case GameState.Win:
+                    if (Keyboard.GetState().IsKeyDown(Keys.R)) {
+                        gameState = GameState.Running;
+                        SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
+                        ColliderComponent.ColliderComponents = new List<ColliderComponent>();
+                        PoolManager.gameObjects = new List<IUpdater>();
+                        GameObjectSpawner.currentWaves = 0;
+                        level = new Level(contentManager);
+                        MediaPlayer.Play(music);
+
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+        }
+
+        private void RunGame(float gameTime) {
+
+            level.Update(gameTime);
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch) {
+            int startY = 150;
+            int offset = 15;
+
             switch (gameState) {
                 case GameState.Running:
                     level.Draw(spriteBatch);
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
                     break;
                 case GameState.GameOver:
-                    spriteBatch.DrawString(font, "Game Over!", new Vector2(600, 350), Color.White);
-                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, 365), Color.White);
-                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, 380), Color.White);
+                    spriteBatch.DrawString(font, "Game Over!", new Vector2(600, startY), Color.White);
+                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
+                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
+
+                    DrawHighScores(spriteBatch, startY, offset);
                     break;
                 case GameState.Win:
-                    spriteBatch.DrawString(font, "Win!", new Vector2(600, 350), Color.White);
-                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, 365), Color.White);
-                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, 380), Color.White);
+                    spriteBatch.DrawString(font, "Win!", new Vector2(600, startY), Color.White);
+                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
+                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
+
+                    DrawHighScores(spriteBatch, startY, offset);
                     break;
                 default:
                     break;
@@ -91,11 +116,31 @@ namespace SurvivalArena {
             //Color.Chocolate);
             //}
         }
+
+        private int DrawHighScores(SpriteBatch spriteBatch, int startY, int offset) {
+            startY += (offset * 4);
+            spriteBatch.DrawString(font, $"High Scores", new Vector2(600, startY), Color.White);
+            startY += offset;
+            foreach (var score in ScoreManager.Highscores) {
+                spriteBatch.DrawString(font, score.Name + " " + score.number, new Vector2(600, startY + offset), Color.White);
+                startY += offset;
+            }
+
+            return startY;
+        }
+
         public static void GameOver() {
             gameState = GameState.GameOver;
+            ScoreManager.SaveCurrentScore();
+            ScoreManager.StoreScore();
         }
         public static void Win() {
             gameState = GameState.Win;
+            ScoreManager.SaveCurrentScore();
+            ScoreManager.StoreScore();
         }
+
+
+
     }
 }

@@ -28,7 +28,7 @@ namespace EE.SurvivalArena {
             var texture2D = contentManager.Load<Texture2D>("Boss");
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
+            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -47,7 +47,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
 
-            collider.CollisionEvents += health.DealDamage;
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -63,7 +63,7 @@ namespace EE.SurvivalArena {
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
+            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -81,15 +81,25 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
 
-            collider.CollisionEvents += health.DealDamage;
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
+            health.DeathEvent += () => {
+                Random random = new Random();
+                var num = random.Next(0, 2);
+                if (num > 0) {
+                    SpawnPotion(contentManager, spawner2.position);
+                }
+            };
+
             health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
         }
+
+
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Enemy");
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
@@ -97,7 +107,7 @@ namespace EE.SurvivalArena {
             
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
+            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -117,7 +127,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(score);
             spawner2.AddComponent(stateComponent);
 
-            collider.CollisionEvents += health.DealDamage;
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -140,7 +150,7 @@ namespace EE.SurvivalArena {
 
             var player = new GameObject(position);
             Level.Player = player;
-            var collider = new ColliderComponent(player, playerTexture.Width / 2, playerTexture.Height / 2);
+            var collider = new ColliderComponent(player, playerTexture.Width , playerTexture.Height );
             collider.tag = "Player";
 
             var physicsComponent = new PhysicsComponent(player, collider);
@@ -156,7 +166,15 @@ namespace EE.SurvivalArena {
             swordCollider.DeActive();
 
             health.hurtTag = "Enemy";
-            collider.CollisionEvents += health.DealDamage;
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
+                if (colliderComponent.tag == "Heal") {
+                    health.health++;
+                }
+                colliderComponent.CollisionFromOther(colliderComponent);
+            };
+
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += SurvivalArenaGame.GameOver;
@@ -167,7 +185,6 @@ namespace EE.SurvivalArena {
             inputComponent.APressed += physicsComponent.SetMovementSpeedNegative;
             inputComponent.SpacePressed += physicsComponent.Jump;
             inputComponent.SpacePressed += () => jumpSound.Play();
-
 
             player.AddComponent(physicsComponent);
             player.AddComponent(inputComponent);
@@ -204,7 +221,7 @@ namespace EE.SurvivalArena {
 
             var position = spawnPosition.Position;
             GameObject spawner2 = new GameObject(position);
-            var collider = new ColliderComponent(spawner2, texture2D.Width / 2, texture2D.Height / 2);
+            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -217,17 +234,52 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(spriteRendererComponent);
 
-            collider.CollisionEvents += (string x) => {
-                if (x == "Wall" || x == "Player" || x == "Sword") {
+            collider.CollisionEvents += (ColliderComponent x) => {
+                if (x.tag == "Wall" || x.tag == "Player" || x.tag == "Sword") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
-                    if (x == "Player") {
-                        explosionSound.Play();
-                    }
+                    x.CollisionFromOther(collider);
+
                 }
             };
 
+            PoolManager.gameObjects.Add(spawner2);
+        }
+        public static void SpawnPotion(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("Heart");
+            var healSound = contentManager.Load<SoundEffect>("Heal");
+
+
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            collider.tag = "Heal";
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            physicsComponent.gravity = 0.1f;
+
+            spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(physicsComponent);
+
+            collider.CollisionEvents += (ColliderComponent x) => {
+                if (x.tag == "Player") {
+                    collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    healSound.Play();
+                    x.CollisionFromOther(collider);
+                }
+            };
+            collider.CollisionEventFromOther += (ColliderComponent x) => {
+                if (x.tag == "Player") {
+                    collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    healSound.Play();
+                    x.CollisionFromOther(collider);
+                }
+            };
             PoolManager.gameObjects.Add(spawner2);
         }
     }

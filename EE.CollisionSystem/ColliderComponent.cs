@@ -13,7 +13,12 @@ namespace SurvivalArena.ColliderSystem {
         public int height;
         public int width;
         public bool collidedWithWall;
-        public event Action<string> CollisionEvents;
+        public event Action<ColliderComponent> CollisionEvents;
+        public event Action<ColliderComponent> CollisionEventFromOther;
+
+        public void CollisionFromOther(ColliderComponent collider) {
+            CollisionEventFromOther?.Invoke(collider);
+        }
         public string tag;
         public bool LookingRight { get; set; } = true;
         public string tagThatStopsMovement = "Wall";
@@ -61,7 +66,7 @@ namespace SurvivalArena.ColliderSystem {
                     collidedWithSomething = true;
                 }
                 if (collidedWithSomething) {
-                    CollisionEvents?.Invoke(colliderComponent.tag);
+                    CollisionEvents?.Invoke(colliderComponent);
                 }
             }
             #region Dont check everything

@@ -109,13 +109,13 @@ namespace SurvivalArena {
             }
 
 
-            for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
-                if (!ColliderComponent.ColliderComponents[i].IsActive) {
-                    continue;
-                }
-                spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
-            Color.Chocolate);
-            }
+            //for (int i = ColliderComponent.ColliderComponents.Count - 1; i >= 0; i--) {
+            //    if (!ColliderComponent.ColliderComponents[i].IsActive) {
+            //        continue;
+            //    }
+            //    spriteBatch.Draw(ColliderComponent.rectangeTexture, ColliderComponent.ColliderComponents[i].Rectangle,
+            //Color.Chocolate);
+            //}
         }
 
         private int DrawHighScores(SpriteBatch spriteBatch, int startY, int offset) {

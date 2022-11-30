@@ -74,6 +74,24 @@
 /processorParam:Quality=Best
 /build:Hammer.wav
 
+#begin Heal.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Heal.wav
+
+#begin Heart.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Heart.png
+
 #begin Hit_Hurt.wav
 /importer:WavImporter
 /processor:SoundEffectProcessor

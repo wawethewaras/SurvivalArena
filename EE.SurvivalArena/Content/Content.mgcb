@@ -13,6 +13,12 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin BGMusic.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:BGMusic.mp3
+
 #begin Bomb.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -103,12 +109,6 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:Hit_Hurt_Enemy.wav
-
-#begin Invasion of Chaos.mp3
-/importer:Mp3Importer
-/processor:SongProcessor
-/processorParam:Quality=Best
-/build:Invasion of Chaos.mp3;BGMusic.mp3
 
 #begin Jump.wav
 /importer:WavImporter

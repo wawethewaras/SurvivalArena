@@ -1,10 +1,9 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena;
 
 namespace MainMenuSystem {
-    public class MainMenuManager : IGame {
+    public class MainMenuManager {
         SpriteFont font;
         Texture2D rectange;
         Vector2 targetPosition;

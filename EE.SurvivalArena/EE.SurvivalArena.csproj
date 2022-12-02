@@ -22,6 +22,7 @@
     <ProjectReference Include="..\EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj" />
     <ProjectReference Include="..\EE.StateSystem\EE.StateSystem.csproj" />
     <ProjectReference Include="..\EE.TilemapSystem\EE.TilemapSystem.csproj" />
+    <ProjectReference Include="..\MainMenuSystem\MainMenuSystem.csproj" />
   </ItemGroup>
 
 </Project>

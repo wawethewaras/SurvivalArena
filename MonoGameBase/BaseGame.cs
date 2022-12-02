@@ -32,8 +32,8 @@ namespace SurvivalArena {
             Game.Initialize();
             base.Initialize();
         }
-        protected override void LoadContent() {
-            Game.LoadContent(Services, graphicsDeviceManager);
+        protected override void LoadContent() {           
+            Game.LoadContent(Services, graphicsDeviceManager, Window);
         }
         protected override void UnloadContent() {
             Game.UnloadContent();

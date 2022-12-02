@@ -1,6 +1,7 @@
 ﻿using EE.PoolingSystem;
 using EE.ScoreSystem;
 using EE.SpriteRendererSystem;
+using MainMenuSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -25,12 +26,14 @@ namespace SurvivalArena {
         Vector2 scorePosition;
         ContentManager contentManager;
         public static GameState gameState = GameState.Running;
+
+        TextInputComponent textInputComponent;
         public SurvivalArenaGame() : base() {
         }
 
         public void Initialize() {
         }
-        public void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager) {
+        public void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager, GameWindow gameWindow) {
             contentManager = new ContentManager(serviceProvider, "Content");
             ColliderComponent.rectangeTexture = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
             ColliderComponent.rectangeTexture.SetData(new[] { Color.White });
@@ -46,6 +49,7 @@ namespace SurvivalArena {
 
             ScoreManager.LoadHighScore();
 
+            textInputComponent = new TextInputComponent(font, gameWindow);
         }
         public void UnloadContent() {
         }
@@ -58,6 +62,8 @@ namespace SurvivalArena {
                     break;
                 case GameState.GameOver:
                 case GameState.Win:
+                    textInputComponent.Update(time);
+
                     if (Keyboard.GetState().IsKeyDown(Keys.R)) {
                         gameState = GameState.Running;
                         SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
@@ -67,7 +73,6 @@ namespace SurvivalArena {
                         level = new Level(contentManager);
                         MediaPlayer.Play(music);
                         ScoreManager.Score = 0;
-
                     }
                     break;
                 default:
@@ -126,6 +131,7 @@ namespace SurvivalArena {
                 spriteBatch.DrawString(font, score.Name + " " + score.number, new Vector2(600, startY + offset), Color.White);
                 startY += offset;
             }
+            textInputComponent.Draw(spriteBatch);
 
             return startY;
         }

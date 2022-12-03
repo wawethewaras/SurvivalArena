@@ -6,12 +6,13 @@ namespace EE.ScoreSystem {
         private static string _fileName = "scores.xml";
 
         public static int Score = 0;
+        public static string Name = "Player";
 
         public static void IncreaseScore(int scoreToAdd) {
             Score += scoreToAdd;
         }
         public static void SaveCurrentScore() {
-            Highscores.Add(new Score() { number = Score, Name = "Player" });
+            Highscores.Add(new Score() { number = Score, name = Name });
             Highscores = Highscores.OrderByDescending(x => x.number).ToList();
         }
 
@@ -32,7 +33,7 @@ namespace EE.ScoreSystem {
         }
     }
     public class Score {
-        public string Name;
+        public string name;
         public int number;
     }
 }

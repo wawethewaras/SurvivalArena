@@ -27,7 +27,7 @@ namespace SurvivalArena {
         ContentManager contentManager;
         public static GameState gameState = GameState.Running;
 
-        TextInputComponent textInputComponent;
+        public static TextInputComponent textInputComponent;
         public SurvivalArenaGame() : base() {
         }
 
@@ -72,6 +72,10 @@ namespace SurvivalArena {
                         GameObjectSpawner.currentWaves = 0;
                         level = new Level(contentManager);
                         MediaPlayer.Play(music);
+                        ScoreManager.Name = textInputComponent.GetText();
+
+                        ScoreManager.SaveCurrentScore();
+                        ScoreManager.StoreScore();
                         ScoreManager.Score = 0;
                     }
                     break;
@@ -99,13 +103,18 @@ namespace SurvivalArena {
                     spriteBatch.DrawString(font, "Game Over!", new Vector2(600, startY), Color.White);
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
                     spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
-
+                    startY += (offset * 4);
+                    textInputComponent.Position = new Vector2(600, startY);
+                    textInputComponent.Draw(spriteBatch);
                     DrawHighScores(spriteBatch, startY, offset);
                     break;
                 case GameState.Win:
                     spriteBatch.DrawString(font, "Win!", new Vector2(600, startY), Color.White);
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
                     spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
+                    startY += (offset * 4);
+                    textInputComponent.Position = new Vector2(600, startY);
+                    textInputComponent.Draw(spriteBatch);
 
                     DrawHighScores(spriteBatch, startY, offset);
                     break;
@@ -128,23 +137,20 @@ namespace SurvivalArena {
             spriteBatch.DrawString(font, $"High Scores", new Vector2(600, startY), Color.White);
             startY += offset;
             foreach (var score in ScoreManager.Highscores) {
-                spriteBatch.DrawString(font, score.Name + " " + score.number, new Vector2(600, startY + offset), Color.White);
+                spriteBatch.DrawString(font, score.name + " " + score.number, new Vector2(600, startY + offset), Color.White);
                 startY += offset;
             }
-            textInputComponent.Draw(spriteBatch);
 
             return startY;
         }
 
         public static void GameOver() {
+            textInputComponent.ResetText();
             gameState = GameState.GameOver;
-            ScoreManager.SaveCurrentScore();
-            ScoreManager.StoreScore();
         }
         public static void Win() {
+            textInputComponent.ResetText();
             gameState = GameState.Win;
-            ScoreManager.SaveCurrentScore();
-            ScoreManager.StoreScore();
         }
 
 

@@ -72,11 +72,23 @@ namespace SurvivalArena {
                         GameObjectSpawner.currentWaves = 0;
                         level = new Level(contentManager);
                         MediaPlayer.Play(music);
+                        if (!ScoreManager.ScoreSaved) {
+                            ScoreManager.Name = textInputComponent.GetText();
+                            ScoreManager.SaveCurrentScore();
+                            ScoreManager.StoreScore();
+                            ScoreManager.Score = 0;
+                        }
+
+
+                        ScoreManager.ScoreSaved = false;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !ScoreManager.ScoreSaved) {
                         ScoreManager.Name = textInputComponent.GetText();
 
                         ScoreManager.SaveCurrentScore();
                         ScoreManager.StoreScore();
-                        ScoreManager.Score = 0;
+                        ScoreManager.ScoreSaved = true;
+
                     }
                     break;
                 default:

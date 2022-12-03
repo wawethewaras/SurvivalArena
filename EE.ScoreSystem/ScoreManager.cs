@@ -7,6 +7,7 @@ namespace EE.ScoreSystem {
 
         public static int Score = 0;
         public static string Name = "Player";
+        public static bool ScoreSaved = false;
 
         public static void IncreaseScore(int scoreToAdd) {
             Score += scoreToAdd;

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace MainMenuSystem {
@@ -36,13 +37,27 @@ namespace MainMenuSystem {
         public void OnInput(object sender, TextInputEventArgs e) {
             var k = e.Key;
             var c = e.Character;
-            myTextBoxDisplayCharacters.Append(c);
+            if (isAlphaNumeric(c.ToString())) {
+                myTextBoxDisplayCharacters.Append(c);
+            }
         }
         public void Update(float gameTime) {
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) && myBoxHasFocus) {
+                myTextBoxDisplayCharacters.Remove(myTextBoxDisplayCharacters.Length - 1, 1);
+                myBoxHasFocus = false;
+            }
+            if (Keyboard.GetState().IsKeyUp(Keys.Back)) {
+                myBoxHasFocus = true;
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch) {
             spriteBatch.DrawString(currentFont, myTextBoxDisplayCharacters, Position, Color.Red);
+        }
+
+        public static bool isAlphaNumeric(string strToCheck) {
+            Regex rg = new Regex(@"^[a-zA-Z0-9\s,]*$");
+            return rg.IsMatch(strToCheck);
         }
     }
 }

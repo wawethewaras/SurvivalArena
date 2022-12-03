@@ -25,7 +25,10 @@ namespace MainMenuSystem {
 
         }
         public string GetText() => myTextBoxDisplayCharacters.ToString();
-        public void ResetText() => myTextBoxDisplayCharacters.Clear();
+        public void ResetText() {
+            myTextBoxDisplayCharacters.Clear();
+            myTextBoxDisplayCharacters.Append("Player");
+        } 
 
         public void RegisterFocusedButtonForTextInput(System.EventHandler<TextInputEventArgs> method) {
             gw.TextInput += method;
@@ -52,7 +55,7 @@ namespace MainMenuSystem {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.DrawString(currentFont, myTextBoxDisplayCharacters, Position, Color.Red);
+            spriteBatch.DrawString(currentFont, myTextBoxDisplayCharacters, Position, Color.Yellow);
         }
 
         public static bool isAlphaNumeric(string strToCheck) {

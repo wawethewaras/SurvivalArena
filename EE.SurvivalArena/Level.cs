@@ -17,31 +17,30 @@ namespace SurvivalArena.TileSystem {
         public static IHasPosition Player;
         private const int tileSize = 16;
         public Level(ContentManager contentManager) {
-            var filepath = string.Format("Content/SurvivalArena.csv"); ;
+            var filepath = string.Format("Content/level.txt"); ;
 
             using (Stream fileStream = TitleContainer.OpenStream(filepath)) {
                 int currentLine = 0;
                 using (StreamReader reader = new StreamReader(fileStream)) {
                     string line = reader.ReadLine();
-                    var tileIds = line.Split(',');
+                    var tileIds = line;
                     while (line != null) {
                         for (int i = 0; i < tileIds.Length; i++) {
                             var tile = new Tile();
                             var position = new Vector2(i * tileSize, currentLine * tileSize);
 
-                            if (tileIds[i] == "0") {
+                            if (tileIds[i] == 'P') {
                                 UnitCreatorManager.CreatePlayer(contentManager, position);
                             }
-                            else if (tileIds[i] == "E") {
+                            else if (tileIds[i] == 'E') {
                                 UnitCreatorManager.CreateEnemySpawner(contentManager, position);
-
                             }
-                            else if (tileIds[i] != "-1") {
+                            else if (tileIds[i] == '#') {
                                 UnitCreatorManager.CreateTile(contentManager, position);
                             }
                         }
                         line = reader.ReadLine();
-                        tileIds = line?.Split(',');
+                        tileIds = line;
                         currentLine++;
                     }
                 }

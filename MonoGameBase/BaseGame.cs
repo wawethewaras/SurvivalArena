@@ -7,6 +7,8 @@ namespace SurvivalArena {
 
         private const int SCREENWIDTH = 1280;
         private const int SCREENHEIGHT = 720;
+        private const int GAMEWIDTH = 640;
+        private const int GAMEHEIGHT= 480;
 
         private GraphicsDeviceManager graphicsDeviceManager;
 
@@ -27,7 +29,7 @@ namespace SurvivalArena {
             graphicsDeviceManager.PreferredBackBufferWidth = SCREENWIDTH;
             graphicsDeviceManager.PreferredBackBufferHeight = SCREENHEIGHT;
             graphicsDeviceManager.ApplyChanges();
-            screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, SCREENWIDTH, SCREENHEIGHT);
+            screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, GAMEWIDTH, GAMEHEIGHT);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Game.Initialize();
             base.Initialize();

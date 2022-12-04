@@ -184,7 +184,7 @@ namespace EE.SurvivalArena {
             var physicsComponent = new PhysicsComponent(player, collider);
             var inputComponent = new InputComponent();
             var swordComponent = new SwordComponent(swordTexture, player);
-            var health = new HealthComponent(1, player);
+            var health = new HealthComponent(5, player);
             var spriteRendererComponent = new SpriteRendererComponent(playerAnimation, player, collider);
 
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(swordTexture.Width, 0));

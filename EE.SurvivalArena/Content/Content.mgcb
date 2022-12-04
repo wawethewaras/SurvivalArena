@@ -116,6 +116,9 @@
 /processorParam:Quality=Best
 /build:Jump.wav
 
+#begin level.txt
+/copy:level.txt
+
 #begin Player.png
 /importer:TextureImporter
 /processor:TextureProcessor

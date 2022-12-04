@@ -6,25 +6,26 @@ namespace EE.SpriteRendererSystem {
     public class SpriteRendererComponent : IComponent, IEEDrawable {
         public static List<IEEDrawable> spriteRendererComponents = new List<IEEDrawable>();
 
-        public Texture2D _texture;
+        public SpriteAnimation spriteAnimation;
         public IHasPosition hasPosition;
         public IHasFacingDirection hasFacingDirection;
 
         private bool isActive = true;
-        public SpriteRendererComponent(Texture2D texture, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection = null) {
-            _texture = texture;
+        public SpriteRendererComponent(SpriteAnimation spriteAnimation, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection = null) {
+            this.spriteAnimation = spriteAnimation;
             this.hasPosition = hasPosition;
             spriteRendererComponents.Add(this);
             this.hasFacingDirection = hasFacingDirection;
         }
 
         public void Update(float gameTime) {
-
+            spriteAnimation.Update(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch) {
             if (!isActive) {
                 return;
             }
+            var _texture = spriteAnimation.GetTexture();
             if (hasFacingDirection != null && !hasFacingDirection.LookingRight) {
                 SpriteEffects flip = SpriteEffects.FlipHorizontally;
                 spriteBatch.Draw(_texture, hasPosition.Position, null, Color.White, 0, Vector2.Zero, 1, flip, 1);

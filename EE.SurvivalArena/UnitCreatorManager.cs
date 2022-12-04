@@ -26,6 +26,11 @@ namespace EE.SurvivalArena {
         }
         public static void SpawnBossEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Boss");
+            var enemyTexture = new Texture2D[] {
+                texture2D
+            };
+            var enemyAnimation = new SpriteAnimation(enemyTexture);
+
 
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
@@ -38,7 +43,7 @@ namespace EE.SurvivalArena {
 
             var health = new HealthComponent(5, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
@@ -60,6 +65,11 @@ namespace EE.SurvivalArena {
 
         public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var enemyTexture = new Texture2D[] {
+                texture2D
+            };
+            var enemyAnimation = new SpriteAnimation(enemyTexture);
+
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             GameObject spawner2 = new GameObject(spawnPosition);
@@ -72,7 +82,7 @@ namespace EE.SurvivalArena {
 
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
@@ -102,6 +112,11 @@ namespace EE.SurvivalArena {
 
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var enemyTexture = new Texture2D[] {
+                texture2D
+            };
+            var enemyAnimation = new SpriteAnimation(enemyTexture);
+
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             
@@ -113,7 +128,7 @@ namespace EE.SurvivalArena {
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
             var stateComponent = new StateComponent();
             var shootAction = new ShootAction();
@@ -140,7 +155,20 @@ namespace EE.SurvivalArena {
 
         public static void CreatePlayer(ContentManager contentManager, Vector2 position) {
             var playerTexture = contentManager.Load<Texture2D>("Player");
+            var playerTexture2 = contentManager.Load<Texture2D>("Player2");
+
             var swordTexture = contentManager.Load<Texture2D>("Player");
+
+            var playerTextures = new Texture2D[] {
+                playerTexture,
+                playerTexture2
+            };
+            var swordTextures = new Texture2D[] {
+                swordTexture
+            };
+            var playerAnimation = new SpriteAnimation(playerTextures);
+            var swordAnimation = new SpriteAnimation(swordTextures);
+
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt");
 
             var gameOverSound = contentManager.Load<SoundEffect>("GameOver");
@@ -157,10 +185,10 @@ namespace EE.SurvivalArena {
             var inputComponent = new InputComponent();
             var swordComponent = new SwordComponent(swordTexture, player);
             var health = new HealthComponent(1, player);
-            var spriteRendererComponent = new SpriteRendererComponent(playerTexture, player, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(playerAnimation, player, collider);
 
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(swordTexture.Width, 0));
-            var swordRender = new SpriteRendererComponent(swordTexture, hasOffSet, collider);
+            var swordRender = new SpriteRendererComponent(swordAnimation, hasOffSet, collider);
             var swordCollider = new ColliderComponent(hasOffSet, playerTexture.Width, playerTexture.Height);
             swordCollider.tag = "Sword";
             swordCollider.DeActive();
@@ -204,18 +232,28 @@ namespace EE.SurvivalArena {
         }
 
         public static void CreateTile(ContentManager contentManager, Vector2 position) {
-            var tileTexture = contentManager.Load<Texture2D>("Tile"); ;
+            var tileTexture = contentManager.Load<Texture2D>("Tile");
+            var tileTextures = new Texture2D[] {
+                tileTexture
+            };
+            var tileAnimation = new SpriteAnimation(tileTextures);
+
             var tile = new Tile();
             tile.position = position;
             var colliderComponent = new ColliderComponent(tile, tileTexture.Width, tileTexture.Height);
             colliderComponent.tag = "Wall";
 
-            var spriteRendererComponent = new SpriteRendererComponent(tileTexture, tile);
+            var spriteRendererComponent = new SpriteRendererComponent(tileAnimation, tile);
 
         }
 
         public static void SpawnProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Bomb");
+            var bombTexture = new Texture2D[] {
+                texture2D
+            };
+
+            var bombAnimation = new SpriteAnimation(bombTexture);
             var explosionSound = contentManager.Load<SoundEffect>("Explosion");
 
 
@@ -229,7 +267,7 @@ namespace EE.SurvivalArena {
             var stateComponent = new StateComponent();
             stateComponent.OnAct += physicsComponent.ADMovement;
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(bombAnimation, spawner2, collider);
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(spriteRendererComponent);
@@ -248,6 +286,12 @@ namespace EE.SurvivalArena {
         }
         public static void SpawnPotion(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Heart");
+            var texture2Ds = new Texture2D[] {
+                texture2D
+            };
+
+
+            var potionTexture = new SpriteAnimation(texture2Ds);
             var healSound = contentManager.Load<SoundEffect>("Heal");
 
 
@@ -255,7 +299,7 @@ namespace EE.SurvivalArena {
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Heal";
             var poolableComponent = new PoolableComponent(spawner2);
-            var spriteRendererComponent = new SpriteRendererComponent(texture2D, spawner2, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(potionTexture, spawner2, collider);
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0.1f;
 

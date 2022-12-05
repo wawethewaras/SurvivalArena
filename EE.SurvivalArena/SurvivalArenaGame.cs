@@ -29,10 +29,12 @@ namespace SurvivalArena {
 
         public static TextInputComponent textInputComponent;
 
-
+        EEButton eEButton;
         UICanvas uICanvas;
+        RenderTarget2D screen;
+
         public SurvivalArenaGame(RenderTarget2D screen) : base() {
-            uICanvas = new UICanvas(screen.Width, screen.Height, font);
+            this.screen = screen;
 
         }
 
@@ -55,6 +57,8 @@ namespace SurvivalArena {
             ScoreManager.LoadHighScore();
 
             textInputComponent = new TextInputComponent(font, gameWindow);
+            eEButton = new EEButton(graphicsDeviceManager);
+            uICanvas = new UICanvas(screen.Width, screen.Height, font);
 
         }
         public void UnloadContent() {
@@ -65,6 +69,8 @@ namespace SurvivalArena {
             switch (gameState) {
                 case GameState.Running:
                     RunGame(time);
+                    eEButton.Update(time);
+
                     break;
                 case GameState.GameOver:
                 case GameState.Win:
@@ -115,6 +121,8 @@ namespace SurvivalArena {
                 case GameState.Running:
                     level.Draw(spriteBatch);
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
+                    eEButton.Draw(spriteBatch);
+
                     break;
                 case GameState.GameOver:
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Game Over!");
@@ -122,7 +130,7 @@ namespace SurvivalArena {
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press R to Restart.");
 
                     startY += (offset * 4);
-                    textInputComponent.Position = new Vector2(0, startY);
+                    textInputComponent.Position = new Vector2(screen.Width, startY);
                     textInputComponent.Draw(spriteBatch);
                     DrawHighScores(spriteBatch, startY, offset);
                     break;

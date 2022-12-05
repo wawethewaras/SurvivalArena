@@ -8,5 +8,6 @@ namespace SurvivalArena {
         void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager, GameWindow gameWindow);
         void UnloadContent();
         void Update(GameTime gameTime);
+        Action Quit { get; set; }
     }
 }

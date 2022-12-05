@@ -14,11 +14,6 @@ namespace MainMenuSystem {
 
         public MainMenuManager(GraphicsDeviceManager graphicsDeviceManager, RenderTarget2D screen) {
             this.graphicsDeviceManager = graphicsDeviceManager;
-            targetPosition = new Vector2(screen.Width / 2, 100);
-
-            targetPosition = new Vector2(screen.Width / 2, 210);
-
-            //quit = new EEButton(graphicsDeviceManager, targetPosition);
         }
 
 
@@ -40,12 +35,12 @@ namespace MainMenuSystem {
 
         public void Update(float gameTime) {
             start.Update(gameTime);
-            //quit.Update(gameTime);
+            quit.Update(gameTime);
 
         }
         public void Draw(SpriteBatch spriteBatch) {
             start.Draw(spriteBatch);
-            //quit.Draw(spriteBatch);
+            quit.Draw(spriteBatch);
         }
     }
 }

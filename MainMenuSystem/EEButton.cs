@@ -41,7 +41,7 @@ namespace MainMenuSystem {
                 isHovered = false;
                 isClicked = false;
             }
-            if (mouseState.LeftButton == ButtonState.Pressed && release) {
+            if (isClicked && release) {
                 Clicked?.Invoke();
                 release = false;
             }

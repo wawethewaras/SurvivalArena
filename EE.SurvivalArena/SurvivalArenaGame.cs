@@ -33,6 +33,11 @@ namespace SurvivalArena {
         UICanvas uICanvas;
         RenderTarget2D screen;
         MainMenuManager menuManager;
+
+        Action IGame.Quit { get => QuitEvent; set => QuitEvent = value; }
+
+        public event Action QuitEvent;
+
         public SurvivalArenaGame(RenderTarget2D screen) : base() {
             this.screen = screen;
         }
@@ -61,6 +66,8 @@ namespace SurvivalArena {
             menuManager = new MainMenuManager(graphicsDeviceManager, screen);
             var targetPosition = new Vector2(screen.Width / 2, 100);
             menuManager.start = new EEButton(graphicsDeviceManager, targetPosition, ChangeToRunning);
+            targetPosition = new Vector2(screen.Width / 2, 310);
+            menuManager.quit = new EEButton(graphicsDeviceManager, targetPosition, QuitEvent);
 
         }
         public static void ChangeToRunning() {

@@ -21,7 +21,6 @@ namespace SurvivalArena {
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
 
-            Game = new SurvivalArenaGame();
         }
 
         protected override void Initialize() {
@@ -31,6 +30,7 @@ namespace SurvivalArena {
             graphicsDeviceManager.ApplyChanges();
             screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, GAMEWIDTH, GAMEHEIGHT);
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            Game = new SurvivalArenaGame(screen);
             Game.Initialize();
             base.Initialize();
         }

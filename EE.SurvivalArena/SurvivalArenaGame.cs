@@ -28,7 +28,12 @@ namespace SurvivalArena {
         public static GameState gameState = GameState.Running;
 
         public static TextInputComponent textInputComponent;
-        public SurvivalArenaGame() : base() {
+
+
+        UICanvas uICanvas;
+        public SurvivalArenaGame(RenderTarget2D screen) : base() {
+            uICanvas = new UICanvas(screen.Width, screen.Height, font);
+
         }
 
         public void Initialize() {
@@ -50,6 +55,7 @@ namespace SurvivalArena {
             ScoreManager.LoadHighScore();
 
             textInputComponent = new TextInputComponent(font, gameWindow);
+
         }
         public void UnloadContent() {
         }
@@ -111,20 +117,21 @@ namespace SurvivalArena {
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
                     break;
                 case GameState.GameOver:
-                    spriteBatch.DrawString(font, "Game Over!", new Vector2(600, startY), Color.White);
-                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
-                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Game Over!");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset), $"Score: {ScoreManager.Score}");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press R to Restart.");
+
                     startY += (offset * 4);
-                    textInputComponent.Position = new Vector2(600, startY);
+                    textInputComponent.Position = new Vector2(0, startY);
                     textInputComponent.Draw(spriteBatch);
                     DrawHighScores(spriteBatch, startY, offset);
                     break;
                 case GameState.Win:
-                    spriteBatch.DrawString(font, "Win!", new Vector2(600, startY), Color.White);
-                    spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", new Vector2(600, startY + offset), Color.White);
-                    spriteBatch.DrawString(font, "Press R to Restart.", new Vector2(600, startY + (offset * 2)), Color.White);
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Win!");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset),  $"Score: {ScoreManager.Score}");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press R to Restart.");
                     startY += (offset * 4);
-                    textInputComponent.Position = new Vector2(600, startY);
+                    textInputComponent.Position = new Vector2(0, startY);
                     textInputComponent.Draw(spriteBatch);
 
                     DrawHighScores(spriteBatch, startY, offset);
@@ -145,10 +152,10 @@ namespace SurvivalArena {
 
         private int DrawHighScores(SpriteBatch spriteBatch, int startY, int offset) {
             startY += (offset * 4);
-            spriteBatch.DrawString(font, $"High Scores", new Vector2(600, startY), Color.White);
+            uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), $"High Scores");
             startY += offset;
             foreach (var score in ScoreManager.Highscores) {
-                spriteBatch.DrawString(font, score.name + " " + score.number, new Vector2(600, startY + offset), Color.White);
+                uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset), score.name + " " + score.number);
                 startY += offset;
             }
 

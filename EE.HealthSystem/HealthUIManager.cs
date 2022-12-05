@@ -18,12 +18,12 @@ namespace EE.HealthSystem {
         public HealthUIManager(ContentManager contentManager, HealthComponent healthComponent) {
             font = contentManager.Load<SpriteFont>("FontTest");
             this.healthComponent = healthComponent;
-            textPosition = new Vector2(1210, 0);
+            textPosition = new Vector2(640, 0);
         }
 
         public void Draw(SpriteBatch spriteBatch) {
             var text = $"Health: {healthComponent.health}";
-            spriteBatch.DrawString(font, text, textPosition, Color.White);
+            spriteBatch.DrawString(font, text, new Vector2(textPosition.X - text.Length, textPosition.Y), Color.White);
         }
 
     }

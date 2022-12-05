@@ -11,16 +11,23 @@ using System.Threading.Tasks;
 namespace MainMenuSystem {
     public class EEButton {
 
-        Vector2 position;
         Texture2D texture2D;
-        Vector2 size;
         Rectangle rectangle;
+
         bool isHovered = false;
         bool isClicked = false;
-        public EEButton(GraphicsDeviceManager graphicsDeviceManager) {
+
+        event Action Clicked;
+
+        bool release = true;
+
+        public EEButton(GraphicsDeviceManager graphicsDeviceManager, Vector2 position = new Vector2(), Action? clicked = null) {
             texture2D = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
             texture2D.SetData(new[] { Color.White });
-            rectangle = new Rectangle(0,0, 200,200);
+            rectangle = new Rectangle((int)position.X, (int)position.Y, 200,200);
+            if (clicked != null) {
+                Clicked += clicked;
+            }
         }
         public void Update(float gameTime) {
             var mouseState = Mouse.GetState();
@@ -34,16 +41,21 @@ namespace MainMenuSystem {
                 isHovered = false;
                 isClicked = false;
             }
-            if (mouseState.LeftButton == ButtonState.Pressed) {
-                Debug.WriteLine("MP: " + new Vector2(mouseState.X, mouseState.Y));
+            if (mouseState.LeftButton == ButtonState.Pressed && release) {
+                Clicked?.Invoke();
+                release = false;
+            }
+            if (mouseState.LeftButton == ButtonState.Released) {
+                release = true;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch) {
             var color = isHovered ? Color.White : Color.Red;
             color = isClicked ? Color.Blue : color;
+            var rectangleSmall = new Rectangle(rectangle.X / 2, rectangle.Y / 2, rectangle.Width / 2, rectangle.Height/2);
 
-            spriteBatch.Draw(texture2D, rectangle, color);
+            spriteBatch.Draw(texture2D, rectangleSmall, color);
         }
     }
 }

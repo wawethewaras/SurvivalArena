@@ -49,12 +49,12 @@ namespace SurvivalArena {
             graphicsDeviceManager.GraphicsDevice.SetRenderTarget(screen);
             graphicsDeviceManager.GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 
             Game.Draw(gameTime, spriteBatch);
             spriteBatch.End();
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
             spriteBatch.Draw(screen, new Rectangle(0, 0, SCREENWIDTH, SCREENHEIGHT), Color.White);
             spriteBatch.End();

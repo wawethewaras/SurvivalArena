@@ -17,7 +17,8 @@ namespace SurvivalArena {
         public enum GameState { 
             Running,
             GameOver,
-            Win
+            Win,
+            MainMenu
         }
         Level level;
         SpriteFont font;
@@ -25,17 +26,15 @@ namespace SurvivalArena {
 
         Vector2 scorePosition;
         ContentManager contentManager;
-        public static GameState gameState = GameState.Running;
+        public static GameState gameState = GameState.MainMenu;
 
         public static TextInputComponent textInputComponent;
 
-        EEButton eEButton;
         UICanvas uICanvas;
         RenderTarget2D screen;
-
+        MainMenuManager menuManager;
         public SurvivalArenaGame(RenderTarget2D screen) : base() {
             this.screen = screen;
-
         }
 
         public void Initialize() {
@@ -57,9 +56,15 @@ namespace SurvivalArena {
             ScoreManager.LoadHighScore();
 
             textInputComponent = new TextInputComponent(font, gameWindow);
-            eEButton = new EEButton(graphicsDeviceManager);
             uICanvas = new UICanvas(screen.Width, screen.Height, font);
 
+            menuManager = new MainMenuManager(graphicsDeviceManager, screen);
+            var targetPosition = new Vector2(screen.Width / 2, 100);
+            menuManager.start = new EEButton(graphicsDeviceManager, targetPosition, ChangeToRunning);
+
+        }
+        public static void ChangeToRunning() {
+            gameState = GameState.Running;
         }
         public void UnloadContent() {
         }
@@ -67,10 +72,11 @@ namespace SurvivalArena {
             var time = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             switch (gameState) {
+                case GameState.MainMenu:
+                    menuManager.Update(time);
+                    break;
                 case GameState.Running:
                     RunGame(time);
-                    eEButton.Update(time);
-
                     break;
                 case GameState.GameOver:
                 case GameState.Win:
@@ -118,11 +124,12 @@ namespace SurvivalArena {
             int offset = 15;
 
             switch (gameState) {
+                case GameState.MainMenu:
+                    menuManager.Draw(spriteBatch);
+                    break;
                 case GameState.Running:
                     level.Draw(spriteBatch);
                     spriteBatch.DrawString(font, $"Score: {ScoreManager.Score}", scorePosition, Color.White);
-                    eEButton.Draw(spriteBatch);
-
                     break;
                 case GameState.GameOver:
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Game Over!");

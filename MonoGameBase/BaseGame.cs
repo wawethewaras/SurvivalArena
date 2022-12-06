@@ -48,7 +48,7 @@ namespace SurvivalArena {
         }
         protected override void Draw(GameTime gameTime) {
             graphicsDeviceManager.GraphicsDevice.SetRenderTarget(screen);
-            graphicsDeviceManager.GraphicsDevice.Clear(Color.Black);
+            graphicsDeviceManager.GraphicsDevice.Clear(Color.DimGray);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
 

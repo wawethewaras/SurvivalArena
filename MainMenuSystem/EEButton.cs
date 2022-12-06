@@ -21,10 +21,9 @@ namespace MainMenuSystem {
 
         bool release = true;
 
-        public EEButton(GraphicsDeviceManager graphicsDeviceManager, Vector2 position = new Vector2(), Action? clicked = null) {
-            texture2D = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
-            texture2D.SetData(new[] { Color.White });
-            rectangle = new Rectangle((int)position.X, (int)position.Y, 200,200);
+        public EEButton(Texture2D texture2D, Vector2 position = new Vector2(), Action? clicked = null) {
+            this.texture2D = texture2D;
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture2D.Width, texture2D.Height);
             if (clicked != null) {
                 Clicked += clicked;
             }
@@ -51,9 +50,9 @@ namespace MainMenuSystem {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            var color = isHovered ? Color.White : Color.Red;
-            color = isClicked ? Color.Blue : color;
-            var rectangleSmall = new Rectangle(rectangle.X / 2, rectangle.Y / 2, rectangle.Width / 2, rectangle.Height/2);
+            var color = isHovered ? Color.Gray : Color.White;
+            color = isClicked ? Color.Black : color;
+            var rectangleSmall = new Rectangle(rectangle.X / 2, (int)(rectangle.Y /1.5f), rectangle.Width / 2, (int)(rectangle.Height/1.5f));
 
             spriteBatch.Draw(texture2D, rectangleSmall, color);
         }

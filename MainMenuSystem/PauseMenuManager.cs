@@ -3,14 +3,15 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace MainMenuSystem {
-    public class MainMenuManager {
 
+    public class PauseMenuManager {
 
         public EEButton start;
         public EEButton quit;
 
-        public MainMenuManager() {
+        public PauseMenuManager() {
         }
+
 
 
         public void Initialize() {
@@ -18,6 +19,7 @@ namespace MainMenuSystem {
         }
 
         public void LoadContent(IServiceProvider serviceProvider, GraphicsDeviceManager graphicsDeviceManager) {
+
 
         }
 

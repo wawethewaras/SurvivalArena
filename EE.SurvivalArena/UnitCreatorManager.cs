@@ -98,8 +98,8 @@ namespace EE.SurvivalArena {
             health.DeathEvent += score.AddScore;
             health.DeathEvent += () => {
                 Random random = new Random();
-                var num = random.Next(0, 2);
-                if (num > 0) {
+                var num = random.Next(0, 10);
+                if (num > 7) {
                     SpawnPotion(contentManager, spawner2.position);
                 }
             };

@@ -18,7 +18,8 @@ namespace SurvivalArena {
             Running,
             GameOver,
             Win,
-            MainMenu
+            MainMenu,
+            Pause
         }
         Level level;
         SpriteFont font;
@@ -33,6 +34,8 @@ namespace SurvivalArena {
         UICanvas uICanvas;
         RenderTarget2D screen;
         MainMenuManager menuManager;
+        PauseMenuManager pauseManager;
+        bool escapeRelease = true;
 
         Action IGame.Quit { get => QuitEvent; set => QuitEvent = value; }
 
@@ -63,55 +66,84 @@ namespace SurvivalArena {
             textInputComponent = new TextInputComponent(font, gameWindow);
             uICanvas = new UICanvas(screen.Width, screen.Height, font);
 
-            menuManager = new MainMenuManager(graphicsDeviceManager, screen);
-            var targetPosition = new Vector2(screen.Width / 2, 100);
-            menuManager.start = new EEButton(graphicsDeviceManager, targetPosition, ChangeToRunning);
-            targetPosition = new Vector2(screen.Width / 2, 310);
-            menuManager.quit = new EEButton(graphicsDeviceManager, targetPosition, QuitEvent);
+            menuManager = new MainMenuManager();
 
+            var startTexture = contentManager.Load<Texture2D>("start_button");
+
+            var targetPosition = new Vector2(screen.Width / 2, 100);
+            menuManager.start = new EEButton(startTexture, targetPosition, ChangeToRunning);
+            targetPosition = new Vector2(screen.Width / 2, 210);
+            var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
+
+            menuManager.quit = new EEButton(quitTexture, targetPosition, QuitEvent);
+
+            pauseManager = new PauseMenuManager();
+            targetPosition = new Vector2(screen.Width / 2, 100);
+            var returnTexture = contentManager.Load<Texture2D>("Return_button");
+
+            pauseManager.start = new EEButton(returnTexture, targetPosition, REturn);
+            targetPosition = new Vector2(screen.Width / 2, 210);
+            pauseManager.quit = new EEButton(quitTexture, targetPosition, QuitEvent);
         }
-        public static void ChangeToRunning() {
+        public void Pause() {
+            gameState = GameState.Pause;
+        }
+        public void REturn() {
             gameState = GameState.Running;
+        }
+        public void ChangeToRunning() {
+            gameState = GameState.Running;
+            SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
+            ColliderComponent.ColliderComponents = new List<ColliderComponent>();
+            PoolManager.gameObjects = new List<IUpdater>();
+            GameObjectSpawner.currentWaves = 0;
+            level = new Level(contentManager);
+            ScoreManager.Score = 0;
+            ScoreManager.ScoreSaved = false;
+        }
+        public static void ChangeToMainMenu() {
+            gameState = GameState.MainMenu;
         }
         public void UnloadContent() {
         }
         public void Update(GameTime gameTime) {
             var time = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            if (Keyboard.GetState().IsKeyUp(Keys.Escape)) {
+                escapeRelease = true;
+            }
             switch (gameState) {
+                case GameState.Pause:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && escapeRelease) {
+                        REturn();
+                        escapeRelease = false;
+                    }
+                    pauseManager.Update(time);
+                    break;
                 case GameState.MainMenu:
                     menuManager.Update(time);
                     break;
                 case GameState.Running:
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && escapeRelease) {
+                        Pause();
+                        escapeRelease = false;
+                    }
                     RunGame(time);
                     break;
                 case GameState.GameOver:
                 case GameState.Win:
                     textInputComponent.Update(time);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.R)) {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !ScoreManager.ScoreSaved && ScoreManager.Score > 0) {
                         gameState = GameState.Running;
-                        SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
-                        ColliderComponent.ColliderComponents = new List<ColliderComponent>();
-                        PoolManager.gameObjects = new List<IUpdater>();
-                        GameObjectSpawner.currentWaves = 0;
-                        level = new Level(contentManager);
-                        MediaPlayer.Play(music);
+
                         if (!ScoreManager.ScoreSaved && ScoreManager.Score > 0) {
                             ScoreManager.Name = textInputComponent.GetText();
                             ScoreManager.SaveCurrentScore();
                             ScoreManager.StoreScore();
                         }
-
+                        ChangeToRunning();
                         ScoreManager.Score = 0;
                         ScoreManager.ScoreSaved = false;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !ScoreManager.ScoreSaved && ScoreManager.Score > 0) {
-                        ScoreManager.Name = textInputComponent.GetText();
-
-                        ScoreManager.SaveCurrentScore();
-                        ScoreManager.StoreScore();
-                        ScoreManager.ScoreSaved = true;
 
                     }
                     break;
@@ -131,6 +163,9 @@ namespace SurvivalArena {
             int offset = 15;
 
             switch (gameState) {
+                case GameState.Pause:
+                    pauseManager.Draw(spriteBatch);
+                    break;
                 case GameState.MainMenu:
                     menuManager.Draw(spriteBatch);
                     break;
@@ -141,7 +176,7 @@ namespace SurvivalArena {
                 case GameState.GameOver:
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Game Over!");
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset), $"Score: {ScoreManager.Score}");
-                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press R to Restart.");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press Enter to Restart.");
 
                     startY += (offset * 4);
                     textInputComponent.Position = new Vector2(screen.Width, startY);
@@ -151,7 +186,7 @@ namespace SurvivalArena {
                 case GameState.Win:
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY), "Win!");
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset),  $"Score: {ScoreManager.Score}");
-                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press R to Restart.");
+                    uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press Enter to Restart.");
                     startY += (offset * 4);
                     textInputComponent.Position = new Vector2(0, startY);
                     textInputComponent.Draw(spriteBatch);

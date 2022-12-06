@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using SurvivalArena;
 using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
@@ -223,11 +224,67 @@ namespace EE.SurvivalArena {
             health.DeathEvent += () => gameOverSound.Play();
             health.HitEvent += () => hitSound.Play();
 
-            inputComponent.DPressed += physicsComponent.SetMovementSpeedPositive;
-            inputComponent.APressed += physicsComponent.SetMovementSpeedNegative;
-            inputComponent.SpacePressed += physicsComponent.Jump;
-            inputComponent.SpacePressed += () => jumpSound.Play();
 
+            var stateComponent = new StateComponent();
+            var idleState = new TransitionState(stateComponent);
+            var walkRightState = new TransitionState(stateComponent);
+            var walkLeftState = new TransitionState(stateComponent);
+            var attackState = new TransitionState(stateComponent);
+            var jumpState = new TransitionState(stateComponent);
+
+            var requirementLeft = new RequirementDelegate();
+            requirementLeft.Add(() => Keyboard.GetState().IsKeyDown(Keys.A));
+            var walkLeftTransition = new Transition(requirementLeft, walkLeftState);
+            walkLeftState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedNegative();
+
+            var requirementRight = new RequirementDelegate();
+            requirementRight.Add(() => Keyboard.GetState().IsKeyDown(Keys.D));
+            var walkRightTransition = new Transition(requirementRight, walkRightState);
+            walkRightState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedPositive();
+
+            var requirementJump = new RequirementDelegate();
+            requirementJump.Add(inputComponent.JumpPressed);
+            var JumpTransition = new Transition(requirementJump, jumpState);
+            jumpState.OnEnterEvent += physicsComponent.Jump;
+            jumpState.OnEnterEvent += () => jumpSound.Play();
+
+            var requirement2 = new RequirementDelegate();
+            requirement2.Add(() => !Keyboard.GetState().IsKeyDown(Keys.A) && !Keyboard.GetState().IsKeyDown(Keys.D));
+            var idleTransition = new Transition(requirement2, idleState);
+
+            var requirementSword = new RequirementDelegate();
+            requirementSword.Add(swordComponent.SwordPressed);
+            var swordTransition = new Transition(requirementSword, attackState);
+            attackState.OnEnterEvent += swordComponent.CreateSword;
+
+            idleState.transitions.Add(walkRightTransition);
+            idleState.transitions.Add(walkLeftTransition);
+            idleState.transitions.Add(JumpTransition);
+            idleState.transitions.Add(swordTransition);
+
+            walkRightState.transitions.Add(idleTransition);
+            walkRightState.transitions.Add(walkLeftTransition);
+            walkRightState.transitions.Add(JumpTransition);
+            walkRightState.transitions.Add(swordTransition);
+
+            walkLeftState.transitions.Add(idleTransition);
+            walkLeftState.transitions.Add(walkRightTransition);
+            walkLeftState.transitions.Add(JumpTransition);
+            walkLeftState.transitions.Add(swordTransition);
+
+            jumpState.transitions.Add(walkRightTransition);
+            jumpState.transitions.Add(walkLeftTransition);
+            jumpState.transitions.Add(idleTransition);
+            jumpState.transitions.Add(swordTransition);
+
+            attackState.transitions.Add(walkRightTransition);
+            attackState.transitions.Add(walkLeftTransition);
+            attackState.transitions.Add(JumpTransition);
+            attackState.transitions.Add(idleTransition);
+
+            stateComponent.TransitionToState(idleState);
+
+            player.AddComponent(stateComponent);
             player.AddComponent(physicsComponent);
             player.AddComponent(inputComponent);
             player.AddComponent(swordComponent);

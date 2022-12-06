@@ -31,5 +31,6 @@ namespace EE.InputSystem {
             }
 
         }
+        public bool JumpPressed() => Keyboard.GetState().IsKeyDown(Keys.Space) && spaceReleased;
     }
 }

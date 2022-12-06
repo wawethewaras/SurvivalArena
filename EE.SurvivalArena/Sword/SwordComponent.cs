@@ -12,6 +12,7 @@ namespace SurvivalArena.Sword {
         public Vector2 Offset;
         bool mReleased = true;
         public GameObject sword;
+        public MouseState mState;
 
         public float swordTime = 0.25f;
         public float swordTimeCounter = 0;
@@ -29,13 +30,13 @@ namespace SurvivalArena.Sword {
             if (swordTimeCounter > 0) {
                 swordTimeCounter -= gameTime;
             }
-            var mState = Mouse.GetState();
+            mState = Mouse.GetState();
 
-            if (mState.LeftButton == ButtonState.Pressed && mReleased) {
-                mReleased = false;
-                swordTimeCounter = swordTime;
-                SwordAttack?.Invoke();
-            }
+            //if (mState.LeftButton == ButtonState.Pressed && mReleased) {
+            //    mReleased = false;
+            //    swordTimeCounter = swordTime;
+            //    SwordAttack?.Invoke();
+            //}
             if (mState.LeftButton == ButtonState.Released || swordTimeCounter <= 0) {
                 SwordAttackCancel?.Invoke();
             }
@@ -45,6 +46,12 @@ namespace SurvivalArena.Sword {
                 mReleased = true;
             }
         }
+        public bool SwordPressed() => mState.LeftButton == ButtonState.Pressed && mReleased;
 
+        public void CreateSword() {
+            mReleased = false;
+            swordTimeCounter = swordTime;
+            SwordAttack?.Invoke();
+        }
     }
 }

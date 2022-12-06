@@ -50,11 +50,10 @@ namespace EE.StateSystem {
     }
     public class TransitionState : State {
         public StateComponent stateComponent;
-        public List<Transition> transitions;
+        public List<Transition> transitions = new List<Transition>();
 
-        public TransitionState(StateComponent stateComponent, List<Transition> transitions) {
+        public TransitionState(StateComponent stateComponent) {
             this.stateComponent = stateComponent;
-            this.transitions = transitions;
         }
 
         public override void OnEnter() {

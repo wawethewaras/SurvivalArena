@@ -35,7 +35,9 @@ namespace EE.SpriteRendererSystem {
             }
 
         }
-
+        public void ChangeAnimation(SpriteAnimation newSpriteAnimation) {
+            spriteAnimation = newSpriteAnimation;
+        }
         public void OnDestroy() {
             spriteRendererComponents.Remove(this);
         }

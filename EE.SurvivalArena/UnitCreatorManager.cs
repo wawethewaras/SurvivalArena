@@ -200,7 +200,7 @@ namespace EE.SurvivalArena {
             var inputComponent = new InputComponent();
             var swordComponent = new SwordComponent(swordTexture, player);
             var health = new HealthComponent(5, player);
-            var spriteRendererComponent = new SpriteRendererComponent(playerAnimation_Walk, player, collider);
+            var spriteRendererComponent = new SpriteRendererComponent(playerAnimation_Idle, player, collider);
 
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(swordTexture.Width, 0));
             var swordRender = new SpriteRendererComponent(swordAnimation, hasOffSet, collider);
@@ -236,11 +236,13 @@ namespace EE.SurvivalArena {
             requirementLeft.Add(() => Keyboard.GetState().IsKeyDown(Keys.A));
             var walkLeftTransition = new Transition(requirementLeft, walkLeftState);
             walkLeftState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedNegative();
+            walkLeftState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Walk);
 
             var requirementRight = new RequirementDelegate();
             requirementRight.Add(() => Keyboard.GetState().IsKeyDown(Keys.D));
             var walkRightTransition = new Transition(requirementRight, walkRightState);
             walkRightState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedPositive();
+            walkRightState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Walk);
 
             var requirementJump = new RequirementDelegate();
             requirementJump.Add(inputComponent.JumpPressed);
@@ -251,6 +253,8 @@ namespace EE.SurvivalArena {
             var requirement2 = new RequirementDelegate();
             requirement2.Add(() => !Keyboard.GetState().IsKeyDown(Keys.A) && !Keyboard.GetState().IsKeyDown(Keys.D));
             var idleTransition = new Transition(requirement2, idleState);
+            idleState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Idle);
+
 
             var requirementSword = new RequirementDelegate();
             requirementSword.Add(swordComponent.SwordPressed);

@@ -63,6 +63,7 @@ namespace EE.SurvivalArena {
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
             health.DeathEvent += SurvivalArenaGame.Win;
+            health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
 
 
             PoolManager.gameObjects.Add(spawner2);
@@ -111,6 +112,7 @@ namespace EE.SurvivalArena {
                     SpawnPotion(contentManager, spawner2.position);
                 }
             };
+            health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
 
             health.HitEvent += () => hitSound.Play();
 
@@ -158,6 +160,8 @@ namespace EE.SurvivalArena {
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
+            health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
+
             health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
@@ -402,6 +406,50 @@ namespace EE.SurvivalArena {
                 }
             };
             PoolManager.gameObjects.Add(spawner2);
+        }
+        public static void SpawnExplosion(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("ParticleExplosion");
+            var texture2Ds = new Texture2D[] {
+                texture2D
+            };
+
+
+            var potionTexture = new SpriteAnimation(texture2Ds);
+
+
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(potionTexture, spawner2, null);
+            var delayComponent = new DelayComponent();
+            delayComponent.Reset();
+            delayComponent.SwordAttack += () => {
+                poolableComponent.ReleaseSelf();
+                spriteRendererComponent.OnDestroy();
+
+            };
+            spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(delayComponent);
+
+
+            PoolManager.gameObjects.Add(spawner2);
+        }
+    }
+    public class DelayComponent : IComponent {
+        public float swordTime = 0.25f;
+        public float swordTimeCounter = 0;
+        public event Action SwordAttack;
+
+        public void Reset() {
+            swordTimeCounter = swordTime;
+
+        }
+        public void Update(float gameTime) {
+            swordTimeCounter -= gameTime;
+
+            if (swordTimeCounter < 0) {
+                SwordAttack?.Invoke();
+                swordTimeCounter = swordTime;
+            }
         }
     }
 }

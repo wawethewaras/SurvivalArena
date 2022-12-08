@@ -67,13 +67,13 @@ namespace EE.SurvivalArena {
         }
 
         public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
-            var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var texture2D = contentManager.Load<Texture2D>("Enem_Run");
             var enemyAnimation = new SpriteAnimation(texture2D,32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
+            var collider = new ColliderComponent(spawner2, 32, 32);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -124,11 +124,12 @@ namespace EE.SurvivalArena {
             
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
+            var collider = new ColliderComponent(spawner2, 32, 32);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             var health = new HealthComponent(1, spawner2);
+            health.hurtTag = "Sword";
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
@@ -140,12 +141,22 @@ namespace EE.SurvivalArena {
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
 
-            health.hurtTag = "Sword";
+
+            var delayComponent = new DelayComponent();
+            delayComponent.swordTime = 4;
+            delayComponent.Reset();
+            delayComponent.SwordAttack += () => {
+                poolableComponent.ReleaseSelf();
+                spriteRendererComponent.OnDestroy();
+
+            };
+
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
             spawner2.AddComponent(stateComponent);
+            spawner2.AddComponent(delayComponent);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
@@ -162,7 +173,7 @@ namespace EE.SurvivalArena {
 
         public static void CreatePlayer(ContentManager contentManager, Vector2 position) {
             var playerTexture = contentManager.Load<Texture2D>("Player");
-            var playerTexture2 = contentManager.Load<Texture2D>("Player2");
+            var playerTexture2 = contentManager.Load<Texture2D>("Player_Run");
 
             var swordTexture = contentManager.Load<Texture2D>("Player");
 

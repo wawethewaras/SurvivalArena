@@ -40,6 +40,10 @@ namespace SurvivalArena.ColliderSystem {
         }
 
         public Vector2 CheckCollision(Vector2 velocity) {
+            //Quick hack since zero velocity doesn't currently cause collision
+            if (velocity.X == 0 && velocity.Y == 0) {
+                velocity = new Vector2(0.1f,0.1f);
+            }
 
             for (int i = ColliderComponents.Count - 1; i >= 0; i--) {
                 var collidedWithSomething = false;

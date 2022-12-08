@@ -1,17 +1,29 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace EE.SpriteRendererSystem {
     public class SpriteAnimation {
-        public Texture2D[] sprites;
+        public List<Sprite> sprites = new List<Sprite>();
 
         private int currentIndex = 0;
 
         public float frameTimer = 0;
-        public float frameDuration = 0.2f; //ms
+        public float frameDuration = 0.2f;
         public bool loop = true;
 
-        public SpriteAnimation(Texture2D[] sprites) {
-            this.sprites = sprites;
+        public SpriteAnimation(Texture2D texture2D, int frameSize) {
+            var width = texture2D.Width;
+            var height = texture2D.Height;
+
+            for (int y = 0; y < height; y += frameSize) {
+                for (int x = 0; x < width; x += frameSize) {
+                    var sprite = new Sprite();
+                    sprite.sourceRectangle = new Rectangle(x,y,frameSize,frameSize);
+                    sprite.texture2D = texture2D;
+                    sprites.Add(sprite);
+                }
+            }
+
         }
 
         public void Update(float gameTime) {
@@ -19,12 +31,17 @@ namespace EE.SpriteRendererSystem {
             if (frameTimer >= frameDuration) {
                 frameTimer = 0;
                 currentIndex++;
-                if (currentIndex >= sprites.Length) {
-                    currentIndex = loop ? 0 : sprites.Length - 1;
+                if (currentIndex >= sprites.Count) {
+                    currentIndex = loop ? 0 : sprites.Count - 1;
                 }
             }
         }
 
-        public Texture2D GetTexture() => sprites[currentIndex];
+        public Sprite GetSprite() => sprites[currentIndex];
+    }
+    public class Sprite {
+        public Rectangle sourceRectangle;
+        public Texture2D texture2D;
+
     }
 }

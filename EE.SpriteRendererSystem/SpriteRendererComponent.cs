@@ -25,13 +25,13 @@ namespace EE.SpriteRendererSystem {
             if (!isActive) {
                 return;
             }
-            var _texture = spriteAnimation.GetTexture();
+            var sprite = spriteAnimation.GetSprite();
             if (hasFacingDirection != null && !hasFacingDirection.LookingRight) {
                 SpriteEffects flip = SpriteEffects.FlipHorizontally;
-                spriteBatch.Draw(_texture, hasPosition.Position, null, Color.White, 0, Vector2.Zero, 1, flip, 1);
+                spriteBatch.Draw(sprite.texture2D, hasPosition.Position, sprite.sourceRectangle, Color.White, 0, Vector2.Zero, 1, flip, 1);
             }
             else {
-                spriteBatch.Draw(_texture, hasPosition.Position, Color.White);
+                spriteBatch.Draw(sprite.texture2D, hasPosition.Position, sprite.sourceRectangle, Color.White, 0, Vector2.Zero, 1, SpriteEffects.None, 1);
             }
 
         }

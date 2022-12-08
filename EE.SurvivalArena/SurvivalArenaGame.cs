@@ -67,6 +67,8 @@ namespace SurvivalArena {
             uICanvas = new UICanvas(screen.Width, screen.Height, font);
 
             menuManager = new MainMenuManager();
+            MainMenuManager.screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
+            MainMenuManager.screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
 
             var startTexture = contentManager.Load<Texture2D>("start_button");
 

@@ -5,8 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 namespace SurvivalArena {
     internal class BaseGame : Game {
 
-        private const int SCREENWIDTH = 1280;
-        private const int SCREENHEIGHT = 720;
+        private const int SCREENWIDTH = 1920;
+        private const int SCREENHEIGHT = 1080;
         private const int GAMEWIDTH = 640;
         private const int GAMEHEIGHT= 480;
 

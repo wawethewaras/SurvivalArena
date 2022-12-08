@@ -9,6 +9,9 @@ namespace MainMenuSystem {
         public EEButton start;
         public EEButton quit;
 
+        public static float screenScaleWitdh = 1;
+        public static float screenScaleHeight = 1;
+
         public MainMenuManager() {
         }
 

@@ -52,7 +52,7 @@ namespace MainMenuSystem {
         public void Draw(SpriteBatch spriteBatch) {
             var color = isHovered ? Color.Gray : Color.White;
             color = isClicked ? Color.Black : color;
-            var rectangleSmall = new Rectangle(rectangle.X / 2, (int)(rectangle.Y /1.5f), rectangle.Width / 2, (int)(rectangle.Height/1.5f));
+            var rectangleSmall = new Rectangle((int)(rectangle.X / MainMenuManager.screenScaleWitdh), (int)(rectangle.Y / MainMenuManager.screenScaleHeight), (int)(rectangle.Width / MainMenuManager.screenScaleWitdh), (int)(rectangle.Height/ MainMenuManager.screenScaleHeight));
 
             spriteBatch.Draw(texture2D, rectangleSmall, color);
         }

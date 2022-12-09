@@ -51,13 +51,13 @@ namespace EE.InputSystem {
             if (Keyboard.GetState().IsKeyDown(Keys.A)) {
                 APressed = true;
             }
-            else if (Keyboard.GetState().IsKeyDown(Keys.D)) {
+            if (Keyboard.GetState().IsKeyDown(Keys.D)) {
                 DPressed = true;
             }
             if (Keyboard.GetState().IsKeyUp(Keys.A)) {
                 APressed = false;
             }
-            else if (Keyboard.GetState().IsKeyUp(Keys.D)) {
+            if (Keyboard.GetState().IsKeyUp(Keys.D)) {
                 DPressed = false;
             }
 

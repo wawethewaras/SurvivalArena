@@ -20,7 +20,6 @@ using SurvivalArena.TileSystem;
 namespace EE.SurvivalArena {
     public static class UnitCreatorManager {
         public static void CreateEnemySpawner(ContentManager contentManager, Vector2 position) {
-            var enemyTexture = contentManager.Load<Texture2D>("Enemy"); 
             var spawner = new GameObjectSpawner(contentManager, position);
 
             PoolManager.gameObjects.Add(spawner);
@@ -67,7 +66,7 @@ namespace EE.SurvivalArena {
         }
 
         public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
-            var texture2D = contentManager.Load<Texture2D>("Enem_Run");
+            var texture2D = contentManager.Load<Texture2D>("Slime");
             var enemyAnimation = new SpriteAnimation(texture2D,32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
@@ -115,7 +114,7 @@ namespace EE.SurvivalArena {
 
 
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
-            var texture2D = contentManager.Load<Texture2D>("Enemy");
+            var texture2D = contentManager.Load<Texture2D>("Plant");
 
             var enemyAnimation = new SpriteAnimation(texture2D, 32);
 

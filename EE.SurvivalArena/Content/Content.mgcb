@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/ParticleExplosion.png;ParticleExplosion.png
 
+#begin ../../Assets/Plant.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Plant.png;Plant.png
+
 #begin ../../Assets/Player.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -73,7 +85,7 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Player2.png;Player2.png
 
-#begin ../../Assets/Player2.png
+#begin ../../Assets/Slime.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,7 +95,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../Assets/Player2.png;Player2.png
+/build:../../Assets/Slime.png;Slime.png
 
 #begin BGMusic.mp3
 /importer:Mp3Importer

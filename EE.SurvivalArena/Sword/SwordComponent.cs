@@ -32,16 +32,10 @@ namespace SurvivalArena.Sword {
             }
             mState = Mouse.GetState();
 
-            if (mState.LeftButton == ButtonState.Released || swordTimeCounter <= 0) {
+            if (swordTimeCounter <= 0) {
                 SwordAttackCancel?.Invoke();
-            }
-            if (mState.LeftButton == ButtonState.Released) {
-                SwordAttackCancel?.Invoke();
-
-                mReleased = true;
             }
         }
-        public bool SwordPressed() => mState.LeftButton == ButtonState.Pressed && mReleased;
 
         public void CreateSword() {
             mReleased = false;

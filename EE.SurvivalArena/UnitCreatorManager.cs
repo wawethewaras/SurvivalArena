@@ -231,31 +231,31 @@ namespace EE.SurvivalArena {
             var jumpState = new TransitionState(stateComponent);
 
             var requirementLeft = new RequirementDelegate();
-            requirementLeft.Add(() => Keyboard.GetState().IsKeyDown(Keys.A));
+            requirementLeft.Add(() => inputComponent.APressed);
             var walkLeftTransition = new Transition(requirementLeft, walkLeftState);
             walkLeftState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedNegative();
             walkLeftState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Walk);
 
             var requirementRight = new RequirementDelegate();
-            requirementRight.Add(() => Keyboard.GetState().IsKeyDown(Keys.D));
+            requirementRight.Add(() => inputComponent.DPressed);
             var walkRightTransition = new Transition(requirementRight, walkRightState);
             walkRightState.OnActEvent += (float tick) => physicsComponent.SetMovementSpeedPositive();
             walkRightState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Walk);
 
             var requirementJump = new RequirementDelegate();
-            requirementJump.Add(inputComponent.JumpPressed);
+            requirementJump.Add(() => inputComponent.SpacePressed);
             var JumpTransition = new Transition(requirementJump, jumpState);
             jumpState.OnEnterEvent += physicsComponent.Jump;
             jumpState.OnEnterEvent += () => jumpSound.Play();
 
             var requirement2 = new RequirementDelegate();
-            requirement2.Add(() => !Keyboard.GetState().IsKeyDown(Keys.A) && !Keyboard.GetState().IsKeyDown(Keys.D));
+            requirement2.Add(() => !inputComponent.APressed && !inputComponent.DPressed);
             var idleTransition = new Transition(requirement2, idleState);
             idleState.OnEnterEvent += () => spriteRendererComponent.ChangeAnimation(playerAnimation_Idle);
 
 
             var requirementSword = new RequirementDelegate();
-            requirementSword.Add(swordComponent.SwordPressed);
+            requirementSword.Add(() => inputComponent.AttackPressed);
             var swordTransition = new Transition(requirementSword, attackState);
             attackState.OnEnterEvent += swordComponent.CreateSword;
 

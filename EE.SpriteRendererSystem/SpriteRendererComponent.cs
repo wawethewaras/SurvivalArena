@@ -3,6 +3,15 @@ using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
 namespace EE.SpriteRendererSystem {
+    public static class DrawManager {
+        public static void DrawAll(SpriteBatch spriteBatch) {
+            SpriteRendererComponent.spriteRendererComponents = SpriteRendererComponent.spriteRendererComponents.OrderByDescending(x => x.DrawOrder).ToList();
+
+            for (int i = SpriteRendererComponent.spriteRendererComponents.Count - 1; i >= 0; i--) {
+                SpriteRendererComponent.spriteRendererComponents[i].Draw(spriteBatch);
+            }
+        }
+    }
     public class SpriteRendererComponent : IComponent, IEEDrawable {
         public static List<IEEDrawable> spriteRendererComponents = new List<IEEDrawable>();
 
@@ -11,6 +20,10 @@ namespace EE.SpriteRendererSystem {
         public IHasFacingDirection hasFacingDirection;
 
         private bool isActive = true;
+
+        private int drawOrder = 0;
+        public int DrawOrder => drawOrder;
+
         public SpriteRendererComponent(SpriteAnimation spriteAnimation, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection = null) {
             this.spriteAnimation = spriteAnimation;
             this.hasPosition = hasPosition;

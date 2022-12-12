@@ -16,7 +16,8 @@ namespace EE.HealthSystem {
         HealthComponent healthComponent;
         Vector2 textPosition;
         Vector2 offset;
-
+        private int drawOrder = 1;
+        public int DrawOrder => drawOrder;
         public HealthUIManager(ContentManager contentManager, HealthComponent healthComponent) {
             font = contentManager.Load<SpriteFont>("FontTest");
             this.healthComponent = healthComponent;

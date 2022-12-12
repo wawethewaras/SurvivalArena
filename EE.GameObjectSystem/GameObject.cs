@@ -43,6 +43,7 @@ namespace SurvivalArena.GameObjects {
         public bool LookingRight { get; set; }
     }
     public interface IEEDrawable {
+        public int DrawOrder { get; }
         void Draw(SpriteBatch spriteBatch);
     }
 }

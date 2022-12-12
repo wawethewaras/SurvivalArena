@@ -18,8 +18,15 @@ namespace SurvivalArena.TileSystem {
         private const int tileSize = 16;
 
         Texture2D background;
+        Texture2D treeBackground;
+
         public Level(ContentManager contentManager) {
             background = contentManager.Load<Texture2D>("Background");
+            var bg = new BGDrawer(background);
+            bg.drawOrder = -12;
+            treeBackground = contentManager.Load<Texture2D>("Tree_BG");
+            var bg2 = new BGDrawer(treeBackground);
+            bg2.drawOrder = -11;
 
             var filepath = string.Format("Content/level.txt"); ;
 
@@ -54,22 +61,32 @@ namespace SurvivalArena.TileSystem {
             }
         }
 
-
-
         public void Update(float gameTime) {
             for (int i = PoolManager.gameObjects.Count - 1; i >= 0; i--) {
                 PoolManager.gameObjects[i].Update(gameTime);
             }
         }
+
         public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(background, Vector2.Zero,Color.White);
-
-
-            for (int i = SpriteRendererComponent.spriteRendererComponents.Count - 1; i >= 0; i--) {
-                SpriteRendererComponent.spriteRendererComponents[i].Draw(spriteBatch);
-            }
+            DrawManager.DrawAll(spriteBatch);
         }
     }
+    public class BGDrawer : IEEDrawable {
+        private Texture2D texture2D;
 
+
+        public int drawOrder = -1;
+
+        public BGDrawer(Texture2D texture2D) {
+            this.texture2D = texture2D;
+            SpriteRendererComponent.spriteRendererComponents.Add(this);
+        }
+
+        public int DrawOrder => drawOrder;
+
+        public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(texture2D, Vector2.Zero, Color.White);
+        }
+    }
 
 }

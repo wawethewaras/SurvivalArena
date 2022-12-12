@@ -16,7 +16,11 @@ namespace SurvivalArena.TileSystem {
     public class Level {
         public static IHasPosition Player;
         private const int tileSize = 16;
+
+        Texture2D background;
         public Level(ContentManager contentManager) {
+            background = contentManager.Load<Texture2D>("Background");
+
             var filepath = string.Format("Content/level.txt"); ;
 
             using (Stream fileStream = TitleContainer.OpenStream(filepath)) {
@@ -36,7 +40,10 @@ namespace SurvivalArena.TileSystem {
                                 UnitCreatorManager.CreateEnemySpawner(contentManager, position);
                             }
                             else if (tileIds[i] == '#') {
-                                UnitCreatorManager.CreateTile(contentManager, position);
+                                UnitCreatorManager.CreateTileGround(contentManager, position);
+                            }
+                            else if (tileIds[i] == '_') {
+                                UnitCreatorManager.CreateTileGrass(contentManager, position);
                             }
                         }
                         line = reader.ReadLine();
@@ -55,6 +62,9 @@ namespace SurvivalArena.TileSystem {
             }
         }
         public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(background, Vector2.Zero,Color.White);
+
+
             for (int i = SpriteRendererComponent.spriteRendererComponents.Count - 1; i >= 0; i--) {
                 SpriteRendererComponent.spriteRendererComponents[i].Draw(spriteBatch);
             }

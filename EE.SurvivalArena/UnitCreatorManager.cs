@@ -303,8 +303,16 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(player);
         }
 
-        public static void CreateTile(ContentManager contentManager, Vector2 position) {
+        public static void CreateTileGround(ContentManager contentManager, Vector2 position) {
             var tileTexture = contentManager.Load<Texture2D>("Tile");
+            CreateTile(tileTexture, position);
+        }
+        public static void CreateTileGrass(ContentManager contentManager, Vector2 position) {
+            var tileTexture = contentManager.Load<Texture2D>("Tile_Grass");
+            CreateTile(tileTexture, position);
+        }
+
+        public static void CreateTile(Texture2D tileTexture, Vector2 position) {
             var tileAnimation = new SpriteAnimation(tileTexture, 16);
 
             var tile = new Tile();

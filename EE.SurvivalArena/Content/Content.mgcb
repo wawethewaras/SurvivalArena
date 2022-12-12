@@ -73,7 +73,7 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Player_Run.png;Player_Run.png
 
-#begin ../../Assets/Player2.png
+#begin ../../Assets/PoisonBolt.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,7 +83,7 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:../../Assets/Player2.png;Player2.png
+/build:../../Assets/PoisonBolt.png;PoisonBolt.png
 
 #begin ../../Assets/Slime.png
 /importer:TextureImporter
@@ -96,6 +96,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Assets/Slime.png;Slime.png
+
+#begin ../../Assets/SporeBolt.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/SporeBolt.png;SporeBolt.png
+
+#begin ../../Assets/Tile.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Tile.png;Tile.png
 
 #begin BGMusic.mp3
 /importer:Mp3Importer
@@ -241,16 +265,4 @@
 
 #begin SurvivalArena.csv
 /copy:SurvivalArena.csv
-
-#begin Tile.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tile.png
 

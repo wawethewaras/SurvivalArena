@@ -75,5 +75,10 @@ namespace SurvivalArena.Physics {
             velocity.X += moveSpeed * direction;
 
         }
+        public void ADMovement(float gameTime, bool facingDirection) {
+            int direction = facingDirection ? 1 : -1;
+            velocity.X += moveSpeed * direction;
+
+        }
     }
 }

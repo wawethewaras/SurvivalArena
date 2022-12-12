@@ -123,7 +123,7 @@ namespace EE.SurvivalArena {
             
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, 32, 32);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
@@ -174,12 +174,12 @@ namespace EE.SurvivalArena {
             var playerTexture = contentManager.Load<Texture2D>("Player");
             var playerTexture2 = contentManager.Load<Texture2D>("Player_Run");
 
-            var swordTexture = contentManager.Load<Texture2D>("Player");
+            var swordTexture = contentManager.Load<Texture2D>("SporeBolt");
 
 
-            var playerAnimation_Idle = new SpriteAnimation(playerTexture, 64);
-            var playerAnimation_Walk = new SpriteAnimation(playerTexture2, 64);
-            var swordAnimation = new SpriteAnimation(swordTexture, 64);
+            var playerAnimation_Idle = new SpriteAnimation(playerTexture, 32);
+            var playerAnimation_Walk = new SpriteAnimation(playerTexture2, 32);
+            var swordAnimation = new SpriteAnimation(swordTexture, 32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt");
 
@@ -317,9 +317,9 @@ namespace EE.SurvivalArena {
         }
 
         public static void SpawnProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
-            var texture2D = contentManager.Load<Texture2D>("Bomb");
+            var texture2D = contentManager.Load<Texture2D>("PoisonBolt");
 
-            var bombAnimation = new SpriteAnimation(texture2D,32);
+            var bombAnimation = new SpriteAnimation(texture2D,16);
             var explosionSound = contentManager.Load<SoundEffect>("Explosion");
 
 
@@ -327,11 +327,11 @@ namespace EE.SurvivalArena {
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
-            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var direction = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
             var state = new State();
-            state.OnActEvent += physicsComponent.ADMovement;
+            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(gametime, direction);
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
             var poolableComponent = new PoolableComponent(spawner2);

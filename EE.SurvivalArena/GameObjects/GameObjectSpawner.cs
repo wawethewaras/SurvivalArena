@@ -50,9 +50,5 @@ namespace SurvivalArena.GameObjects {
             }
         }
 
-
-
-        public void Draw(SpriteBatch spriteBatch) {
-        }
     }
 }

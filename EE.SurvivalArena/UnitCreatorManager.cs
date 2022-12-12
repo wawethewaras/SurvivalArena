@@ -24,6 +24,47 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner);
         }
+        public static void SpawnSlugrinEnemy(ContentManager contentManager, Vector2 spawnPosition) {
+            var texture2D = contentManager.Load<Texture2D>("Slugrin");
+            var enemyAnimation = new SpriteAnimation(texture2D, 32, 45);
+
+
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            collider.tag = "Enemy";
+            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            physicsComponent.moveSpeed = 400;
+            var state = new State();
+            state.OnActEvent += physicsComponent.ADMovement;
+            var stateComponent = new StateComponent();
+            stateComponent.TransitionToState(state);
+
+
+
+            var health = new HealthComponent(5, spawner2);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
+            var score = new ScoreComponent(100, 1);
+            health.hurtTag = "Sword";
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(stateComponent);
+            spawner2.AddComponent(health);
+            spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(score);
+
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            health.DeathEvent += collider.RemoveCollider;
+            health.DeathEvent += poolableComponent.ReleaseSelf;
+            health.DeathEvent += spriteRendererComponent.OnDestroy;
+            health.DeathEvent += score.AddScore;
+            //health.DeathEvent += SurvivalArenaGame.Win;
+            health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
+
+
+            PoolManager.gameObjects.Add(spawner2);
+
+        }
         public static void SpawnBossEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Slughound");
             var enemyAnimation = new SpriteAnimation(texture2D, 38, 32);

@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
-        public int maxWaves = 20;
+        public int maxWaves = 10;
         public static int currentWaves = 0;
 
 
@@ -15,25 +15,35 @@ namespace SurvivalArena.GameObjects {
         protected Vector2 spawnPosition;
 
         public float invurnableDurationTimer = 0;
-        List<int> numbers = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3 };
+        //List<int> numbers = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3 };
+        List<int> numbers = new List<int>() { 1, 1 };
+
+        List<int> currentList = new List<int>();
 
         public GameObjectSpawner(ContentManager contentManager, Vector2 spawnPosition) {
             this.contentManager = contentManager;
             this.spawnPosition = spawnPosition;
-
+            foreach (var item in numbers) {
+                currentList.Add(item);
+            }
         }
 
         public void Update(float gameTime) {
 
-            if (numbers.Count <= 0) {
-                SurvivalArenaGame.Win();
+            if (currentList.Count <= 0) {
+                UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
+                Random random = new Random();
+                invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
+                foreach (var item in numbers) {
+                    currentList.Add(item);
+                }
             }
 
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
                 Random random = new Random();
-                var randomIndex = random.Next(0, numbers.Count);
-                var randomNumber = numbers[randomIndex];
+                var randomIndex = random.Next(0, currentList.Count);
+                var randomNumber = currentList[randomIndex];
                 if (randomNumber == 3) {
                     UnitCreatorManager.SpawnBossEnemy(contentManager, spawnPosition);
                 }
@@ -44,7 +54,7 @@ namespace SurvivalArena.GameObjects {
                     UnitCreatorManager.SpawnADEnemy(contentManager, spawnPosition);
                 }
 
-                numbers.RemoveAt(randomIndex);
+                currentList.RemoveAt(randomIndex);
                 invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
                 currentWaves++;
             }

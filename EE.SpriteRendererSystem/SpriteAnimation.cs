@@ -11,14 +11,14 @@ namespace EE.SpriteRendererSystem {
         public float frameDuration = 0.2f;
         public bool loop = true;
 
-        public SpriteAnimation(Texture2D texture2D, int frameSize) {
+        public SpriteAnimation(Texture2D texture2D, int frameSizeX, int frameSizeY) {
             var width = texture2D.Width;
             var height = texture2D.Height;
 
-            for (int y = 0; y < height; y += frameSize) {
-                for (int x = 0; x < width; x += frameSize) {
+            for (int y = 0; y < height; y += frameSizeY) {
+                for (int x = 0; x < width; x += frameSizeX) {
                     var sprite = new Sprite();
-                    sprite.sourceRectangle = new Rectangle(x,y,frameSize,frameSize);
+                    sprite.sourceRectangle = new Rectangle(x,y, frameSizeX, frameSizeY);
                     sprite.texture2D = texture2D;
                     sprites.Add(sprite);
                 }

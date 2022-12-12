@@ -109,6 +109,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Slime.png;Slime.png
 
+#begin ../../Assets/Slughound.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Slughound.png;Slughound.png
+
 #begin ../../Assets/SporeBolt.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -174,18 +186,6 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Bomb.png
-
-#begin Boss.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Boss.png
 
 #begin Enemy.png
 /importer:TextureImporter

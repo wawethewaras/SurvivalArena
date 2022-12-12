@@ -25,8 +25,8 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(spawner);
         }
         public static void SpawnBossEnemy(ContentManager contentManager, Vector2 spawnPosition) {
-            var texture2D = contentManager.Load<Texture2D>("Boss");
-            var enemyAnimation = new SpriteAnimation(texture2D, 64);
+            var texture2D = contentManager.Load<Texture2D>("Slughound");
+            var enemyAnimation = new SpriteAnimation(texture2D, 38, 32);
 
 
             GameObject spawner2 = new GameObject(spawnPosition);
@@ -34,7 +34,7 @@ namespace EE.SurvivalArena {
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
-            physicsComponent.moveSpeed = 500;
+            physicsComponent.moveSpeed = 250;
             var state = new State();
             state.OnActEvent += physicsComponent.ADMovement;
             var stateComponent = new StateComponent();
@@ -42,7 +42,7 @@ namespace EE.SurvivalArena {
 
 
 
-            var health = new HealthComponent(5, spawner2);
+            var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
@@ -58,7 +58,7 @@ namespace EE.SurvivalArena {
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
             health.DeathEvent += score.AddScore;
-            health.DeathEvent += SurvivalArenaGame.Win;
+            //health.DeathEvent += SurvivalArenaGame.Win;
             health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
 
 
@@ -67,7 +67,7 @@ namespace EE.SurvivalArena {
 
         public static void SpawnADEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Slime");
-            var enemyAnimation = new SpriteAnimation(texture2D,32);
+            var enemyAnimation = new SpriteAnimation(texture2D,32, 32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
@@ -116,7 +116,7 @@ namespace EE.SurvivalArena {
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Plant");
 
-            var enemyAnimation = new SpriteAnimation(texture2D, 32);
+            var enemyAnimation = new SpriteAnimation(texture2D, 32, 32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
@@ -177,9 +177,9 @@ namespace EE.SurvivalArena {
             var swordTexture = contentManager.Load<Texture2D>("SporeBolt");
 
 
-            var playerAnimation_Idle = new SpriteAnimation(playerTexture, 32);
-            var playerAnimation_Walk = new SpriteAnimation(playerTexture2, 32);
-            var swordAnimation = new SpriteAnimation(swordTexture, 32);
+            var playerAnimation_Idle = new SpriteAnimation(playerTexture, 32, 32);
+            var playerAnimation_Walk = new SpriteAnimation(playerTexture2, 32, 32);
+            var swordAnimation = new SpriteAnimation(swordTexture, 32, 32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt");
 
@@ -313,7 +313,7 @@ namespace EE.SurvivalArena {
         }
 
         public static void CreateTile(Texture2D tileTexture, Vector2 position) {
-            var tileAnimation = new SpriteAnimation(tileTexture, 16);
+            var tileAnimation = new SpriteAnimation(tileTexture, 16, 16);
 
             var tile = new Tile();
             tile.position = position;
@@ -327,7 +327,7 @@ namespace EE.SurvivalArena {
         public static void SpawnProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("PoisonBolt");
 
-            var bombAnimation = new SpriteAnimation(texture2D,16);
+            var bombAnimation = new SpriteAnimation(texture2D,16, 16);
             var explosionSound = contentManager.Load<SoundEffect>("Explosion");
 
 
@@ -363,7 +363,7 @@ namespace EE.SurvivalArena {
         public static void SpawnPotion(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Heart");
 
-            var potionTexture = new SpriteAnimation(texture2D,16);
+            var potionTexture = new SpriteAnimation(texture2D,16, 16);
             var healSound = contentManager.Load<SoundEffect>("Heal");
 
 
@@ -401,7 +401,7 @@ namespace EE.SurvivalArena {
         public static void SpawnExplosion(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("ParticleExplosion");
 
-            var potionTexture = new SpriteAnimation(texture2D,16);
+            var potionTexture = new SpriteAnimation(texture2D,16, 16);
 
 
             GameObject spawner2 = new GameObject(spawnPosition);

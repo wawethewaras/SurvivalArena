@@ -34,7 +34,7 @@ namespace EE.SurvivalArena {
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
-            physicsComponent.moveSpeed = 350;
+            physicsComponent.moveSpeed = 300;
             var state = new State();
             state.OnActEvent += physicsComponent.ADMovement;
             var stateComponent = new StateComponent();
@@ -45,7 +45,7 @@ namespace EE.SurvivalArena {
             var health = new HealthComponent(5, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
-            var score = new ScoreComponent(100, 1);
+            var score = new ScoreComponent(500, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(stateComponent);
@@ -86,7 +86,7 @@ namespace EE.SurvivalArena {
             var health = new HealthComponent(1, spawner2);
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
-            var score = new ScoreComponent(100, 1);
+            var score = new ScoreComponent(150, 1);
             health.hurtTag = "Sword";
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(stateComponent);

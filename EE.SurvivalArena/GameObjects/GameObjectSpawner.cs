@@ -5,19 +5,19 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
-        public int maxWaves = 2;
+        public int maxWaves = 20;
         public static int currentWaves = 0;
-        public static bool bossSpawned = false;
 
 
         public ContentManager contentManager;
         public int invurnableDurationMax = 6;
         public int invurnableDurationMin = 3;
+        public int delayAfterBoss = 9;
+
         protected Vector2 spawnPosition;
 
         public float invurnableDurationTimer = 0;
-        //List<int> numbers = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3 };
-        List<int> numbers = new List<int>() { 1, 1 };
+        List<int> numbers = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3 };
 
         List<int> currentList = new List<int>();
 
@@ -37,7 +37,7 @@ namespace SurvivalArena.GameObjects {
                 Random random = new Random();
                 if (currentWaves >= maxWaves) {
                     UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
-                    invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
+                    invurnableDurationTimer = delayAfterBoss;
                     currentList.Clear();
                     foreach (var item in numbers) {
                         currentList.Add(item);

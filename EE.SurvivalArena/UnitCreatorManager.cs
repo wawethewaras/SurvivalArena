@@ -30,11 +30,11 @@ namespace EE.SurvivalArena {
 
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            var collider = new ColliderComponent(spawner2, 32, 45);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
-            physicsComponent.moveSpeed = 400;
+            physicsComponent.moveSpeed = 350;
             var state = new State();
             state.OnActEvent += physicsComponent.ADMovement;
             var stateComponent = new StateComponent();
@@ -65,13 +65,13 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(spawner2);
 
         }
-        public static void SpawnBossEnemy(ContentManager contentManager, Vector2 spawnPosition) {
+        public static void SpawnSlugHound(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Slughound");
             var enemyAnimation = new SpriteAnimation(texture2D, 38, 32);
 
 
             GameObject spawner2 = new GameObject(spawnPosition);
-            var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
+            var collider = new ColliderComponent(spawner2, 38, 32);
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);

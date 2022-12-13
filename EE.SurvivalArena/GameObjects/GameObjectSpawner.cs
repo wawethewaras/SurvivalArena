@@ -5,8 +5,9 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
-        public int maxWaves = 10;
+        public int maxWaves = 2;
         public static int currentWaves = 0;
+        public static bool bossSpawned = false;
 
 
         public ContentManager contentManager;
@@ -30,22 +31,25 @@ namespace SurvivalArena.GameObjects {
 
         public void Update(float gameTime) {
 
-            if (currentList.Count <= 0) {
-                UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
-                Random random = new Random();
-                invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
-                foreach (var item in numbers) {
-                    currentList.Add(item);
-                }
-            }
 
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
                 Random random = new Random();
+                if (currentWaves >= maxWaves) {
+                    UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
+                    invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
+                    currentList.Clear();
+                    foreach (var item in numbers) {
+                        currentList.Add(item);
+                    }
+                    currentWaves = 0;
+                    return;
+                }
+
                 var randomIndex = random.Next(0, currentList.Count);
                 var randomNumber = currentList[randomIndex];
                 if (randomNumber == 3) {
-                    UnitCreatorManager.SpawnBossEnemy(contentManager, spawnPosition);
+                    UnitCreatorManager.SpawnSlugHound(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 2) {
                     UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);

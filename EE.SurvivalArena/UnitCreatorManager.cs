@@ -231,7 +231,7 @@ namespace EE.SurvivalArena {
 
             var player = new GameObject(position);
             Level.Player = player;
-            var collider = new ColliderComponent(player, playerTexture.Width , playerTexture.Height );
+            var collider = new ColliderComponent(player, 32, 32);
             collider.tag = "Player";
 
             var physicsComponent = new PhysicsComponent(player, collider);

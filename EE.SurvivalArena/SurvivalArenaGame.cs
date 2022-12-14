@@ -135,14 +135,11 @@ namespace SurvivalArena {
                 case GameState.Win:
                     textInputComponent.Update(time);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) && !ScoreManager.ScoreSaved && ScoreManager.Score > 0) {
-                        gameState = GameState.Running;
-
-                        if (!ScoreManager.ScoreSaved && ScoreManager.Score > 0) {
-                            ScoreManager.Name = textInputComponent.GetText();
-                            ScoreManager.SaveCurrentScore();
-                            ScoreManager.StoreScore();
-                        }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+                        ScoreManager.Name = textInputComponent.GetText();
+                        ScoreManager.SaveCurrentScore();
+                        ScoreManager.StoreScore();
+                        
                         ChangeToRunning();
                         ScoreManager.Score = 0;
                         ScoreManager.ScoreSaved = false;
@@ -181,7 +178,7 @@ namespace SurvivalArena {
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press Enter to Restart.");
 
                     startY += (offset * 4);
-                    textInputComponent.Position = new Vector2(screen.Width, startY);
+                    textInputComponent.Position = new Vector2(screen.Width/2, startY);
                     textInputComponent.Draw(spriteBatch);
                     DrawHighScores(spriteBatch, startY, offset);
                     break;
@@ -190,7 +187,7 @@ namespace SurvivalArena {
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + offset),  $"Score: {ScoreManager.Score}");
                     uICanvas.DrawToCenter(spriteBatch, new Vector2(0, startY + (offset * 2)), "Press Enter to Restart.");
                     startY += (offset * 4);
-                    textInputComponent.Position = new Vector2(0, startY);
+                    textInputComponent.Position = new Vector2(screen.Width / 2, startY);
                     textInputComponent.Draw(spriteBatch);
 
                     DrawHighScores(spriteBatch, startY, offset);

@@ -24,7 +24,7 @@ namespace MainMenuSystem {
             RegisterFocusedButtonForTextInput(OnInput);
 
         }
-        public string GetText() => myTextBoxDisplayCharacters.ToString();
+        public string GetText() => myTextBoxDisplayCharacters.ToString().Replace("\r", "");
         public void ResetText() {
             myTextBoxDisplayCharacters.Clear();
             myTextBoxDisplayCharacters.Append("Player");

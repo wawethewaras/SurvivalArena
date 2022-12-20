@@ -7,10 +7,6 @@ using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.Sword {
     public class SwordComponent : IComponent {
-        public Texture2D swordTexture;
-        public GameObject parent;
-        public Vector2 Offset;
-        bool mReleased = true;
         public GameObject sword;
         public MouseState mState;
 
@@ -20,10 +16,8 @@ namespace SurvivalArena.Sword {
         public event Action SwordAttack;
         public event Action SwordAttackCancel;
 
-        public SwordComponent(Texture2D swordTexture, GameObject parent) {
-            this.swordTexture = swordTexture;
-            this.parent = parent;
-            Offset = new Vector2(swordTexture.Width, 0);
+        public SwordComponent() {
+
         }
 
         public void Update(float gameTime) {
@@ -38,7 +32,6 @@ namespace SurvivalArena.Sword {
         }
 
         public void CreateSword() {
-            mReleased = false;
             swordTimeCounter = swordTime;
             SwordAttack?.Invoke();
         }

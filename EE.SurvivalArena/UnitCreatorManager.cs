@@ -174,7 +174,7 @@ namespace EE.SurvivalArena {
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(100, 1);
             var shootAction = new ShootAction();
-            shootAction.ShootEvent += () => SpawnProjectile(contentManager, spawner2);
+            shootAction.ShootEvent += () => SpawnEnemyProjectile(contentManager, spawner2);
 
             var state = new State();
             state.OnActEvent += shootAction.Shoot;
@@ -215,18 +215,14 @@ namespace EE.SurvivalArena {
             var playerTexture = contentManager.Load<Texture2D>("Player");
             var playerTexture2 = contentManager.Load<Texture2D>("Player_Run");
 
-            var swordTexture = contentManager.Load<Texture2D>("SporeBolt");
-
 
             var playerAnimation_Idle = new SpriteAnimation(playerTexture, 32, 32);
             var playerAnimation_Walk = new SpriteAnimation(playerTexture2, 32, 32);
-            var swordAnimation = new SpriteAnimation(swordTexture, 32, 32);
 
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt");
 
             var gameOverSound = contentManager.Load<SoundEffect>("GameOver");
             var jumpSound = contentManager.Load<SoundEffect>("Jump");
-            var hammerSound = contentManager.Load<SoundEffect>("Hammer");
 
 
             var player = new GameObject(position);
@@ -236,15 +232,13 @@ namespace EE.SurvivalArena {
 
             var physicsComponent = new PhysicsComponent(player, collider);
             var inputComponent = new InputComponent();
-            var swordComponent = new SwordComponent(swordTexture, player);
             var health = new HealthComponent(5, player);
             var spriteRendererComponent = new SpriteRendererComponent(playerAnimation_Idle, player, collider);
 
-            var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(swordTexture.Width, 0));
-            var swordRender = new SpriteRendererComponent(swordAnimation, hasOffSet, collider);
-            var swordCollider = new ColliderComponent(hasOffSet, playerTexture.Width, playerTexture.Height);
-            swordCollider.tag = "Sword";
-            swordCollider.DeActive();
+            var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(32, 0));
+            var delayComponent = new DelayComponent();
+            delayComponent.swordTime = 0.5f;
+            delayComponent.resetOnDefault = false;
 
             health.hurtTag = "Enemy";
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
@@ -295,10 +289,11 @@ namespace EE.SurvivalArena {
 
 
             var requirementSword = new RequirementDelegate();
-            requirementSword.Add(() => inputComponent.AttackPressed);
+            requirementSword.Add(() => inputComponent.AttackPressed && delayComponent.swordTimeCounter <= 0);
             var swordTransition = new Transition(requirementSword, attackState);
-            attackState.OnEnterEvent += swordComponent.CreateSword;
-
+            //attackState.OnEnterEvent += swordComponent.CreateSword;
+            attackState.OnEnterEvent += () => SpawnPlayerProjectile(contentManager, hasOffSet, collider);
+            attackState.OnEnterEvent += () => delayComponent.Reset();
             idleState.transitions.Add(walkRightTransition);
             idleState.transitions.Add(walkLeftTransition);
             idleState.transitions.Add(JumpTransition);
@@ -329,9 +324,28 @@ namespace EE.SurvivalArena {
             player.AddComponent(stateComponent);
             player.AddComponent(physicsComponent);
             player.AddComponent(inputComponent);
-            player.AddComponent(swordComponent);
+            //player.AddComponent(swordComponent);
             player.AddComponent(health);
             player.AddComponent(spriteRendererComponent);
+            player.AddComponent(delayComponent);
+
+            HealthUIManager healthUIManager = new HealthUIManager(contentManager, health);
+            SpriteRendererComponent.spriteRendererComponents.Add(healthUIManager);
+            PoolManager.gameObjects.Add(player);
+        }
+
+        public static SwordComponent SpawnSword(ContentManager contentManager, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection) {
+            var swordTexture = contentManager.Load<Texture2D>("SporeBolt");
+            var hammerSound = contentManager.Load<SoundEffect>("Hammer");
+
+
+            var swordAnimation = new SpriteAnimation(swordTexture, 32, 32);
+            var swordComponent = new SwordComponent();
+
+            var swordRender = new SpriteRendererComponent(swordAnimation, hasPosition, hasFacingDirection);
+            var swordCollider = new ColliderComponent(hasPosition, swordTexture.Width, swordTexture.Height);
+            swordCollider.tag = "Sword";
+            swordCollider.DeActive();
 
             swordComponent.SwordAttack += swordCollider.SetActive;
             swordComponent.SwordAttack += swordRender.SetActive;
@@ -339,11 +353,9 @@ namespace EE.SurvivalArena {
 
             swordComponent.SwordAttackCancel += swordCollider.DeActive;
             swordComponent.SwordAttackCancel += swordRender.DeActive;
-            HealthUIManager healthUIManager = new HealthUIManager(contentManager, health);
-            SpriteRendererComponent.spriteRendererComponents.Add(healthUIManager);
-            PoolManager.gameObjects.Add(player);
-        }
 
+            return swordComponent;
+        }
         public static void CreateTileGround(ContentManager contentManager, Vector2 position) {
             var tileTexture = contentManager.Load<Texture2D>("Tile");
             CreateTile(tileTexture, position);
@@ -365,7 +377,7 @@ namespace EE.SurvivalArena {
 
         }
 
-        public static void SpawnProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
+        public static void SpawnEnemyProjectile(ContentManager contentManager, IHasPosition spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("PoisonBolt");
 
             var bombAnimation = new SpriteAnimation(texture2D,16, 16);
@@ -391,6 +403,42 @@ namespace EE.SurvivalArena {
 
             collider.CollisionEvents += (ColliderComponent x) => {
                 if (x.tag == "Wall" || x.tag == "Player" || x.tag == "Sword") {
+                    collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    x.CollisionFromOther(collider);
+
+                }
+            };
+
+            PoolManager.gameObjects.Add(spawner2);
+        }
+        public static void SpawnPlayerProjectile(ContentManager contentManager, IHasPosition spawnPosition, IHasFacingDirection hasFacingDirection) {
+            var texture2D = contentManager.Load<Texture2D>("SporeBolt");
+
+            var bombAnimation = new SpriteAnimation(texture2D, 32, 32);
+            var explosionSound = contentManager.Load<SoundEffect>("Explosion");
+
+
+            var position = spawnPosition.Position;
+            GameObject spawner2 = new GameObject(position);
+            var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+            collider.tag = "Sword";
+            var direction = hasFacingDirection.LookingRight;
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            physicsComponent.gravity = 0;
+            var state = new State();
+            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(gametime, direction);
+            var stateComponent = new StateComponent();
+            stateComponent.TransitionToState(state);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(bombAnimation, spawner2, collider);
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(stateComponent);
+            spawner2.AddComponent(spriteRendererComponent);
+
+            collider.CollisionEvents += (ColliderComponent x) => {
+                if (x.tag == "Wall") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
@@ -466,6 +514,7 @@ namespace EE.SurvivalArena {
         public float swordTime = 0.25f;
         public float swordTimeCounter = 0;
         public event Action SwordAttack;
+        public bool resetOnDefault = true;
 
         public void Reset() {
             swordTimeCounter = swordTime;
@@ -474,7 +523,7 @@ namespace EE.SurvivalArena {
         public void Update(float gameTime) {
             swordTimeCounter -= gameTime;
 
-            if (swordTimeCounter < 0) {
+            if (resetOnDefault && swordTimeCounter < 0) {
                 SwordAttack?.Invoke();
                 swordTimeCounter = swordTime;
             }

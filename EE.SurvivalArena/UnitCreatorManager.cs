@@ -237,7 +237,7 @@ namespace EE.SurvivalArena {
 
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(32, 0));
             var delayComponent = new DelayComponent();
-            delayComponent.swordTime = 0.5f;
+            delayComponent.swordTime = 0.4f;
             delayComponent.resetOnDefault = false;
 
             health.hurtTag = "Enemy";
@@ -388,11 +388,11 @@ namespace EE.SurvivalArena {
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, texture2D.Width , texture2D.Height );
             collider.tag = "Enemy";
-            var direction = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var direction = Level.Player != null && Level.Player.Position.X > spawner2.position.X ? 1 : -1;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
             var state = new State();
-            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(gametime, direction);
+            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(new Vector2(direction,0));
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
             var poolableComponent = new PoolableComponent(spawner2);
@@ -424,11 +424,11 @@ namespace EE.SurvivalArena {
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Sword";
-            var direction = hasFacingDirection.LookingRight;
+            var direction = hasFacingDirection.LookingRight ? 1 : -1;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
             var state = new State();
-            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(gametime, direction);
+            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(new Vector2(direction, 0));
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
             var poolableComponent = new PoolableComponent(spawner2);

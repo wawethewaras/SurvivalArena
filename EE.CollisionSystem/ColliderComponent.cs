@@ -153,20 +153,7 @@ namespace SurvivalArena.ColliderSystem {
             isActive = false;
         }
     }
-    public class HasPositionWithOfSet : IHasPosition {
-        public IHasPosition hasPosition;
-        public IHasFacingDirection hasFacingDirection;
 
-        public Vector2 OffSet;
-
-        public HasPositionWithOfSet(IHasPosition hasPosition, IHasFacingDirection hasFacingDirection, Vector2 offSet) {
-            this.hasPosition = hasPosition;
-            this.hasFacingDirection = hasFacingDirection;
-            OffSet = offSet;
-        }
-
-        public Vector2 Position { get => hasPosition.Position + (hasFacingDirection.LookingRight ? OffSet : -OffSet); set => hasPosition.Position = value; }
-    }
 
 
 }

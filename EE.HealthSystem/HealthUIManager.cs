@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EE.SpriteRendererSystem;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena;
@@ -15,21 +16,55 @@ namespace EE.HealthSystem {
         SpriteFont font;
         HealthComponent healthComponent;
         Vector2 textPosition;
-        Vector2 offset;
         private int drawOrder = 1;
         public int DrawOrder => drawOrder;
-        public HealthUIManager(ContentManager contentManager, HealthComponent healthComponent) {
-            font = contentManager.Load<SpriteFont>("FontTest");
-            this.healthComponent = healthComponent;
-            textPosition = new Vector2(640, 0);
-            offset = new Vector2(60, 0);
 
+        public List<Image> spriteRendererComponents = new List<Image>();
+
+        public HealthUIManager(ContentManager contentManager, HealthComponent healthComponent, IHasPosition hasPosition) {
+            var playerHealth = contentManager.Load<Texture2D>("Health");
+
+            this.healthComponent = healthComponent;
+
+            for (int i = 0; i < healthComponent.health; i++) {
+                var offSet = new HasPositionWithOfSet(hasPosition, null, new Vector2(i *10 -10, -10));
+                var swordRender = new Image(playerHealth, offSet);
+                spriteRendererComponents.Add(swordRender);
+            }
         }
 
         public void Draw(SpriteBatch spriteBatch) {
-            var text = $"Health: {healthComponent.health}";
-            spriteBatch.DrawString(font, text, new Vector2(textPosition.X - text.Length - offset.X, textPosition.Y), Color.White);
-        }
+            for (int i = 0; i < spriteRendererComponents.Count; i++) {
+                if (i < healthComponent.health) {
+                    spriteRendererComponents[i].color = Color.Red;
+                    spriteRendererComponents[i].Draw(spriteBatch);
+                }
+                else {
+                    spriteRendererComponents[i].color = Color.Gray;
+                    spriteRendererComponents[i].Draw(spriteBatch);
 
+                }
+            }
+        }
+        public class Image : IEEDrawable {
+            public int DrawOrder => throw new NotImplementedException();
+            Texture2D texture2D;
+            public IHasPosition hasPosition;
+            private bool isActive = true;
+            public Color color;
+
+            public Image(Texture2D texture2D, IHasPosition hasPosition) {
+                this.texture2D = texture2D;
+                this.hasPosition = hasPosition;
+            }
+
+            public void Draw(SpriteBatch spriteBatch) {
+                if (!isActive) {
+                    return;
+                }
+                spriteBatch.Draw(texture2D, hasPosition.Position, color);
+
+            }
+        }
     }
 }

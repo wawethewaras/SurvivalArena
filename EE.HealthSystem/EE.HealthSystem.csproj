@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
+    <ProjectReference Include="..\EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj" />
   </ItemGroup>
 
 </Project>

@@ -15,6 +15,8 @@ namespace SurvivalArena.Physics {
         public float jumpTimeCounter = 0;
 
         public Vector2 velocity = Vector2.Zero;
+        public Vector2 defaultVelocity = Vector2.Zero;
+
         IHasPosition positionComponent;
         public ColliderComponent colliderComponent;
 
@@ -42,15 +44,18 @@ namespace SurvivalArena.Physics {
 
             velocity.Y *= gameTime;
             velocity.X *= gameTime;
-            velocity = colliderComponent.CheckCollision(velocity);
+            if (colliderComponent != null) {
+                velocity = colliderComponent.CheckCollision(velocity);
 
-            if (velocity.X != 0) {
+            }
+
+            if (velocity.X != 0 && colliderComponent != null) {
                 colliderComponent.LookingRight = velocity.X > 0 ? true : false;
             }
             isGrounded = velocity.Y == 0 ? true : false;
 
             positionComponent.Position += velocity;
-            velocity = Vector2.Zero;
+            velocity = defaultVelocity;
         }
 
         public void SetMovementSpeedNegative() {
@@ -76,7 +81,7 @@ namespace SurvivalArena.Physics {
 
         }
         public void ADMovement(Vector2 direction) {
-            velocity = direction * moveSpeed;
+            defaultVelocity = direction * moveSpeed;
         }
     }
 }

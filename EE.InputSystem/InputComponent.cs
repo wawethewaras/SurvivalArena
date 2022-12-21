@@ -1,11 +1,12 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 using SurvivalArena.GameObjects;
+using System.Diagnostics;
 
 namespace EE.InputSystem {
     public class InputComponent : IComponent {
-        bool mReleased = true;
-
+        public static float YScale;
+        public static float XScale;
 
         public bool spacePressed;
         public bool attackPressed;
@@ -21,6 +22,7 @@ namespace EE.InputSystem {
                 return false;
             }
         }
+
         public bool spaceReleased = true;
 
         public bool AttackPressed {
@@ -107,5 +109,13 @@ namespace EE.InputSystem {
             }
 
         }
+        public Vector2 MouseDirection(Vector2 vector2) { 
+            var mouse = Mouse.GetState();
+            var mousepos = new Vector2(mouse.X/ XScale, mouse.Y / YScale) - vector2;
+            mousepos.Normalize();
+            return mousepos;
+        } 
+
     }
+
 }

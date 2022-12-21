@@ -292,7 +292,7 @@ namespace EE.SurvivalArena {
             requirementSword.Add(() => inputComponent.AttackPressed && delayComponent.swordTimeCounter <= 0);
             var swordTransition = new Transition(requirementSword, attackState);
             //attackState.OnEnterEvent += swordComponent.CreateSword;
-            attackState.OnEnterEvent += () => SpawnPlayerProjectile(contentManager, hasOffSet, collider);
+            attackState.OnEnterEvent += () => SpawnPlayerProjectile(contentManager, player, collider);
             attackState.OnEnterEvent += () => delayComponent.Reset();
             idleState.transitions.Add(walkRightTransition);
             idleState.transitions.Add(walkLeftTransition);
@@ -392,7 +392,7 @@ namespace EE.SurvivalArena {
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
             var state = new State();
-            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(new Vector2(direction,0));
+            state.OnEnterEvent += () => physicsComponent.ADMovement(new Vector2(direction,0));
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
             var poolableComponent = new PoolableComponent(spawner2);
@@ -418,6 +418,7 @@ namespace EE.SurvivalArena {
 
             var bombAnimation = new SpriteAnimation(texture2D, 32, 32);
             var explosionSound = contentManager.Load<SoundEffect>("Explosion");
+            var inputComponent = new InputComponent();
 
 
             var position = spawnPosition.Position;
@@ -425,10 +426,11 @@ namespace EE.SurvivalArena {
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Sword";
             var direction = hasFacingDirection.LookingRight ? 1 : -1;
-            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            var physicsComponent = new PhysicsComponent(spawner2, null);
             physicsComponent.gravity = 0;
             var state = new State();
-            state.OnActEvent += (float gametime) => physicsComponent.ADMovement(new Vector2(direction, 0));
+            var mpos = inputComponent.MouseDirection(position);
+            state.OnEnterEvent += () => physicsComponent.ADMovement(mpos);
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);
             var poolableComponent = new PoolableComponent(spawner2);
@@ -458,6 +460,7 @@ namespace EE.SurvivalArena {
 
             GameObject spawner2 = new GameObject(spawnPosition);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
+
             collider.tag = "Heal";
             var poolableComponent = new PoolableComponent(spawner2);
             var spriteRendererComponent = new SpriteRendererComponent(potionTexture, spawner2, collider);

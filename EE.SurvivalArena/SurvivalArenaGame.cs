@@ -41,6 +41,8 @@ namespace SurvivalArena {
 
         public event Action QuitEvent;
 
+
+
         public SurvivalArenaGame(RenderTarget2D screen) : base() {
             this.screen = screen;
         }

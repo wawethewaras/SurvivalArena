@@ -1,4 +1,5 @@
-﻿using MainMenuSystem;
+﻿using EE.InputSystem;
+using MainMenuSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -31,6 +32,9 @@ namespace SurvivalArena {
             screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, GAMEWIDTH, GAMEHEIGHT);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             Game = new SurvivalArenaGame(screen);
+            InputComponent.XScale = (float)SCREENWIDTH / GAMEWIDTH;
+            InputComponent.YScale = (float)SCREENHEIGHT /GAMEHEIGHT;
+
             Game.Quit += Exit;
             Game.Initialize();
             base.Initialize();

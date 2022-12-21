@@ -428,8 +428,9 @@ namespace EE.SurvivalArena {
             var direction = hasFacingDirection.LookingRight ? 1 : -1;
             var physicsComponent = new PhysicsComponent(spawner2, null);
             physicsComponent.gravity = 0;
+            physicsComponent.moveSpeed = 350;
             var state = new State();
-            var mpos = inputComponent.MouseDirection(position);
+            var mpos = inputComponent.ShootDirection(position);
             state.OnEnterEvent += () => physicsComponent.ADMovement(mpos);
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);

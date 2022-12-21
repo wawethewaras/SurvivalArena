@@ -36,6 +36,9 @@ namespace EE.InputSystem {
         }
         public bool attackReleased = true;
 
+        public Vector2 rightJoystickDirection;
+
+
         public InputComponent() {
         }
 
@@ -90,25 +93,35 @@ namespace EE.InputSystem {
                 APressed = state.ThumbSticks.Left.X < -0.5f;
                 DPressed = state.ThumbSticks.Left.X > 0.5f;
 
-                if (state.IsButtonDown(Buttons.A) && spaceReleased) {
+                if (state.IsButtonDown(Buttons.LeftTrigger) && spaceReleased) {
                     spacePressed = true;
                     spaceReleased = false;
                 }
-                if (state.IsButtonUp(Buttons.A)) {
+                if (state.IsButtonUp(Buttons.LeftTrigger)) {
                     spacePressed = false;
                     spaceReleased = true;
                 }
-                if (state.IsButtonDown(Buttons.X) && attackReleased) {
+                if (state.IsButtonDown(Buttons.RightTrigger) && attackReleased) {
                     attackPressed = true;
                     attackReleased = false;
                 }
-                if (state.IsButtonUp(Buttons.X)) {
+                if (state.IsButtonUp(Buttons.RightTrigger)) {
                     attackPressed = false;
                     attackReleased = true;
                 }
             }
 
         }
+        public Vector2 ShootDirection(Vector2 vector2) {
+            GamePadCapabilities capabilities = GamePad.GetCapabilities(PlayerIndex.One);
+            GamePadState state = GamePad.GetState(PlayerIndex.One);
+            var mouseinpout = Vector2.Zero;
+            if (capabilities.IsConnected) {
+                mouseinpout = new Vector2(state.ThumbSticks.Right.X, -state.ThumbSticks.Right.Y);
+                mouseinpout.Normalize();
+            }
+            return capabilities.IsConnected ? mouseinpout : MouseDirection(vector2);
+        } 
         public Vector2 MouseDirection(Vector2 vector2) { 
             var mouse = Mouse.GetState();
             var mousepos = new Vector2(mouse.X/ XScale, mouse.Y / YScale) - vector2;

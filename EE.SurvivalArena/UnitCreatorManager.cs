@@ -27,6 +27,7 @@ namespace EE.SurvivalArena {
         public static void SpawnSlugrinEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Slugrin");
             var enemyAnimation = new SpriteAnimation(texture2D, 32, 45);
+            var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
 
             GameObject spawner2 = new GameObject(spawnPosition);
@@ -47,6 +48,10 @@ namespace EE.SurvivalArena {
             var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
             var score = new ScoreComponent(500, 1);
             health.hurtTag = "Sword";
+
+            HealthUIManager healthUIManager = new HealthUIManager(contentManager, health, spawner2);
+            SpriteRendererComponent.spriteRendererComponents.Add(healthUIManager);
+
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(health);
@@ -60,7 +65,9 @@ namespace EE.SurvivalArena {
             health.DeathEvent += score.AddScore;
             //health.DeathEvent += SurvivalArenaGame.Win;
             health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
+            health.DeathEvent += healthUIManager.DeActive;
 
+            health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
 
@@ -68,6 +75,7 @@ namespace EE.SurvivalArena {
         public static void SpawnSlugHound(ContentManager contentManager, Vector2 spawnPosition) {
             var texture2D = contentManager.Load<Texture2D>("Slughound");
             var enemyAnimation = new SpriteAnimation(texture2D, 38, 32);
+            var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
 
 
             GameObject spawner2 = new GameObject(spawnPosition);
@@ -102,6 +110,7 @@ namespace EE.SurvivalArena {
             //health.DeathEvent += SurvivalArenaGame.Win;
             health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
 
+            health.HitEvent += () => hitSound.Play();
 
             PoolManager.gameObjects.Add(spawner2);
         }

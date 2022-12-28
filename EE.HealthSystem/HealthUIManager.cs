@@ -20,6 +20,7 @@ namespace EE.HealthSystem {
         public int DrawOrder => drawOrder;
 
         public List<Image> spriteRendererComponents = new List<Image>();
+        private bool isActive = true;
 
         public HealthUIManager(ContentManager contentManager, HealthComponent healthComponent, IHasPosition hasPosition) {
             var playerHealth = contentManager.Load<Texture2D>("Health");
@@ -34,6 +35,9 @@ namespace EE.HealthSystem {
         }
 
         public void Draw(SpriteBatch spriteBatch) {
+            if (!isActive) {
+                return;
+            }
             for (int i = 0; i < spriteRendererComponents.Count; i++) {
                 if (i < healthComponent.health) {
                     spriteRendererComponents[i].color = Color.Red;
@@ -45,6 +49,12 @@ namespace EE.HealthSystem {
 
                 }
             }
+        }
+        public void SetActive() {
+            isActive = true;
+        }
+        public void DeActive() {
+            isActive = false;
         }
         public class Image : IEEDrawable {
             public int DrawOrder => throw new NotImplementedException();

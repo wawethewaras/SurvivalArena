@@ -71,7 +71,7 @@ namespace SurvivalArena {
             menuManager = new MainMenuManager();
             MainMenuManager.screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
             MainMenuManager.screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
-
+            menuManager.GameStarted += ChangeToRunning;
             var startTexture = contentManager.Load<Texture2D>("start_button");
 
             var targetPosition = new Vector2(screen.Width / 2, 100);
@@ -82,6 +82,8 @@ namespace SurvivalArena {
             menuManager.quit = new EEButton(quitTexture, targetPosition, QuitEvent);
 
             pauseManager = new PauseMenuManager();
+            pauseManager.ReturnEvent += REturn;
+
             targetPosition = new Vector2(screen.Width / 2, 100);
             var returnTexture = contentManager.Load<Texture2D>("Return_button");
 
@@ -117,7 +119,7 @@ namespace SurvivalArena {
             }
             switch (gameState) {
                 case GameState.Pause:
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && escapeRelease) {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) && escapeRelease || ControllerStartPressed()) {
                         REturn();
                         escapeRelease = false;
                     }
@@ -137,7 +139,7 @@ namespace SurvivalArena {
                 case GameState.Win:
                     textInputComponent.Update(time);
 
-                    if (Keyboard.GetState().IsKeyDown(Keys.Enter)) {
+                    if (Keyboard.GetState().IsKeyDown(Keys.Enter) || ControllerStartPressed()) {
                         ScoreManager.Name = textInputComponent.GetText();
                         ScoreManager.SaveCurrentScore();
                         ScoreManager.StoreScore();
@@ -153,7 +155,16 @@ namespace SurvivalArena {
             }
 
         }
-
+        private bool ControllerStartPressed() {
+            GamePadCapabilities capabilities = GamePad.GetCapabilities(PlayerIndex.One);
+            if (capabilities.IsConnected) {
+                GamePadState state = GamePad.GetState(PlayerIndex.One);
+                if (state.IsButtonDown(Buttons.Start)) {
+                    return true;
+                }
+            }
+            return false;
+        }
         private void RunGame(float gameTime) {
 
             level.Update(gameTime);

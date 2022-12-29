@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
-        public int maxWaves = 3;
+        public int maxWaves = 20;
         public static int currentWaves = 0;
 
 

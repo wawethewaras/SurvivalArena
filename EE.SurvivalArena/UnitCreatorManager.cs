@@ -126,7 +126,7 @@ namespace EE.SurvivalArena {
             collider.tag = "Enemy";
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
-
+            physicsComponent.moveSpeed = 75;
             var state = new State();
             state.OnActEvent += physicsComponent.ADMovement;
             var stateComponent = new StateComponent();

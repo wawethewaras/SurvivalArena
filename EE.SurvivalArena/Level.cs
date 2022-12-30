@@ -1,4 +1,5 @@
 ﻿
+using EE.FileManagement;
 using EE.InputSystem;
 using EE.PoolingSystem;
 using EE.SpriteRendererSystem;
@@ -17,46 +18,36 @@ namespace SurvivalArena.TileSystem {
         public static IHasPosition Player;
         private const int tileSize = 16;
 
-        Texture2D background;
-        Texture2D treeBackground;
-
         public Level(ContentManager contentManager) {
-            background = contentManager.Load<Texture2D>("Background");
+            var background = contentManager.Load<Texture2D>("Background");
             var bg = new BGDrawer(background);
             bg.drawOrder = -12;
-            treeBackground = contentManager.Load<Texture2D>("Tree_BG");
+            var treeBackground = contentManager.Load<Texture2D>("Tree_BG");
             var bg2 = new BGDrawer(treeBackground);
             bg2.drawOrder = -11;
 
             var filepath = string.Format("Content/level.txt"); ;
 
-            using (Stream fileStream = TitleContainer.OpenStream(filepath)) {
-                int currentLine = 0;
-                using (StreamReader reader = new StreamReader(fileStream)) {
-                    string line = reader.ReadLine();
-                    var tileIds = line;
-                    while (line != null) {
-                        for (int i = 0; i < tileIds.Length; i++) {
-                            var tile = new Tile();
-                            var position = new Vector2(i * tileSize, currentLine * tileSize);
+            FileReader.ReadFile(filepath, (string line, int currentLine) => 
+                HandleLevelFile(contentManager, currentLine, line));
+        }
 
-                            if (tileIds[i] == 'P') {
-                                UnitCreatorManager.CreatePlayer(contentManager, position);
-                            }
-                            else if (tileIds[i] == 'E') {
-                                UnitCreatorManager.CreateEnemySpawner(contentManager, position);
-                            }
-                            else if (tileIds[i] == '#') {
-                                UnitCreatorManager.CreateTileGround(contentManager, position);
-                            }
-                            else if (tileIds[i] == '_') {
-                                UnitCreatorManager.CreateTileGrass(contentManager, position);
-                            }
-                        }
-                        line = reader.ReadLine();
-                        tileIds = line;
-                        currentLine++;
-                    }
+        private void HandleLevelFile(ContentManager contentManager, int currentLine, string line) {
+            for (int i = 0; i < line.Length; i++) {
+                var tile = new Tile();
+                var position = new Vector2(i * tileSize, currentLine * tileSize);
+
+                if (line[i] == 'P') {
+                    UnitCreatorManager.CreatePlayer(contentManager, position);
+                }
+                else if (line[i] == 'E') {
+                    UnitCreatorManager.CreateEnemySpawner(contentManager, position);
+                }
+                else if (line[i] == '#') {
+                    UnitCreatorManager.CreateTileGround(contentManager, position);
+                }
+                else if (line[i] == '_') {
+                    UnitCreatorManager.CreateTileGrass(contentManager, position);
                 }
             }
         }
@@ -69,23 +60,6 @@ namespace SurvivalArena.TileSystem {
 
         public void Draw(SpriteBatch spriteBatch) {
             DrawManager.DrawAll(spriteBatch);
-        }
-    }
-    public class BGDrawer : IEEDrawable {
-        private Texture2D texture2D;
-
-
-        public int drawOrder = -1;
-
-        public BGDrawer(Texture2D texture2D) {
-            this.texture2D = texture2D;
-            SpriteRendererComponent.spriteRendererComponents.Add(this);
-        }
-
-        public int DrawOrder => drawOrder;
-
-        public void Draw(SpriteBatch spriteBatch) {
-            spriteBatch.Draw(texture2D, Vector2.Zero, Color.White);
         }
     }
 

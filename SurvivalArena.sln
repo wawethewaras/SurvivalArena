@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.AbilitySystem", "EE.Abil
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.SoundSystem", "EE.SoundSystem\EE.SoundSystem.csproj", "{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.FileManagement", "EE.FileManagement\EE.FileManagement.csproj", "{C78BF29D-3603-4719-881F-7B7458E58B47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C78BF29D-3603-4719-881F-7B7458E58B47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C78BF29D-3603-4719-881F-7B7458E58B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C78BF29D-3603-4719-881F-7B7458E58B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C78BF29D-3603-4719-881F-7B7458E58B47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

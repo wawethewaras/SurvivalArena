@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EE.SpriteRendererSystem {
@@ -11,7 +12,9 @@ namespace EE.SpriteRendererSystem {
         public float frameDuration = 0.2f;
         public bool loop = true;
 
-        public SpriteAnimation(Texture2D texture2D, int frameSizeX, int frameSizeY) {
+        public SpriteAnimation(ContentManager contentManager, string textureName, int frameSizeX, int frameSizeY) {
+            var texture2D = contentManager.Load<Texture2D>(textureName);
+
             var width = texture2D.Width;
             var height = texture2D.Height;
 

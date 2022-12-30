@@ -36,12 +36,14 @@ namespace SurvivalArena.GameObjects {
                 if (currentWaves >= maxWaves) {
                     UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
                     invurnableDurationTimer = delayAfterBoss;
+                    currentWaves = 0;
+                    return;
+                }
+                if (currentList.Count <= 0) {
                     currentList.Clear();
                     foreach (var item in numbers) {
                         currentList.Add(item);
                     }
-                    currentWaves = 0;
-                    return;
                 }
 
                 var randomIndex = random.Next(0, currentList.Count);

@@ -441,17 +441,18 @@ namespace EE.SurvivalArena {
             var explosionSound = contentManager.Load<SoundEffect>("Explosion");
             var inputComponent = new InputComponent();
 
+            var mpos = inputComponent.ShootDirection(spawnPosition.Position);
+            hasFacingDirection.LookingRight = mpos.X > 0;
 
             var position = spawnPosition.Position;
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, texture2D.Width, texture2D.Height);
             collider.tag = "Sword";
-            var direction = hasFacingDirection.LookingRight ? 1 : -1;
             var physicsComponent = new PhysicsComponent(spawner2, null);
             physicsComponent.gravity = 0;
             physicsComponent.moveSpeed = abilityComponent.projectileMovespeed;
             var state = new State();
-            var mpos = inputComponent.ShootDirection(position);
+
             state.OnEnterEvent += () => physicsComponent.ADMovement(mpos);
             var stateComponent = new StateComponent();
             stateComponent.TransitionToState(state);

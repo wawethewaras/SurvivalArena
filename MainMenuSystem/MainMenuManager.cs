@@ -14,7 +14,17 @@ namespace MainMenuSystem {
         public static float screenScaleHeight = 1;
 
         public event Action GameStarted;
-        public MainMenuManager() {
+        public MainMenuManager(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, RenderTarget2D screen) {
+            screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
+            screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
+            var startTexture = contentManager.Load<Texture2D>("start_button");
+
+            var targetPosition = new Vector2(screen.Width / 2, 100);
+            start = new EEButton(startTexture, targetPosition);
+            targetPosition = new Vector2(screen.Width / 2, 210);
+            var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
+
+            quit = new EEButton(quitTexture, targetPosition);
         }
 
 

@@ -1,5 +1,6 @@
 ﻿using EE.PoolingSystem;
 using EE.ScoreSystem;
+using EE.SoundSystem;
 using EE.SpriteRendererSystem;
 using MainMenuSystem;
 using Microsoft.Xna.Framework;
@@ -23,7 +24,6 @@ namespace SurvivalArena {
         }
         Level level;
         SpriteFont font;
-        Song music;
 
         Vector2 scorePosition;
         ContentManager contentManager;
@@ -58,38 +58,25 @@ namespace SurvivalArena {
             font = contentManager.Load<SpriteFont>("FontTest");
             scorePosition = new Vector2(0, 0);
 
-            music = contentManager.Load<Song>("BGMusic");
-            MediaPlayer.Play(music);
-            MediaPlayer.Volume = 0.00f;
-            MediaPlayer.IsRepeating = true;
+            var backgroundMusicController = new BackgroundMusicController(contentManager);
+            backgroundMusicController.Play();
 
             ScoreManager.LoadHighScore();
 
             textInputComponent = new TextInputComponent(font, gameWindow);
             uICanvas = new UICanvas(screen.Width, screen.Height, font);
 
-            menuManager = new MainMenuManager();
-            MainMenuManager.screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
-            MainMenuManager.screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
+            menuManager = new MainMenuManager(contentManager, graphicsDeviceManager, screen);
             menuManager.GameStarted += ChangeToRunning;
-            var startTexture = contentManager.Load<Texture2D>("start_button");
+            menuManager.start.Clicked += ChangeToRunning;
+            menuManager.quit.Clicked += QuitEvent;
 
-            var targetPosition = new Vector2(screen.Width / 2, 100);
-            menuManager.start = new EEButton(startTexture, targetPosition, ChangeToRunning);
-            targetPosition = new Vector2(screen.Width / 2, 210);
-            var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
 
-            menuManager.quit = new EEButton(quitTexture, targetPosition, QuitEvent);
-
-            pauseManager = new PauseMenuManager();
+            pauseManager = new PauseMenuManager(contentManager, graphicsDeviceManager, screen);
             pauseManager.ReturnEvent += REturn;
+            pauseManager.start.Clicked += REturn;
+            pauseManager.quit.Clicked += QuitEvent;
 
-            targetPosition = new Vector2(screen.Width / 2, 100);
-            var returnTexture = contentManager.Load<Texture2D>("Return_button");
-
-            pauseManager.start = new EEButton(returnTexture, targetPosition, REturn);
-            targetPosition = new Vector2(screen.Width / 2, 210);
-            pauseManager.quit = new EEButton(quitTexture, targetPosition, QuitEvent);
         }
         public void Pause() {
             gameState = GameState.Pause;

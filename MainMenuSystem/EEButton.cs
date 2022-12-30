@@ -17,7 +17,7 @@ namespace MainMenuSystem {
         bool isHovered = false;
         bool isClicked = false;
 
-        event Action Clicked;
+        public event Action Clicked;
 
         bool release = true;
 

@@ -11,7 +11,14 @@ namespace MainMenuSystem {
         public EEButton quit;
         public event Action ReturnEvent;
 
-        public PauseMenuManager() {
+        public PauseMenuManager(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, RenderTarget2D screen) {
+            var targetPosition = new Vector2(screen.Width / 2, 100);
+            var returnTexture = contentManager.Load<Texture2D>("Return_button");
+            var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
+
+            start = new EEButton(returnTexture, targetPosition);
+            targetPosition = new Vector2(screen.Width / 2, 210);
+            quit = new EEButton(quitTexture, targetPosition);
         }
 
 

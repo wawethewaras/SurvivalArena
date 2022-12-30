@@ -30,8 +30,6 @@ namespace SurvivalArena.GameObjects {
         }
 
         public void Update(float gameTime) {
-
-
             invurnableDurationTimer -= gameTime;
             if (invurnableDurationTimer <= 0) {
                 Random random = new Random();

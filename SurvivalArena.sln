@@ -27,7 +27,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMenuSystem", "MainMenuS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.ScoreSystem", "EE.ScoreSystem\EE.ScoreSystem.csproj", "{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.StateSystem", "EE.StateSystem\EE.StateSystem.csproj", "{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.StateSystem", "EE.StateSystem\EE.StateSystem.csproj", "{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.AbilitySystem", "EE.AbilitySystem\EE.AbilitySystem.csproj", "{991C69E8-ED69-42C7-8439-7A6C14C96FDC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -87,6 +89,10 @@ Global
 		{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}.Release|Any CPU.Build.0 = Release|Any CPU
+		{991C69E8-ED69-42C7-8439-7A6C14C96FDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{991C69E8-ED69-42C7-8439-7A6C14C96FDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{991C69E8-ED69-42C7-8439-7A6C14C96FDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{991C69E8-ED69-42C7-8439-7A6C14C96FDC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -51,7 +51,10 @@ namespace SurvivalArena.GameObjects {
             OffSet = offSet;
         }
 
-        public Vector2 Position { get => hasPosition.Position + OffSet; set => hasPosition.Position = value; }
+        public Vector2 Position { get => hasFacingDirection != null ? PositionWithFacingDirection : hasPosition.Position + OffSet; set => hasPosition.Position = value; }
+
+        public Vector2 PositionWithFacingDirection => hasPosition.Position + (hasFacingDirection.LookingRight ? OffSet : -OffSet);
+
     }
 
     public interface IHasFacingDirection {

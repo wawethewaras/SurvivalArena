@@ -49,6 +49,24 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Health.png;Health.png
 
+#begin ../../Assets/Mana.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Mana.png;Mana.png
+
+#begin ../../Assets/Mana_Collect.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Mana_Collect.wav;Mana_Collect.wav
+
 #begin ../../Assets/ParticleExplosion.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -108,6 +126,12 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:../../Assets/PoisonBolt.png;PoisonBolt.png
+
+#begin ../../Assets/Powerup.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Powerup.wav;Powerup.wav
 
 #begin ../../Assets/Slime.png
 /importer:TextureImporter

@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EE.AbilitySystem\EE.AbilitySystem.csproj" />
     <ProjectReference Include="..\EE.CollisionSystem\EE.CollisionSystem.csproj" />
     <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
     <ProjectReference Include="..\EE.HealthSystem\EE.HealthSystem.csproj" />

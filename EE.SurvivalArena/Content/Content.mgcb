@@ -49,6 +49,30 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Health.png;Health.png
 
+#begin ../../Assets/LevelBar_BG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/LevelBar_BG.png;LevelBar_BG.png
+
+#begin ../../Assets/LevelBar_FG.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/LevelBar_FG.png;LevelBar_FG.png
+
 #begin ../../Assets/MainMenu_BG.png
 /importer:TextureImporter
 /processor:TextureProcessor

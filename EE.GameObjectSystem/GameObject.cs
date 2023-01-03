@@ -64,4 +64,10 @@ namespace SurvivalArena.GameObjects {
         public int DrawOrder { get; }
         void Draw(SpriteBatch spriteBatch);
     }
+
+    public interface IClampedValue {
+        int Max { get; }
+        int Value { get; }
+
+    }
 }

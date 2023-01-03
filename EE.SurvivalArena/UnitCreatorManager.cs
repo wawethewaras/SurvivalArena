@@ -6,6 +6,7 @@ using EE.ScoreSystem;
 using EE.SoundSystem;
 using EE.SpriteRendererSystem;
 using EE.StateSystem;
+using MainMenuSystem;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -332,8 +333,19 @@ namespace EE.SurvivalArena {
             player.AddComponent(abilityComponent);
 
             HealthUIManager healthUIManager = new HealthUIManager(contentManager, health, player);
+
+
             SpriteRendererComponent.spriteRendererComponents.Add(healthUIManager);
             PoolManager.gameObjects.Add(player);
+
+            var sliderBG = contentManager.Load<Texture2D>("LevelBar_BG");
+            var sliderFG = contentManager.Load<Texture2D>("LevelBar_FG");
+
+
+            var powerLevel = new EESlider(sliderFG, sliderBG, Vector2.Zero, abilityComponent);
+
+            SpriteRendererComponent.spriteRendererComponents.Add(powerLevel);
+            PoolManager.gameObjects.Add(powerLevel);
         }
 
         public static SwordComponent SpawnSword(ContentManager contentManager, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection) {

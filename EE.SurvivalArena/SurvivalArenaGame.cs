@@ -24,8 +24,8 @@ namespace SurvivalArena {
         }
         Level level;
         SpriteFont font;
-
         Vector2 scorePosition;
+
         ContentManager contentManager;
         public static GameState gameState = GameState.MainMenu;
 
@@ -56,7 +56,12 @@ namespace SurvivalArena {
             level = new Level(contentManager);
 
             font = contentManager.Load<SpriteFont>("FontTest");
-            scorePosition = new Vector2(0, 0);
+
+
+            var screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
+            scorePosition = new Vector2((screen.Width / 2  -145) * screenScaleWitdh, 0);
+
+
 
             var backgroundMusicController = new BackgroundMusicController(contentManager);
             backgroundMusicController.Play();

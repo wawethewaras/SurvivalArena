@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena {
+
     internal class BaseGame : Game {
 
         private const int SCREENWIDTH = 1920;
@@ -16,6 +17,7 @@ namespace SurvivalArena {
         private SpriteBatch? spriteBatch = null;
         private IGame Game = null;
         private RenderTarget2D? screen;
+        GameSettings gameSettings;
 
         public BaseGame() : base() {
             graphicsDeviceManager = new GraphicsDeviceManager(this);
@@ -31,7 +33,9 @@ namespace SurvivalArena {
             graphicsDeviceManager.ApplyChanges();
             screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, GAMEWIDTH, GAMEHEIGHT);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Game = new SurvivalArenaGame(screen);
+            gameSettings = new GameSettings(GAMEWIDTH, GAMEHEIGHT, SCREENWIDTH, SCREENHEIGHT);
+            gameSettings.NewScrren += NewScreen;
+            Game = new SurvivalArenaGame(screen, gameSettings);
             InputComponent.XScale = (float)SCREENWIDTH / GAMEWIDTH;
             InputComponent.YScale = (float)SCREENHEIGHT /GAMEHEIGHT;
 
@@ -61,10 +65,22 @@ namespace SurvivalArena {
 
             spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp);
             graphicsDeviceManager.GraphicsDevice.SetRenderTarget(null);
-            spriteBatch.Draw(screen, new Rectangle(0, 0, SCREENWIDTH, SCREENHEIGHT), Color.White);
+            spriteBatch.Draw(screen, new Rectangle(0, 0, gameSettings.SCREENWIDTH, gameSettings.SCREENHEIGHT), Color.White);
             spriteBatch.End();
 
             base.Draw(gameTime);
+        }
+        public void NewScreen(int gAMEWIDTH, int gAMEHEIGHT, int sCREENWIDTH, int sCREENHEIGHT) {
+            graphicsDeviceManager.IsFullScreen = false;
+            graphicsDeviceManager.PreferredBackBufferWidth = sCREENWIDTH;
+            graphicsDeviceManager.PreferredBackBufferHeight = sCREENHEIGHT;
+            graphicsDeviceManager.ApplyChanges();
+            screen = new RenderTarget2D(graphicsDeviceManager.GraphicsDevice, gAMEWIDTH, gAMEHEIGHT);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
+            InputComponent.XScale = (float)sCREENWIDTH / gAMEWIDTH;
+            InputComponent.YScale = (float)sCREENHEIGHT / gAMEHEIGHT;
+            MainMenuManager.screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
+            MainMenuManager.screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
         }
     }
 }

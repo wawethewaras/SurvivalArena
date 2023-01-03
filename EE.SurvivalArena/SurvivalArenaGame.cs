@@ -13,6 +13,25 @@ using SurvivalArena.GameObjects;
 using SurvivalArena.TileSystem;
 
 namespace SurvivalArena {
+    public class GameSettings {
+        public int GAMEWIDTH = 640;
+        public int GAMEHEIGHT = 480;
+        public int SCREENWIDTH = 1920;
+        public int SCREENHEIGHT = 1080;
+
+        public event Action<int,int,int,int> NewScrren;
+        public int currentSetting = 0;
+
+        public void ChangeSize() {
+            NewScrren?.Invoke(GAMEWIDTH, GAMEHEIGHT, SCREENWIDTH, SCREENHEIGHT);
+        }
+        public GameSettings(int gAMEWIDTH, int gAMEHEIGHT, int sCREENWIDTH, int sCREENHEIGHT) {
+            SCREENWIDTH = sCREENWIDTH;
+            SCREENHEIGHT = sCREENHEIGHT;
+            GAMEWIDTH = gAMEWIDTH;
+            GAMEHEIGHT = gAMEHEIGHT;
+        }
+    }
     public class SurvivalArenaGame : IGame {
 
         public enum GameState { 
@@ -36,15 +55,16 @@ namespace SurvivalArena {
         MainMenuManager menuManager;
         PauseMenuManager pauseManager;
         bool escapeRelease = true;
-
+        GameSettings settings;
         Action IGame.Quit { get => QuitEvent; set => QuitEvent = value; }
 
         public event Action QuitEvent;
 
 
 
-        public SurvivalArenaGame(RenderTarget2D screen) : base() {
+        public SurvivalArenaGame(RenderTarget2D screen, GameSettings settings) : base() {
             this.screen = screen;
+            this.settings = settings;
         }
 
         public void Initialize() {
@@ -80,6 +100,7 @@ namespace SurvivalArena {
             pauseManager = new PauseMenuManager(contentManager, graphicsDeviceManager, screen);
             pauseManager.ReturnEvent += REturn;
             pauseManager.start.Clicked += REturn;
+            pauseManager.changeResolution.Clicked += ChangeResolutionSettings;
             pauseManager.quit.Clicked += QuitEvent;
 
         }
@@ -232,7 +253,19 @@ namespace SurvivalArena {
             gameState = GameState.Win;
         }
 
-
+        ushort[] widths = new ushort[] { 3840, 2560, 2560, 1920, 1366, 1280, 1280 };
+        ushort[] heights = new ushort[] { 2160, 1440, 1080, 1080, 768, 1024, 720 };
+        public void ChangeResolutionSettings() {
+            if (settings.currentSetting >= widths.Length) {
+                settings.currentSetting = 0;
+            }
+            var width = widths[settings.currentSetting];
+            var height = heights[settings.currentSetting];
+            settings.currentSetting++;
+            settings.SCREENWIDTH = width;
+            settings.SCREENHEIGHT = height;
+            settings.ChangeSize();
+        }
 
     }
 }

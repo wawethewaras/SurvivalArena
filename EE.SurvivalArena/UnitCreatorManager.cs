@@ -211,7 +211,7 @@ namespace EE.SurvivalArena {
             delayComponent.SwordAttack += () => {
                 poolableComponent.ReleaseSelf();
                 spriteRendererComponent.OnDestroy();
-
+                collider.RemoveCollider();
             };
 
             spawner2.AddComponent(physicsComponent);

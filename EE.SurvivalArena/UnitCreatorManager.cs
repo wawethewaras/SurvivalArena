@@ -85,10 +85,32 @@ namespace EE.SurvivalArena {
             collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
             var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.moveSpeed = 250;
-            var state = new State();
-            state.OnActEvent += physicsComponent.ADMovement;
+
+            var delayComponent = new DelayComponent();
+            delayComponent.SetRange(0.25f,1.5f);
+            delayComponent.resetOnDefault = false;
+
+
             var stateComponent = new StateComponent();
-            stateComponent.TransitionToState(state);
+
+            var walkState = new TransitionState(stateComponent);
+            walkState.OnActEvent += physicsComponent.ADMovement;
+            var jumpState = new TransitionState(stateComponent);
+            jumpState.OnEnterEvent += physicsComponent.Jump;
+            jumpState.OnEnterEvent += delayComponent.Reset;
+
+            var jumpRequirement = new RequirementDelegate();
+            jumpRequirement.Add(() => delayComponent.swordTimeCounter < 0);
+            var jumpTransition = new Transition(jumpRequirement, jumpState);
+            walkState.transitions.Add(jumpTransition);
+
+            var walkRequirement = new RequirementDelegate();
+            walkRequirement.Add(() => true);
+            var walkTransition = new Transition(walkRequirement, walkState);
+            jumpState.transitions.Add(walkTransition);
+
+            stateComponent.TransitionToState(walkState);
+
 
             var health = new HealthComponent(1, spawner2);
             health.hurtTag = "Sword";
@@ -101,6 +123,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
+            spawner2.AddComponent(delayComponent);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
@@ -182,7 +205,8 @@ namespace EE.SurvivalArena {
 
 
             var delayComponent = new DelayComponent();
-            delayComponent.swordTime = 4;
+            delayComponent.SetRange(3f, 4f);
+
             delayComponent.Reset();
             delayComponent.SwordAttack += () => {
                 poolableComponent.ReleaseSelf();
@@ -233,7 +257,7 @@ namespace EE.SurvivalArena {
             var abilityComponent = new AbilityComponent(contentManager);
             var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(32, 0));
             var delayComponent = new DelayComponent();
-            delayComponent.swordTime = 0.4f;
+            delayComponent.SetRange(0.4f, 0.4f);
             delayComponent.resetOnDefault = false;
 
             health.hurtTag = "Enemy";
@@ -441,7 +465,7 @@ namespace EE.SurvivalArena {
             var spriteRendererComponent = new SpriteRendererComponent(bombAnimation, spawner2, collider);
 
             var delayComponent = new DelayComponent();
-            delayComponent.swordTime = abilityComponent.projectileLifeTime;
+            delayComponent.SetRange(abilityComponent.projectileLifeTime, abilityComponent.projectileLifeTime);
             delayComponent.Reset();
             delayComponent.SwordAttack += () => {
                 poolableComponent.ReleaseSelf();
@@ -518,7 +542,7 @@ namespace EE.SurvivalArena {
             physicsComponent.gravity = 0.1f;
 
             var delayComponent = new DelayComponent();
-            delayComponent.swordTime = 2;
+            delayComponent.SetRange(2,2);
             delayComponent.Reset();
             delayComponent.SwordAttack += () => {
                 poolableComponent.ReleaseSelf();
@@ -572,13 +596,18 @@ namespace EE.SurvivalArena {
         }
     }
     public class DelayComponent : IComponent {
-        public float swordTime = 0.25f;
+
+        private float swordTimeMin = 0.25f;
+        private float swordTimeMax = 0.25f;
+
         public float swordTimeCounter = 0;
         public event Action SwordAttack;
         public bool resetOnDefault = true;
 
         public void Reset() {
-            swordTimeCounter = swordTime;
+            System.Random random = new System.Random();
+            double val = (random.NextDouble() * (swordTimeMax - swordTimeMin) + swordTimeMin);
+            swordTimeCounter = (float)val;
 
         }
         public void Update(float gameTime) {
@@ -586,8 +615,14 @@ namespace EE.SurvivalArena {
 
             if (resetOnDefault && swordTimeCounter < 0) {
                 SwordAttack?.Invoke();
-                swordTimeCounter = swordTime;
+                System.Random random = new System.Random();
+                double val = (random.NextDouble() * (swordTimeMax - swordTimeMin) + swordTimeMin);
+                swordTimeCounter = (float)val;
             }
+        }
+        public void SetRange(float min, float max) {
+            swordTimeMin = min;
+            swordTimeMax = max;
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 namespace MainMenuSystem {
     public class MainMenuManager {
 
+        public Texture2D mainmenuBG;
 
         public EEButton start;
         public EEButton quit;
@@ -17,11 +18,13 @@ namespace MainMenuSystem {
         public MainMenuManager(ContentManager contentManager, GraphicsDeviceManager graphicsDeviceManager, RenderTarget2D screen) {
             screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
             screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
+            mainmenuBG = contentManager.Load<Texture2D>("MainMenu_BG");
             var startTexture = contentManager.Load<Texture2D>("start_button");
 
-            var targetPosition = new Vector2(screen.Width / 2, 100);
+            var buttonXPosition = screen.Width / 2 * screenScaleWitdh - startTexture.Width /2;
+            var targetPosition = new Vector2(buttonXPosition, 100);
             start = new EEButton(startTexture, targetPosition);
-            targetPosition = new Vector2(screen.Width / 2, 210);
+            targetPosition = new Vector2(buttonXPosition, 210);
             var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
 
             quit = new EEButton(quitTexture, targetPosition);
@@ -53,6 +56,7 @@ namespace MainMenuSystem {
 
         }
         public void Draw(SpriteBatch spriteBatch) {
+            spriteBatch.Draw(mainmenuBG, Vector2.Zero, Color.White);
             start.Draw(spriteBatch);
             quit.Draw(spriteBatch);
         }

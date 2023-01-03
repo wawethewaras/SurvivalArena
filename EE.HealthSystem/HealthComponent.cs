@@ -2,7 +2,7 @@
 
 namespace SurvivalArena.HealthSystem {
     public class HealthComponent : IComponent {
-
+        public int maxHealth = 10;
         public int health = 10;
         public float invurnableDuration = 1;
         public float invurnableDurationTimer = 0;
@@ -13,6 +13,7 @@ namespace SurvivalArena.HealthSystem {
         public event Action DeathEvent;
 
         public HealthComponent(int health, GameObject gameObject) {
+            this.maxHealth = health;
             this.health = health;
             this.gameObject = gameObject;
         }
@@ -31,6 +32,13 @@ namespace SurvivalArena.HealthSystem {
         public void Update(float gameTime) {
             if (invurnableDurationTimer > 0) {
                 invurnableDurationTimer -= gameTime;
+            }
+        }
+
+        public void Heal(int value) {
+            health += value;
+            if (health > maxHealth) {
+                health = maxHealth;
             }
         }
     }

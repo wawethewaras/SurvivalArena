@@ -241,7 +241,7 @@ namespace EE.SurvivalArena {
             collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
                 if (colliderComponent.tag == "Heal") {
-                    health.health++;
+                    health.Heal(1);
                 }
                 colliderComponent.CollisionFromOther(colliderComponent);
             };

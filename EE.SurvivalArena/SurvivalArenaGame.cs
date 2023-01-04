@@ -20,10 +20,15 @@ namespace SurvivalArena {
         public int SCREENHEIGHT = 1080;
 
         public event Action<int,int,int,int> NewScrren;
+        public event Action FullScreenEvent;
+
         public int currentSetting = 0;
 
         public void ChangeSize() {
             NewScrren?.Invoke(GAMEWIDTH, GAMEHEIGHT, SCREENWIDTH, SCREENHEIGHT);
+        }
+        public void ChangeFullScreen() {
+            FullScreenEvent?.Invoke();
         }
         public GameSettings(int gAMEWIDTH, int gAMEHEIGHT, int sCREENWIDTH, int sCREENHEIGHT) {
             SCREENWIDTH = sCREENWIDTH;
@@ -101,6 +106,8 @@ namespace SurvivalArena {
             pauseManager.ReturnEvent += REturn;
             pauseManager.start.Clicked += REturn;
             pauseManager.changeResolution.Clicked += ChangeResolutionSettings;
+            pauseManager.changeFullScreen.Clicked += settings.ChangeFullScreen;
+            pauseManager.changeVolume.Clicked += backgroundMusicController.ChangeVolume;
             pauseManager.quit.Clicked += QuitEvent;
 
         }

@@ -37,6 +37,18 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Enem_Run.png;Enem_Run.png
 
+#begin ../../Assets/Fullscreen_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Fullscreen_button.png;Fullscreen_button.png
+
 #begin ../../Assets/Health.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -103,6 +115,18 @@
 /processorParam:Quality=Best
 /build:../../Assets/Mana_Collect.wav;Mana_Collect.wav
 
+#begin ../../Assets/Music_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Music_button.png;Music_button.png
+
 #begin ../../Assets/ParticleExplosion.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -168,6 +192,18 @@
 /processor:SoundEffectProcessor
 /processorParam:Quality=Best
 /build:../../Assets/Powerup.wav;Powerup.wav
+
+#begin ../../Assets/Resolution_button.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:../../Assets/Resolution_button.png;Resolution_button.png
 
 #begin ../../Assets/Slime.png
 /importer:TextureImporter

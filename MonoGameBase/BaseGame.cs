@@ -35,6 +35,7 @@ namespace SurvivalArena {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             gameSettings = new GameSettings(GAMEWIDTH, GAMEHEIGHT, SCREENWIDTH, SCREENHEIGHT);
             gameSettings.NewScrren += NewScreen;
+            gameSettings.FullScreenEvent += FullScreen;
             Game = new SurvivalArenaGame(screen, gameSettings);
             InputComponent.XScale = (float)SCREENWIDTH / GAMEWIDTH;
             InputComponent.YScale = (float)SCREENHEIGHT /GAMEHEIGHT;
@@ -71,7 +72,6 @@ namespace SurvivalArena {
             base.Draw(gameTime);
         }
         public void NewScreen(int gAMEWIDTH, int gAMEHEIGHT, int sCREENWIDTH, int sCREENHEIGHT) {
-            graphicsDeviceManager.IsFullScreen = false;
             graphicsDeviceManager.PreferredBackBufferWidth = sCREENWIDTH;
             graphicsDeviceManager.PreferredBackBufferHeight = sCREENHEIGHT;
             graphicsDeviceManager.ApplyChanges();
@@ -81,6 +81,10 @@ namespace SurvivalArena {
             InputComponent.YScale = (float)sCREENHEIGHT / gAMEHEIGHT;
             MainMenuManager.screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
             MainMenuManager.screenScaleHeight = graphicsDeviceManager.PreferredBackBufferHeight / screen.Height;
+        }
+        public void FullScreen() {
+            graphicsDeviceManager.IsFullScreen = !graphicsDeviceManager.IsFullScreen;
+            graphicsDeviceManager.ApplyChanges();
         }
     }
 }

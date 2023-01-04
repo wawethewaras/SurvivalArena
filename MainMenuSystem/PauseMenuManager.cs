@@ -10,6 +10,7 @@ namespace MainMenuSystem {
         public EEButton start;
         public EEButton changeResolution;
         public EEButton changeVolume;
+        public EEButton changeFullScreen;
         public EEButton quit;
         public event Action ReturnEvent;
 
@@ -17,16 +18,21 @@ namespace MainMenuSystem {
             var screenScaleWitdh = graphicsDeviceManager.PreferredBackBufferWidth / screen.Width;
             mainmenuBG = contentManager.Load<Texture2D>("MainMenu_BG");
             var returnTexture = contentManager.Load<Texture2D>("Return_button");
+            var resolution = contentManager.Load<Texture2D>("Resolution_button");
+            var music = contentManager.Load<Texture2D>("Music_button");
+            var fullscreen = contentManager.Load<Texture2D>("Fullscreen_button");
             var quitTexture = contentManager.Load<Texture2D>("Quit_Button");
             var buttonXPosition = screen.Width / 2 * screenScaleWitdh;
             var targetPosition = new Vector2(buttonXPosition - returnTexture.Width / 2, 100);
 
             start = new EEButton(returnTexture, targetPosition);
-            targetPosition = new Vector2(buttonXPosition - returnTexture.Width / 2, 210);
-            changeResolution = new EEButton(returnTexture, targetPosition);
-            targetPosition = new Vector2(buttonXPosition - returnTexture.Width / 2, 320);
-            changeVolume = new EEButton(returnTexture, targetPosition);
-            targetPosition = new Vector2(buttonXPosition - quitTexture.Width / 2, 430);
+            targetPosition = new Vector2(buttonXPosition - resolution.Width / 2, 210);
+            changeResolution = new EEButton(resolution, targetPosition);
+            targetPosition = new Vector2(buttonXPosition - music.Width / 2, 320);
+            changeVolume = new EEButton(music, targetPosition);
+            targetPosition = new Vector2(buttonXPosition - fullscreen.Width / 2, 430);
+            changeFullScreen = new EEButton(fullscreen, targetPosition);
+            targetPosition = new Vector2(buttonXPosition - quitTexture.Width / 2, 530);
             quit = new EEButton(quitTexture, targetPosition);
         }
 
@@ -41,6 +47,7 @@ namespace MainMenuSystem {
             start.Update(gameTime);
             changeResolution.Update(gameTime);
             changeVolume.Update(gameTime);
+            changeFullScreen.Update(gameTime);
             quit.Update(gameTime);
 
         }
@@ -49,6 +56,7 @@ namespace MainMenuSystem {
             start.Draw(spriteBatch);
             changeResolution.Draw(spriteBatch);
             changeVolume.Draw(spriteBatch);
+            changeFullScreen.Draw(spriteBatch);
             quit.Draw(spriteBatch);
         }
 

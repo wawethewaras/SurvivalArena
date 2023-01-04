@@ -56,5 +56,8 @@ namespace MainMenuSystem {
 
             spriteBatch.Draw(texture2D, rectangleSmall, color);
         }
+        public void UpdatePosition(Vector2 position) {
+            rectangle = new Rectangle((int)position.X, (int)position.Y, texture2D.Width, texture2D.Height);
+        }
     }
 }

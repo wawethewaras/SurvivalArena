@@ -43,6 +43,9 @@ namespace SurvivalArena.TileSystem {
                 else if (line[i] == 'E') {
                     UnitCreatorManager.CreateEnemySpawner(contentManager, position);
                 }
+                else if (line[i] == 'R') {
+                    UnitCreatorManager.CreateRockSpawner(contentManager, position);
+                }
                 else if (line[i] == '#') {
                     UnitCreatorManager.CreateTileGround(contentManager, position);
                 }

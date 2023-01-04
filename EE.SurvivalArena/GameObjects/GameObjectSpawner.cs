@@ -5,6 +5,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
+        public static int WaveCounter = 0;
+
         public int maxWaves = 20;
         public static int currentWaves = 0;
 
@@ -45,6 +47,9 @@ namespace SurvivalArena.GameObjects {
                         currentList.Add(item);
                     }
                 }
+                if (currentWaves == 3) {
+                    UnitCreatorManager.SpawnFallingRock(contentManager, new Vector2(spawnPosition.X, 0));
+                }
 
                 var randomIndex = random.Next(0, currentList.Count);
                 var randomNumber = currentList[randomIndex];
@@ -61,6 +66,7 @@ namespace SurvivalArena.GameObjects {
                 currentList.RemoveAt(randomIndex);
                 invurnableDurationTimer = random.Next(invurnableDurationMin, invurnableDurationMax);
                 currentWaves++;
+                WaveCounter++;
             }
         }
 

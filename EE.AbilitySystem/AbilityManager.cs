@@ -23,7 +23,7 @@ namespace EE.AbilitySystem {
 
         public void Update(float gameTime) {
             if (currentExp >= maxExp) {
-                projectileLifeTime += 0.5f;
+                projectileLifeTime += 0.15f;
                 currentExp = 0;
                 powerUp.Play();
             }

@@ -27,6 +27,11 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner);
         }
+        public static void CreateRockSpawner(ContentManager contentManager, Vector2 position) {
+            var spawner = new RockSpawner(contentManager, position);
+
+            PoolManager.gameObjects.Add(spawner);
+        }
         public static void SpawnSlugrinEnemy(ContentManager contentManager, Vector2 spawnPosition) {
             var enemyAnimation = new SpriteAnimation(contentManager, "Slugrin", 32, 45);
             var hitSound = contentManager.Load<SoundEffect>("Hit_Hurt_Enemy");
@@ -443,6 +448,36 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner2);
         }
+        public static void SpawnFallingRock(ContentManager contentManager, Vector2 position) {
+            var bombAnimation = new SpriteAnimation(contentManager, "Rock", 32, 32);
+
+            GameObject spawner2 = new GameObject(position);
+            var collider = new ColliderComponent(spawner2, 32, 32);
+            collider.tag = "Enemy";
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            var state = new State();
+            var stateComponent = new StateComponent();
+            stateComponent.TransitionToState(state);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(bombAnimation, spawner2, collider);
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(stateComponent);
+            spawner2.AddComponent(spriteRendererComponent);
+
+            collider.CollisionEvents += (ColliderComponent x) => {
+                if (x.tag == "Wall" || x.tag == "Player" || x.tag == "Sword") {
+                    collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    x.CollisionFromOther(collider);
+
+                }
+            };
+
+            PoolManager.gameObjects.Add(spawner2);
+        }
+
+
         public static void SpawnPlayerProjectile(ContentManager contentManager, IHasPosition spawnPosition, IHasFacingDirection hasFacingDirection, AbilityComponent abilityComponent) {
             var bombAnimation = new SpriteAnimation(contentManager, "SporeBolt", 32, 32);
 

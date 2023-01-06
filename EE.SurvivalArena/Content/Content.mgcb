@@ -25,6 +25,12 @@
 /processorParam:TextureFormat=Color
 /build:../../Assets/Background.png;Background.png
 
+#begin ../../Assets/Blocked.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:../../Assets/Blocked.wav;Blocked.wav
+
 #begin ../../Assets/Enem_Run.png
 /importer:TextureImporter
 /processor:TextureProcessor

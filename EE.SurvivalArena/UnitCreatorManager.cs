@@ -236,6 +236,9 @@ namespace EE.SurvivalArena {
                 if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
                     health.DealDamage(colliderComponent.tag);
                 }
+                else {
+                    new PlaySoundAction(contentManager, "Blocked").Invoke();
+                }
             };
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;

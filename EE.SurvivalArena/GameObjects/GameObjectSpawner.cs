@@ -47,9 +47,6 @@ namespace SurvivalArena.GameObjects {
                         currentList.Add(item);
                     }
                 }
-                if (currentWaves == 3) {
-                    UnitCreatorManager.SpawnFallingRock(contentManager, new Vector2(spawnPosition.X, 0));
-                }
 
                 var randomIndex = random.Next(0, currentList.Count);
                 var randomNumber = currentList[randomIndex];

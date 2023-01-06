@@ -66,6 +66,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(score);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -131,6 +132,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(delayComponent);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -168,6 +170,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(score);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -222,7 +225,17 @@ namespace EE.SurvivalArena {
                 if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
                     health.DealDamage(colliderComponent.tag);
                 }
-                colliderComponent.CollisionFromOther(collider);
+            };
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
+                if (colliderComponent.tag != health.hurtTag) {
+                    return;
+                }
+                var lookingRightAndTargetLeft = collider.LookingRight && colliderComponent.Position.X < collider.Position.X;
+                var lookinLeftAndTargetRight = !collider.LookingRight && colliderComponent.Position.X > collider.Position.X;
+
+                if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
+                    health.DealDamage(colliderComponent.tag);
+                }
             };
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
@@ -282,6 +295,7 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(delayComponent);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;
@@ -313,7 +327,7 @@ namespace EE.SurvivalArena {
             var health = new HealthComponent(5, player);
             var spriteRendererComponent = new SpriteRendererComponent(playerAnimation_Idle, player, collider);
             var abilityComponent = new AbilityComponent(contentManager);
-            var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(32, 0));
+            var hasOffSet = new HasPositionWithOfSet(player, collider, new Vector2(16, 0));
             var delayComponent = new DelayComponent();
             delayComponent.SetRange(0.4f, 0.4f);
             delayComponent.resetOnDefault = false;
@@ -325,13 +339,11 @@ namespace EE.SurvivalArena {
                 if (colliderComponent.tag == "Heal") {
                     health.Heal(1);
                 }
-                colliderComponent.CollisionFromOther(colliderComponent);
             };
             collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
                 if (colliderComponent.tag == "Mana") {
                     abilityComponent.currentExp++;
                 }
-                colliderComponent.CollisionFromOther(colliderComponent);
             };
 
             health.DeathEvent += collider.RemoveCollider;
@@ -492,11 +504,8 @@ namespace EE.SurvivalArena {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
-                    x.CollisionFromOther(collider);
-
                 }
             };
-
             PoolManager.gameObjects.Add(spawner2);
         }
         public static void SpawnFallingRock(ContentManager contentManager, Vector2 position) {
@@ -520,8 +529,6 @@ namespace EE.SurvivalArena {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
-                    x.CollisionFromOther(collider);
-
                 }
             };
 
@@ -539,7 +546,7 @@ namespace EE.SurvivalArena {
             GameObject spawner2 = new GameObject(position);
             var collider = new ColliderComponent(spawner2, 32, 32);
             collider.tag = "Sword";
-            var physicsComponent = new PhysicsComponent(spawner2, null);
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
             physicsComponent.gravity = 0;
             physicsComponent.moveSpeed = abilityComponent.projectileMovespeed;
             var state = new State();
@@ -565,21 +572,10 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(delayComponent);
 
             collider.CollisionEvents += (ColliderComponent x) => {
-                if (x.tag == "Wall") {
+                if (x.tag == "Wall" || x.tag == "Enemy") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
-                    x.CollisionFromOther(collider);
-
-                }
-            };
-            collider.CollisionEventFromOther += (ColliderComponent x) => {
-                if (x.tag == "Enemy") {
-                    collider.RemoveCollider();
-                    poolableComponent.ReleaseSelf();
-                    spriteRendererComponent.OnDestroy();
-                    x.CollisionFromOther(collider);
-
                 }
             };
             PoolManager.gameObjects.Add(spawner2);
@@ -607,7 +603,6 @@ namespace EE.SurvivalArena {
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
                     healSound.Play();
-                    x.CollisionFromOther(collider);
                 }
             };
             collider.CollisionEventFromOther += (ColliderComponent x) => {
@@ -616,7 +611,6 @@ namespace EE.SurvivalArena {
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
                     healSound.Play();
-                    x.CollisionFromOther(collider);
                 }
             };
             PoolManager.gameObjects.Add(spawner2);
@@ -654,7 +648,6 @@ namespace EE.SurvivalArena {
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
                     healSound.Play();
-                    x.CollisionFromOther(collider);
                 }
             };
             collider.CollisionEventFromOther += (ColliderComponent x) => {
@@ -663,7 +656,6 @@ namespace EE.SurvivalArena {
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
                     healSound.Play();
-                    x.CollisionFromOther(collider);
                 }
             };
             PoolManager.gameObjects.Add(spawner2);

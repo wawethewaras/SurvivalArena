@@ -52,6 +52,7 @@ namespace SurvivalArena.ColliderSystem {
                 if (!colliderComponent.isActive) {
                     continue;
                 }
+
                 if (IsTouchingLeft(colliderComponent, velocity)) {
                     velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
                     collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
@@ -72,6 +73,7 @@ namespace SurvivalArena.ColliderSystem {
                 }
                 if (collidedWithSomething) {
                     CollisionEvents?.Invoke(colliderComponent);
+                    colliderComponent.CollisionFromOther(this);
                 }
             }
             #region Dont check everything

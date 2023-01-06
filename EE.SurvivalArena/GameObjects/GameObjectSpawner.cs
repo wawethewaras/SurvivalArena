@@ -60,7 +60,7 @@ namespace SurvivalArena.GameObjects {
                     UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 1) {
-                    UnitCreatorManager.SpawnADEnemy(contentManager, spawnPosition);
+                    UnitCreatorManager.SpawnShieldEnemy(contentManager, spawnPosition);
                 }
 
                 currentList.RemoveAt(randomIndex);

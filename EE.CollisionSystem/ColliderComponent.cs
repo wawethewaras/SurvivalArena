@@ -10,6 +10,7 @@ namespace SurvivalArena.ColliderSystem {
 
         public static List<ColliderComponent> ColliderComponents = new List<ColliderComponent>();
         IHasPosition positionComponent;
+        public Vector2 Position => positionComponent.Position;
         public int height;
         public int width;
         public bool collidedWithWall;

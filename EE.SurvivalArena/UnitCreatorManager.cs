@@ -187,6 +187,61 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(spawner2);
         }
 
+        public static void SpawnShieldEnemy(ContentManager contentManager, Vector2 spawnPosition) {
+            var enemyAnimation = new SpriteAnimation(contentManager, "Sapling", 16, 16);
+
+            GameObject spawner2 = new GameObject(spawnPosition);
+            var collider = new ColliderComponent(spawner2, 16, 16);
+            collider.tag = "Enemy";
+            collider.LookingRight = Level.Player != null && Level.Player.Position.X > spawner2.position.X;
+            var physicsComponent = new PhysicsComponent(spawner2, collider);
+            physicsComponent.moveSpeed = 75;
+            var state = new State();
+            state.OnActEvent += physicsComponent.ADMovement;
+            var stateComponent = new StateComponent();
+            stateComponent.TransitionToState(state);
+
+            var health = new HealthComponent(1, spawner2);
+            var poolableComponent = new PoolableComponent(spawner2);
+            var spriteRendererComponent = new SpriteRendererComponent(enemyAnimation, spawner2, collider);
+            var score = new ScoreComponent(100, 1);
+            health.hurtTag = "Sword";
+            spawner2.AddComponent(physicsComponent);
+            spawner2.AddComponent(stateComponent);
+            spawner2.AddComponent(health);
+            spawner2.AddComponent(spriteRendererComponent);
+            spawner2.AddComponent(score);
+
+            collider.CollisionEvents += (ColliderComponent colliderComponent) => {
+                if (colliderComponent.tag != health.hurtTag) {
+                    return;
+                }
+                var lookingRightAndTargetLeft = collider.LookingRight && colliderComponent.Position.X < collider.Position.X;
+                var lookinLeftAndTargetRight = !collider.LookingRight && colliderComponent.Position.X > collider.Position.X;
+
+                if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
+                    health.DealDamage(colliderComponent.tag);
+                }
+                colliderComponent.CollisionFromOther(collider);
+            };
+            health.DeathEvent += collider.RemoveCollider;
+            health.DeathEvent += poolableComponent.ReleaseSelf;
+            health.DeathEvent += spriteRendererComponent.OnDestroy;
+            health.DeathEvent += score.AddScore;
+            health.DeathEvent += () => {
+                Random random = new Random();
+                var num = random.Next(0, 10);
+                if (num > 7) {
+                    SpawnPotion(contentManager, spawner2.position);
+                }
+            };
+            health.DeathEvent += () => SpawnExplosion(contentManager, spawner2.position);
+            health.DeathEvent += () => SpawnMana(contentManager, spawner2.position);
+
+            health.HitEvent += () => new PlaySoundAction(contentManager, "Hit_Hurt_Enemy").Invoke();
+
+            PoolManager.gameObjects.Add(spawner2);
+        }
 
         public static void SpawnShootingEnemy(ContentManager contentManager, Vector2 spawnPosition) {         
             GameObject spawner2 = new GameObject(spawnPosition);
@@ -238,8 +293,6 @@ namespace EE.SurvivalArena {
 
             PoolManager.gameObjects.Add(spawner2);
         }
-
-
         public static void CreatePlayer(ContentManager contentManager, Vector2 position) {
             var playerAnimation_Idle = new SpriteAnimation(contentManager, "Player", 32, 32);
             var playerAnimation_Walk = new SpriteAnimation(contentManager, "Player_Run", 32, 32);
@@ -376,7 +429,6 @@ namespace EE.SurvivalArena {
             SpriteRendererComponent.spriteRendererComponents.Add(powerLevel);
             PoolManager.gameObjects.Add(powerLevel);
         }
-
         public static SwordComponent SpawnSword(ContentManager contentManager, IHasPosition hasPosition, IHasFacingDirection hasFacingDirection) {
             var hammerSound = contentManager.Load<SoundEffect>("Hammer");
 
@@ -403,7 +455,6 @@ namespace EE.SurvivalArena {
         public static void CreateTileGrass(ContentManager contentManager, Vector2 position) {
             CreateTile(contentManager, "Tile_Grass", position);
         }
-
         public static void CreateTile(ContentManager contentManager, string tileName,Vector2 position) {
             var tileAnimation = new SpriteAnimation(contentManager, tileName, 16, 16);
 
@@ -522,7 +573,15 @@ namespace EE.SurvivalArena {
 
                 }
             };
+            collider.CollisionEventFromOther += (ColliderComponent x) => {
+                if (x.tag == "Enemy") {
+                    collider.RemoveCollider();
+                    poolableComponent.ReleaseSelf();
+                    spriteRendererComponent.OnDestroy();
+                    x.CollisionFromOther(collider);
 
+                }
+            };
             PoolManager.gameObjects.Add(spawner2);
         }
         public static void SpawnPotion(ContentManager contentManager, Vector2 spawnPosition) {

@@ -4,6 +4,7 @@ using EE.InputSystem;
 using EE.PoolingSystem;
 using EE.SpriteRendererSystem;
 using EE.SurvivalArena;
+using EE.SurvivalArena.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -15,7 +16,6 @@ using SurvivalArena.Sword;
 
 namespace SurvivalArena.TileSystem {
     public class Level {
-        public static IHasPosition Player;
         private const int tileSize = 16;
 
         public Level(ContentManager contentManager) {
@@ -38,7 +38,8 @@ namespace SurvivalArena.TileSystem {
                 var position = new Vector2(i * tileSize, currentLine * tileSize);
 
                 if (line[i] == 'P') {
-                    UnitCreatorManager.CreatePlayer(contentManager, position);
+                    var player = new Player(contentManager, position);
+                    player.healthComponent.DeathEvent += SurvivalArenaGame.GameOver;
                 }
                 else if (line[i] == 'E') {
                     UnitCreatorManager.CreateEnemySpawner(contentManager, position);

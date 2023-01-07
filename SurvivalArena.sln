@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.GameObjectSystem", "EE.GameObjectSystem\EE.GameObjectSystem.csproj", "{60E6F710-A40E-457A-B767-2C7201071DCF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MonoGameBase", "MonoGameBase\MonoGameBase.csproj", "{293524B3-A26D-4036-BD7B-9BAAF7344DFD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.MonoGameBase", "MonoGameBase\EE.MonoGameBase.csproj", "{293524B3-A26D-4036-BD7B-9BAAF7344DFD}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.SurvivalArena", "EE.SurvivalArena\EE.SurvivalArena.csproj", "{9C4760DB-1CB4-4718-968E-BCE0EA4A3CFB}"
 EndProject
@@ -23,17 +23,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.HealthSystem", "EE.Healt
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.SpriteRendererSystem", "EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj", "{A448418E-DBDB-4C83-9093-5717D0577F05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MainMenuSystem", "MainMenuSystem\MainMenuSystem.csproj", "{F765E23D-AAD0-4EC9-9B31-92EC661CF385}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.MainMenuSystem", "MainMenuSystem\EE.MainMenuSystem.csproj", "{F765E23D-AAD0-4EC9-9B31-92EC661CF385}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.ScoreSystem", "EE.ScoreSystem\EE.ScoreSystem.csproj", "{DE0105E2-0999-4FCE-BE1B-54DB01DB9F8E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.StateSystem", "EE.StateSystem\EE.StateSystem.csproj", "{9CDD0BDA-15FF-43DB-9EA8-D4E3B797A399}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.AbilitySystem", "EE.AbilitySystem\EE.AbilitySystem.csproj", "{991C69E8-ED69-42C7-8439-7A6C14C96FDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.AbilitySystem", "EE.AbilitySystem\EE.AbilitySystem.csproj", "{991C69E8-ED69-42C7-8439-7A6C14C96FDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.SoundSystem", "EE.SoundSystem\EE.SoundSystem.csproj", "{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.SoundSystem", "EE.SoundSystem\EE.SoundSystem.csproj", "{1054B62E-8AEA-482D-A56B-8A472BCA2BFF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.FileManagement", "EE.FileManagement\EE.FileManagement.csproj", "{C78BF29D-3603-4719-881F-7B7458E58B47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EE.FileManagement", "EE.FileManagement\EE.FileManagement.csproj", "{C78BF29D-3603-4719-881F-7B7458E58B47}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EE.SurvivalArena.Units", "EE.SurvivalArena.Units\EE.SurvivalArena.Units.csproj", "{A4AA6EE8-148F-48A4-8EA7-CCDC6FEB56E6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -105,6 +107,10 @@ Global
 		{C78BF29D-3603-4719-881F-7B7458E58B47}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C78BF29D-3603-4719-881F-7B7458E58B47}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C78BF29D-3603-4719-881F-7B7458E58B47}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4AA6EE8-148F-48A4-8EA7-CCDC6FEB56E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4AA6EE8-148F-48A4-8EA7-CCDC6FEB56E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4AA6EE8-148F-48A4-8EA7-CCDC6FEB56E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4AA6EE8-148F-48A4-8EA7-CCDC6FEB56E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

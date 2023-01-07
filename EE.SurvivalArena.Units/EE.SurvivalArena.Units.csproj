@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -7,25 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.0.1641" />
-    <PackageReference Include="MonoGame.Framework.DesktopGL" Version="3.8.0.1641" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\EE.AbilitySystem\EE.AbilitySystem.csproj" />
-    <ProjectReference Include="..\EE.CollisionSystem\EE.CollisionSystem.csproj" />
-    <ProjectReference Include="..\EE.FileManagement\EE.FileManagement.csproj" />
-    <ProjectReference Include="..\EE.GameObjectSystem\EE.GameObjectSystem.csproj" />
     <ProjectReference Include="..\EE.HealthSystem\EE.HealthSystem.csproj" />
     <ProjectReference Include="..\EE.InputSystem\EE.InputSystem.csproj" />
     <ProjectReference Include="..\EE.PhysicsSystem\EE.PhysicsSystem.csproj" />
     <ProjectReference Include="..\EE.PoolingSystem\EE.PoolingSystem.csproj" />
-    <ProjectReference Include="..\EE.ScoreSystem\EE.ScoreSystem.csproj" />
-    <ProjectReference Include="..\EE.SoundSystem\EE.SoundSystem.csproj" />
     <ProjectReference Include="..\EE.SpriteRendererSystem\EE.SpriteRendererSystem.csproj" />
     <ProjectReference Include="..\EE.StateSystem\EE.StateSystem.csproj" />
-    <ProjectReference Include="..\EE.SurvivalArena.Units\EE.SurvivalArena.Units.csproj" />
-    <ProjectReference Include="..\EE.TilemapSystem\EE.TilemapSystem.csproj" />
     <ProjectReference Include="..\MainMenuSystem\EE.MainMenuSystem.csproj" />
   </ItemGroup>
 

@@ -70,4 +70,34 @@ namespace SurvivalArena.GameObjects {
         int Value { get; }
 
     }
+    public class DelayComponent : IComponent {
+
+        private float swordTimeMin = 0.25f;
+        private float swordTimeMax = 0.25f;
+
+        public float swordTimeCounter = 0;
+        public event Action SwordAttack;
+        public bool resetOnDefault = true;
+
+        public void Reset() {
+            System.Random random = new System.Random();
+            double val = (random.NextDouble() * (swordTimeMax - swordTimeMin) + swordTimeMin);
+            swordTimeCounter = (float)val;
+
+        }
+        public void Update(float gameTime) {
+            swordTimeCounter -= gameTime;
+
+            if (resetOnDefault && swordTimeCounter < 0) {
+                SwordAttack?.Invoke();
+                System.Random random = new System.Random();
+                double val = (random.NextDouble() * (swordTimeMax - swordTimeMin) + swordTimeMin);
+                swordTimeCounter = (float)val;
+            }
+        }
+        public void SetRange(float min, float max) {
+            swordTimeMin = min;
+            swordTimeMax = max;
+        }
+    }
 }

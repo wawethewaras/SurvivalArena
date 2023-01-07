@@ -45,7 +45,7 @@ namespace MainMenuSystem {
             }
         }
         public void Update(float gameTime) {
-            if (Keyboard.GetState().IsKeyDown(Keys.Back) && myBoxHasFocus) {
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) && myBoxHasFocus && myTextBoxDisplayCharacters.Length > 0) {
                 myTextBoxDisplayCharacters.Remove(myTextBoxDisplayCharacters.Length - 1, 1);
                 myBoxHasFocus = false;
             }

@@ -34,12 +34,6 @@ namespace EE.SurvivalArena {
             PoolManager.gameObjects.Add(spawner);
         }
 
-        public static void CreateTileGround(ContentManager contentManager, Vector2 position) {
-            CreateTile(contentManager, "Tile", position);
-        }
-        public static void CreateTileGrass(ContentManager contentManager, Vector2 position) {
-            CreateTile(contentManager, "Tile_Grass", position);
-        }
         public static void CreateTile(ContentManager contentManager, string tileName,Vector2 position) {
             var tileAnimation = new SpriteAnimation(contentManager, tileName, 16, 16);
 

@@ -18,7 +18,7 @@ using SurvivalArena.Physics;
 using SurvivalArena.TileSystem;
 
 namespace EE.SurvivalArena.Units {
-    internal class Slime {
+    public class Slime {
         public Slime(ContentManager contentManager, Vector2 spawnPosition) {
             var enemyAnimation = new SpriteAnimation(contentManager, "Slime", 32, 32);
 

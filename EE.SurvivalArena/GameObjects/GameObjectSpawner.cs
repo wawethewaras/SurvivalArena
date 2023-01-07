@@ -21,6 +21,7 @@ namespace SurvivalArena.GameObjects {
 
         public float invurnableDurationTimer = 0;
         List<int> numbers = new List<int>() { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3 };
+        List<int> numbers2 = new List<int>() { 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 4,4,4,4 };
 
         List<int> currentList = new List<int>();
 
@@ -40,6 +41,7 @@ namespace SurvivalArena.GameObjects {
                     new Slugrin(contentManager, spawnPosition);
                     invurnableDurationTimer = delayAfterBoss;
                     currentWaves = 0;
+                    numbers = numbers2;
                     return;
                 }
                 if (currentList.Count <= 0) {
@@ -51,14 +53,17 @@ namespace SurvivalArena.GameObjects {
 
                 var randomIndex = random.Next(0, currentList.Count);
                 var randomNumber = currentList[randomIndex];
-                if (randomNumber == 3) {
+                if (randomNumber == 4) {
+                    new Woodling(contentManager, spawnPosition);
+                }
+                else if(randomNumber == 3) {
                     new SlugHound(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 2) {
                     new Plagrin(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 1) {
-                    new Woodling(contentManager, spawnPosition);
+                    new Slime(contentManager, spawnPosition);
                 }
 
                 currentList.RemoveAt(randomIndex);

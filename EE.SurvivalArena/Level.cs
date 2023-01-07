@@ -42,16 +42,17 @@ namespace SurvivalArena.TileSystem {
                     player.healthComponent.DeathEvent += SurvivalArenaGame.GameOver;
                 }
                 else if (line[i] == 'E') {
-                    UnitCreatorManager.CreateEnemySpawner(contentManager, position);
+                    var spawner = new GameObjectSpawner(contentManager, position);
+                    PoolManager.gameObjects.Add(spawner);
                 }
                 else if (line[i] == 'R') {
                     UnitCreatorManager.CreateRockSpawner(contentManager, position);
                 }
                 else if (line[i] == '#') {
-                    UnitCreatorManager.CreateTileGround(contentManager, position);
+                    UnitCreatorManager.CreateTile(contentManager, "Tile", position);
                 }
                 else if (line[i] == '_') {
-                    UnitCreatorManager.CreateTileGrass(contentManager, position);
+                    UnitCreatorManager.CreateTile(contentManager, "Tile_Grass", position);
                 }
             }
         }

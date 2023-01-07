@@ -7,8 +7,8 @@ namespace EE.AbilitySystem {
         public int currentExp;
         public int maxExp = 10;
 
-        public int projectileMovespeed = 350;
-        public float projectileLifeTime = 0.15f;
+        public int projectileMovespeed = 500;
+        public float projectileLifeTime = 0.1f;
 
         public SoundEffect powerUp;
 

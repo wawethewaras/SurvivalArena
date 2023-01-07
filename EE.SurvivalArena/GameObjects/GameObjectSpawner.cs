@@ -1,4 +1,5 @@
 ﻿using EE.SurvivalArena;
+using EE.SurvivalArena.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -36,7 +37,7 @@ namespace SurvivalArena.GameObjects {
             if (invurnableDurationTimer <= 0) {
                 Random random = new Random();
                 if (currentWaves >= maxWaves) {
-                    UnitCreatorManager.SpawnSlugrinEnemy(contentManager, spawnPosition);
+                    new Slugrin(contentManager, spawnPosition);
                     invurnableDurationTimer = delayAfterBoss;
                     currentWaves = 0;
                     return;
@@ -51,13 +52,13 @@ namespace SurvivalArena.GameObjects {
                 var randomIndex = random.Next(0, currentList.Count);
                 var randomNumber = currentList[randomIndex];
                 if (randomNumber == 3) {
-                    UnitCreatorManager.SpawnSlugHound(contentManager, spawnPosition);
+                    new SlugHound(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 2) {
-                    UnitCreatorManager.SpawnShootingEnemy(contentManager, spawnPosition);
+                    new Plagrin(contentManager, spawnPosition);
                 }
                 else if (randomNumber == 1) {
-                    UnitCreatorManager.SpawnShieldEnemy(contentManager, spawnPosition);
+                    new Woodling(contentManager, spawnPosition);
                 }
 
                 currentList.RemoveAt(randomIndex);

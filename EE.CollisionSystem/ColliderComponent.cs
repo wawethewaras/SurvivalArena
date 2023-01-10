@@ -32,8 +32,6 @@ namespace EE.CollisionSystem {
 
         public static Texture2D? rectangeTexture = null;
 
-
-        public static List<ColliderComponent> ColliderComponents = new List<ColliderComponent>();
         IHasPosition positionComponent;
         public Vector2 Position => positionComponent.Position;
         public int height;
@@ -66,7 +64,6 @@ namespace EE.CollisionSystem {
             this.width = width;
             this.height = height;
             ColliderEngine.TheColliderEngine.Add(this);
-            ColliderComponents.Add(this);
         }
         public void Update(float gameTime) {
             var xPosition = (int)(Position.X / ColliderEngine.xNodeSize);
@@ -85,76 +82,58 @@ namespace EE.CollisionSystem {
                 velocity = new Vector2(0.1f,0.1f);
             }
 
-            for (int i = ColliderComponents.Count - 1; i >= 0; i--) {
-                var collidedWithSomething = false;
-                var colliderComponent = ColliderComponents[i];
-                if (!colliderComponent.isActive) {
-                    continue;
-                }
+            var xStart = (int)Math.Floor(positionComponent.Position.X / 16);
+            var YStart = (int)Math.Floor(positionComponent.Position.Y / 16);
+            var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
+            var YEnd = (int)Math.Round((positionComponent.Position.Y + velocity.Y + height) / 16);
 
-                if (IsTouchingLeft(colliderComponent, velocity)) {
-                    velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
-                    collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
-                    collidedWithSomething = true;
-                }
-                else if (IsTouchingRight(colliderComponent, velocity)) {
-                    velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
-                    collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
-                    collidedWithSomething = true;
-                }
-                else if (IsTouchingTop(colliderComponent, velocity)) {
-                    velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
-                    collidedWithSomething = true;
-                }
-                else if (IsTouchingBottom(colliderComponent, velocity)) {
-                    velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
-                    collidedWithSomething = true;
-                }
-                if (collidedWithSomething) {
-                    CollisionEvents?.Invoke(colliderComponent);
-                    colliderComponent.CollisionFromOther(this);
+            for (int x = xStart; x <= xEnd; x++) {
+                for (int y = YStart; y <= YEnd; y++) {
+                    if (x >= ColliderEngine.TheColliderEngine.gridNodes.GetLength(0) || x < 0) {
+                        velocity.X = 0;
+                    }
+                    if (y >= ColliderEngine.TheColliderEngine.gridNodes.GetLength(1) || y < 0) {
+                        velocity.Y = 0;
+                    }
+
+                    if (x >= ColliderEngine.TheColliderEngine.gridNodes.GetLength(0) || x < 0 || y >= ColliderEngine.TheColliderEngine.gridNodes.GetLength(1) || y < 0) {
+                        continue;
+                    }
+                    var colliderComponent = ColliderEngine.TheColliderEngine.gridNodes[x, y];
+                    while (colliderComponent != null) {
+                        var collidedWithSomething = false;
+                        if (!colliderComponent.isActive) {
+                            continue;
+                        }
+                        if (IsTouchingLeft(colliderComponent, velocity)) {
+                            velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
+                            collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
+                            collidedWithSomething = true;
+                        }
+                        else if (IsTouchingRight(colliderComponent, velocity)) {
+                            velocity.X = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.X;
+                            collidedWithWall = colliderComponent.tag == tagThatStopsMovement ? true : collidedWithWall;
+                            collidedWithSomething = true;
+                        }
+                        else if (IsTouchingTop(colliderComponent, velocity)) {
+                            velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
+                            collidedWithSomething = true;
+                        }
+                        else if (IsTouchingBottom(colliderComponent, velocity)) {
+                            velocity.Y = colliderComponent.tag == tagThatStopsMovement ? 0 : velocity.Y;
+                            collidedWithSomething = true;
+                        }
+                        if (collidedWithSomething) {
+                            CollisionEvents?.Invoke(colliderComponent);
+                            colliderComponent.CollisionFromOther(this);
+                        }
+                        colliderComponent = colliderComponent.nextCollider;
+                    }
+
+
+
                 }
             }
-            #region Dont check everything
-            //var xStart = (int)Math.Floor(positionComponent.Position.X / 16);
-            //var YStart = (int)Math.Floor(positionComponent.Position.Y / 16);
-            //var xEnd = (int)Math.Round((positionComponent.Position.X + velocity.X + width) / 16);
-            //var YEnd = (int)Math.Round((positionComponent.Position.Y + velocity.Y + height) / 16);
-
-            //for (int x = xStart; x <= xEnd; x++) {
-            //    for (int y = YStart; y <= YEnd; y++) {
-            //        if (x >= Level.tiles.GetLength(0) || x < 0) {
-            //            velocity.X = 0;
-            //        }
-            //        if (y >= Level.tiles.GetLength(1) || y < 0) {
-            //            velocity.Y = 0;
-            //        }
-
-            //        if (x >= Level.tiles.GetLength(0) || x < 0 || y >= Level.tiles.GetLength(1) || y < 0) {
-            //            continue;
-            //        }
-            //        var tile = Level.tiles[x, y];
-            //        if (tile.colliderComponent == null) {
-            //            continue;
-            //        }
-            //        if (velocity.X > 0 && IsTouchingLeft(tile.colliderComponent, velocity)) {
-            //            velocity.X = 0;
-            //            collidedWithWall = true;
-            //        }
-            //        if (velocity.X < 0 && IsTouchingRight(tile.colliderComponent, velocity)) {
-            //            velocity.X = 0;
-            //            collidedWithWall = true;
-            //        }
-            //        if (velocity.Y > 0 && IsTouchingTop(tile.colliderComponent, velocity)) {
-            //            velocity.Y = 0;
-            //        }
-            //        if (velocity.Y < 0 && IsTouchingBottom(tile.colliderComponent, velocity)) {
-            //            velocity.Y = 0;
-            //        }
-
-            //    }
-            //}
-            #endregion
             return velocity;
         }
         protected bool IsTouchingLeft(ColliderComponent sprite, Vector2 velocity) {
@@ -186,7 +165,6 @@ namespace EE.CollisionSystem {
         }
         public void RemoveCollider() {
             ColliderEngine.TheColliderEngine.RemoveNode(this);
-            ColliderComponents.Remove(this);
         }
 
         public void SetActive() {

@@ -122,7 +122,7 @@ namespace SurvivalArena {
         public void ChangeToRunning() {
             gameState = GameState.Running;
             SpriteRendererComponent.spriteRendererComponents = new List<IEEDrawable>();
-            ColliderComponent.ColliderComponents = new List<ColliderComponent>();
+            ColliderEngine.TheColliderEngine.ResetColliders();
             PoolManager.gameObjects = new List<IUpdater>();
             GameObjectSpawner.currentWaves = 0;
             level = new Level(contentManager);

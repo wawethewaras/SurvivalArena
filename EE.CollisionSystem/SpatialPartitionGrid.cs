@@ -19,6 +19,10 @@ namespace EE.CollisionSystem {
             gridNodes = new ColliderComponent[xSize, ySize];
         }
 
+        public void ResetColliders() {
+            gridNodes = new ColliderComponent[xSize, ySize];
+        }
+
         public void Add(ColliderComponent colliderComponent) {
             var xPosition = (int)(colliderComponent.Position.X / xNodeSize);
             var yPosition = (int)(colliderComponent.Position.Y / yNodeSize);

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
-using SurvivalArena.ColliderSystem;
+using EE.CollisionSystem;
 using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.Physics {

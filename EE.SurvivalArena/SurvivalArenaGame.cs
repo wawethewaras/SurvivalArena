@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
-using SurvivalArena.ColliderSystem;
+using EE.CollisionSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.TileSystem;
 
@@ -78,6 +78,8 @@ namespace SurvivalArena {
             contentManager = new ContentManager(serviceProvider, "Content");
             ColliderComponent.rectangeTexture = new Texture2D(graphicsDeviceManager.GraphicsDevice, 1, 1);
             ColliderComponent.rectangeTexture.SetData(new[] { Color.White });
+
+            ColliderEngine.TheColliderEngine = new ColliderEngine(settings.GAMEWIDTH, settings.GAMEHEIGHT);
             level = new Level(contentManager);
 
             font = contentManager.Load<SpriteFont>("FontTest");
@@ -126,6 +128,7 @@ namespace SurvivalArena {
             level = new Level(contentManager);
             ScoreManager.Score = 0;
             ScoreManager.ScoreSaved = false;
+            GameObjectSpawner.WaveCounter = 0;
         }
         public static void ChangeToMainMenu() {
             gameState = GameState.MainMenu;

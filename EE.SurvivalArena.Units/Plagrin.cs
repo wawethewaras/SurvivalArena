@@ -1,21 +1,14 @@
-﻿using EE.AbilitySystem;
-using EE.HealthSystem;
-using EE.InputSystem;
-using EE.PoolingSystem;
+﻿using EE.PoolingSystem;
 using EE.ScoreSystem;
 using EE.SoundSystem;
 using EE.SpriteRendererSystem;
 using EE.StateSystem;
-using MainMenuSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.HealthSystem;
 using SurvivalArena.Physics;
-using SurvivalArena.TileSystem;
+using EE.CollisionSystem;
 
 namespace EE.SurvivalArena.Units {
     public class Plagrin {
@@ -41,7 +34,7 @@ namespace EE.SurvivalArena.Units {
 
 
             var delayComponent = new DelayComponent();
-            delayComponent.SetRange(3f, 4f);
+            delayComponent.SetRange(2f, 2f);
 
             delayComponent.Reset();
             delayComponent.SwordAttack += () => {

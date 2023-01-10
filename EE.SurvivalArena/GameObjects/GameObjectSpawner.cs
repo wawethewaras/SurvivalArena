@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace SurvivalArena.GameObjects {
     public class GameObjectSpawner : IUpdater {
+        public static List<GameObjectSpawner> Spawns = new List<GameObjectSpawner>();
         public static int WaveCounter = 0;
 
         public int maxWaves = 20;
@@ -15,7 +16,7 @@ namespace SurvivalArena.GameObjects {
         public ContentManager contentManager;
         public int invurnableDurationMax = 6;
         public int invurnableDurationMin = 3;
-        public int delayAfterBoss = 9;
+        public int delayAfterBoss = 10;
 
         protected Vector2 spawnPosition;
 
@@ -31,6 +32,7 @@ namespace SurvivalArena.GameObjects {
             foreach (var item in numbers) {
                 currentList.Add(item);
             }
+            Spawns.Add(this);
         }
 
         public void Update(float gameTime) {
@@ -39,9 +41,11 @@ namespace SurvivalArena.GameObjects {
                 Random random = new Random();
                 if (currentWaves >= maxWaves) {
                     new Slugrin(contentManager, spawnPosition);
-                    invurnableDurationTimer = delayAfterBoss;
+                    foreach (var spawner in Spawns) {
+                        spawner.invurnableDurationTimer = delayAfterBoss;
+                        spawner.numbers = numbers2;
+                    }
                     currentWaves = 0;
-                    numbers = numbers2;
                     return;
                 }
                 if (currentList.Count <= 0) {

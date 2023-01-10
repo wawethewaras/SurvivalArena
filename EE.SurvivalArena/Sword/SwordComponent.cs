@@ -1,8 +1,4 @@
-﻿using EE.PoolingSystem;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SurvivalArena.ColliderSystem;
+﻿using Microsoft.Xna.Framework.Input;
 using SurvivalArena.GameObjects;
 
 namespace SurvivalArena.Sword {

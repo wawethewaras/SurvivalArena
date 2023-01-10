@@ -1,24 +1,11 @@
-﻿using EE.AbilitySystem;
-using EE.HealthSystem;
-using EE.InputSystem;
-using EE.PoolingSystem;
-using EE.ScoreSystem;
-using EE.SoundSystem;
+﻿using EE.PoolingSystem;
 using EE.SpriteRendererSystem;
 using EE.StateSystem;
-using EE.SurvivalArena.Units;
-using MainMenuSystem;
 using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using SurvivalArena;
-using SurvivalArena.ColliderSystem;
+using EE.CollisionSystem;
 using SurvivalArena.GameObjects;
-using SurvivalArena.HealthSystem;
 using SurvivalArena.Physics;
-using SurvivalArena.Sword;
 using SurvivalArena.TileSystem;
 
 namespace EE.SurvivalArena {

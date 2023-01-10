@@ -2,8 +2,12 @@
 using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
-namespace SurvivalArena.ColliderSystem {
+namespace EE.CollisionSystem {
     public class ColliderComponent : IHasFacingDirection {
+
+        public ColliderComponent nextCollider;
+        public ColliderComponent previousCollider;
+
 
         public static Texture2D? rectangeTexture = null;
 
@@ -33,10 +37,16 @@ namespace SurvivalArena.ColliderSystem {
         }
 
         public ColliderComponent(IHasPosition positionComponent, int width, int height) {
+            if (ColliderEngine.TheColliderEngine == null) {
+                throw new Exception("Collider engine needs to be initilized!");
+            }
+
+
+
             this.positionComponent = positionComponent;
             this.width = width;
             this.height = height;
-
+            ColliderEngine.TheColliderEngine.Add(this);
             ColliderComponents.Add(this);
         }
 

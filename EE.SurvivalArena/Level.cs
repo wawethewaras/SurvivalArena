@@ -1,6 +1,5 @@
 ﻿
 using EE.FileManagement;
-using EE.InputSystem;
 using EE.PoolingSystem;
 using EE.SpriteRendererSystem;
 using EE.SurvivalArena;
@@ -8,11 +7,7 @@ using EE.SurvivalArena.Units;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
-using SurvivalArena.HealthSystem;
-using SurvivalArena.Physics;
-using SurvivalArena.Sword;
 
 namespace SurvivalArena.TileSystem {
     public class Level {

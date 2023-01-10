@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.ColliderSystem;
+using EE.CollisionSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.HealthSystem;
 using SurvivalArena.Physics;

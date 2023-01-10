@@ -9,11 +9,10 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using SurvivalArena.ColliderSystem;
 using SurvivalArena.GameObjects;
 using SurvivalArena.HealthSystem;
 using SurvivalArena.Physics;
-using SurvivalArena.TileSystem;
+using EE.CollisionSystem;
 
 namespace EE.SurvivalArena.Units {
     public class Player : GameObject {
@@ -157,6 +156,9 @@ namespace EE.SurvivalArena.Units {
             var bombAnimation = new SpriteAnimation(contentManager, "SporeBolt", 32, 32);
 
             var mpos = new InputComponent().ShootDirection(spawnPosition.Position);
+            if (Math.Abs(mpos.X) < 0.1f) {
+                mpos = hasFacingDirection.LookingRight ? new Vector2(1, 0) : new Vector2(-1, 0);
+            }
             hasFacingDirection.LookingRight = mpos.X > 0;
 
             var position = spawnPosition.Position;

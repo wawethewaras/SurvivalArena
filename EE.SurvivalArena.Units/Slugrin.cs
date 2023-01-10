@@ -45,6 +45,7 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(health);
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(score);
+            spawner2.AddComponent(collider);
 
             collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
             collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);

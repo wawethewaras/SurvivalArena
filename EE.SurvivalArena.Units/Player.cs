@@ -136,6 +136,7 @@ namespace EE.SurvivalArena.Units {
             player.AddComponent(spriteRendererComponent);
             player.AddComponent(delayComponent);
             player.AddComponent(abilityComponent);
+            player.AddComponent(collider);
 
             HealthUIManager healthUIManager = new HealthUIManager(contentManager, healthComponent, player);
 

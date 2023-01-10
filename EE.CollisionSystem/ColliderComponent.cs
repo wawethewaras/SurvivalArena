@@ -3,11 +3,32 @@ using Microsoft.Xna.Framework.Graphics;
 using SurvivalArena.GameObjects;
 
 namespace EE.CollisionSystem {
-    public class ColliderComponent : IHasFacingDirection {
-
+    public class ColliderComponent : IHasFacingDirection, IComponent {
         public ColliderComponent nextCollider;
+        public ColliderComponent NextCollider { 
+            get {
+                return nextCollider;
+            }
+            set {
+                nextCollider = value;
+                if (nextCollider == this) {
+                    throw new Exception("This should never happen. Will cause an infinite loop.");
+                }
+            }
+        }
         public ColliderComponent previousCollider;
-
+        public ColliderComponent PreviousCollider {
+            get {
+                return previousCollider;
+            }
+            set {
+                previousCollider = value;
+                if (previousCollider == this) {
+                    throw new Exception("This should never happen. Will cause an infinite loop.");
+                }
+            }
+        }
+        public Vector2 currentCell;
 
         public static Texture2D? rectangeTexture = null;
 
@@ -41,13 +62,21 @@ namespace EE.CollisionSystem {
                 throw new Exception("Collider engine needs to be initilized!");
             }
 
-
-
             this.positionComponent = positionComponent;
             this.width = width;
             this.height = height;
             ColliderEngine.TheColliderEngine.Add(this);
             ColliderComponents.Add(this);
+        }
+        public void Update(float gameTime) {
+            var xPosition = (int)(Position.X / ColliderEngine.xNodeSize);
+            var yPosition = (int)(Position.Y / ColliderEngine.yNodeSize);
+
+            if (xPosition != currentCell.X || yPosition != currentCell.Y) {
+
+                ColliderEngine.TheColliderEngine.RemoveNode(this);
+                ColliderEngine.TheColliderEngine.Add(this);
+            }
         }
 
         public Vector2 CheckCollision(Vector2 velocity) {
@@ -156,6 +185,7 @@ namespace EE.CollisionSystem {
               Rectangle.Left < sprite.Rectangle.Right;
         }
         public void RemoveCollider() {
+            ColliderEngine.TheColliderEngine.RemoveNode(this);
             ColliderComponents.Remove(this);
         }
 
@@ -165,6 +195,8 @@ namespace EE.CollisionSystem {
         public void DeActive() {
             isActive = false;
         }
+
+
     }
 
 

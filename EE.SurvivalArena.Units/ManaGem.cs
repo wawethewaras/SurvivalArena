@@ -45,6 +45,7 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(physicsComponent);
             spawner2.AddComponent(delayComponent);
+            spawner2.AddComponent(collider);
 
             collider.CollisionEvents += (ColliderComponent x) => {
                 if (x.tag == "Player") {

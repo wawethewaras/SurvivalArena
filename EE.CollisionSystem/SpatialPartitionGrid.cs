@@ -13,10 +13,18 @@ namespace EE.CollisionSystem {
         public ColliderComponent[,] gridNodes;
 
         public ColliderEngine(int levelSizeX, int levelSizeY) {
-            this.xSize = levelSizeX/ xNodeSize;
-            this.ySize = levelSizeY/ yNodeSize;
+            this.xSize = (int)Math.Ceiling((double)levelSizeX / xNodeSize);
+            this.ySize = (int)Math.Ceiling((double)levelSizeY/ yNodeSize);
 
             gridNodes = new ColliderComponent[xSize, ySize];
+
+            if (TheColliderEngine != null) {
+                throw new Exception("Trying to create multiple Collider Engines! Currently there should be only one.");
+            }
+            if (TheColliderEngine == null) {
+                TheColliderEngine = this;
+            }
+
         }
 
         public void ResetColliders() {

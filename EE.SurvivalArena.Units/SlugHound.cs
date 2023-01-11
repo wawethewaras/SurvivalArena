@@ -62,8 +62,8 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(delayComponent);
             spawner2.AddComponent(collider);
 
-            collider.CollisionEvents += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
-            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => health.DealDamage(colliderComponent.tag);
+            collider.CollisionEvents += (IColliderComponent colliderComponent) => health.DealDamage(colliderComponent.Tag);
+            collider.CollisionEventFromOther += (IColliderComponent colliderComponent) => health.DealDamage(colliderComponent.Tag);
             health.DeathEvent += collider.RemoveCollider;
             health.DeathEvent += poolableComponent.ReleaseSelf;
             health.DeathEvent += spriteRendererComponent.OnDestroy;

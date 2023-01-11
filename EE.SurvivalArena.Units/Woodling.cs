@@ -38,26 +38,26 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(score);
             spawner2.AddComponent(collider);
 
-            collider.CollisionEvents += (ColliderComponent colliderComponent) => {
-                if (colliderComponent.tag != health.hurtTag) {
+            collider.CollisionEvents += (IColliderComponent colliderComponent) => {
+                if (colliderComponent.Tag != health.hurtTag) {
                     return;
                 }
                 var lookingRightAndTargetLeft = collider.LookingRight && colliderComponent.Position.X < collider.Position.X;
                 var lookinLeftAndTargetRight = !collider.LookingRight && colliderComponent.Position.X > collider.Position.X;
 
                 if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
-                    health.DealDamage(colliderComponent.tag);
+                    health.DealDamage(colliderComponent.Tag);
                 }
             };
-            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
-                if (colliderComponent.tag != health.hurtTag) {
+            collider.CollisionEventFromOther += (IColliderComponent colliderComponent) => {
+                if (colliderComponent.Tag != health.hurtTag) {
                     return;
                 }
                 var lookingRightAndTargetLeft = collider.LookingRight && colliderComponent.Position.X < collider.Position.X;
                 var lookinLeftAndTargetRight = !collider.LookingRight && colliderComponent.Position.X > collider.Position.X;
 
                 if (lookingRightAndTargetLeft || lookinLeftAndTargetRight) {
-                    health.DealDamage(colliderComponent.tag);
+                    health.DealDamage(colliderComponent.Tag);
                 }
                 else {
                     new PlaySoundAction(contentManager, "Blocked").Invoke();

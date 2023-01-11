@@ -44,15 +44,15 @@ namespace EE.SurvivalArena.Units {
             delayComponent.resetOnDefault = false;
 
             healthComponent.hurtTag = "Enemy";
-            collider.CollisionEvents += (ColliderComponent colliderComponent) => healthComponent.DealDamage(colliderComponent.tag);
-            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => healthComponent.DealDamage(colliderComponent.tag);
-            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
-                if (colliderComponent.tag == "Heal") {
+            collider.CollisionEvents += (IColliderComponent colliderComponent) => healthComponent.DealDamage(colliderComponent.Tag);
+            collider.CollisionEventFromOther += (IColliderComponent colliderComponent) => healthComponent.DealDamage(colliderComponent.Tag);
+            collider.CollisionEventFromOther += (IColliderComponent colliderComponent) => {
+                if (colliderComponent.Tag == "Heal") {
                     healthComponent.Heal(1);
                 }
             };
-            collider.CollisionEventFromOther += (ColliderComponent colliderComponent) => {
-                if (colliderComponent.tag == "Mana") {
+            collider.CollisionEventFromOther += (IColliderComponent colliderComponent) => {
+                if (colliderComponent.Tag == "Mana") {
                     abilityComponent.currentExp++;
                 }
             };
@@ -191,8 +191,8 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(spriteRendererComponent);
             spawner2.AddComponent(delayComponent);
 
-            collider.CollisionEvents += (ColliderComponent x) => {
-                if (x.tag == "Wall" || x.tag == "Enemy") {
+            collider.CollisionEvents += (IColliderComponent x) => {
+                if (x.Tag == "Wall" || x.Tag == "Enemy") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();

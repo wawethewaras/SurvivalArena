@@ -4,19 +4,19 @@ using Microsoft.Xna.Framework;
 namespace EE.CollisionSystem {
 
     public class ColliderEngine {
-        public static ColliderEngine TheColliderEngine;
+        public static ColliderEngine? TheColliderEngine;
         public const int xNodeSize = 16;
         public const int yNodeSize = 16;
         public int xSize;
         public int ySize;
 
-        public ColliderComponent[,] gridNodes;
+        public IColliderComponent[,] gridNodes;
 
         public ColliderEngine(int levelSizeX, int levelSizeY) {
             this.xSize = (int)Math.Ceiling((double)levelSizeX / xNodeSize);
             this.ySize = (int)Math.Ceiling((double)levelSizeY/ yNodeSize);
 
-            gridNodes = new ColliderComponent[xSize, ySize];
+            gridNodes = new IColliderComponent[xSize, ySize];
 
             if (TheColliderEngine != null) {
                 throw new Exception("Trying to create multiple Collider Engines! Currently there should be only one.");
@@ -28,13 +28,13 @@ namespace EE.CollisionSystem {
         }
 
         public void ResetColliders() {
-            gridNodes = new ColliderComponent[xSize, ySize];
+            gridNodes = new IColliderComponent[xSize, ySize];
         }
 
-        public void Add(ColliderComponent colliderComponent) {
+        public void Add(IColliderComponent colliderComponent) {
             var xPosition = (int)(colliderComponent.Position.X / xNodeSize);
             var yPosition = (int)(colliderComponent.Position.Y / yNodeSize);
-            colliderComponent.currentCell = new Vector2(xPosition, yPosition);
+            colliderComponent.CurrentCell = new Vector2(xPosition, yPosition);
             if (gridNodes[xPosition, yPosition] == null) {
                 gridNodes[xPosition, yPosition] = colliderComponent;
             }

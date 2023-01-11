@@ -49,8 +49,8 @@ namespace EE.SurvivalArena {
             spawner2.AddComponent(stateComponent);
             spawner2.AddComponent(spriteRendererComponent);
 
-            collider.CollisionEvents += (ColliderComponent x) => {
-                if (x.tag == "Wall" || x.tag == "Player" || x.tag == "Sword") {
+            collider.CollisionEvents += (IColliderComponent x) => {
+                if (x.Tag == "Wall" || x.Tag == "Player" || x.Tag == "Sword") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();

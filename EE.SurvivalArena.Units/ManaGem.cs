@@ -47,16 +47,16 @@ namespace EE.SurvivalArena.Units {
             spawner2.AddComponent(delayComponent);
             spawner2.AddComponent(collider);
 
-            collider.CollisionEvents += (ColliderComponent x) => {
-                if (x.tag == "Player") {
+            collider.CollisionEvents += (IColliderComponent x) => {
+                if (x.Tag == "Player") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
                     healSound.Play();
                 }
             };
-            collider.CollisionEventFromOther += (ColliderComponent x) => {
-                if (x.tag == "Player") {
+            collider.CollisionEventFromOther += (IColliderComponent x) => {
+                if (x.Tag == "Player") {
                     collider.RemoveCollider();
                     poolableComponent.ReleaseSelf();
                     spriteRendererComponent.OnDestroy();
